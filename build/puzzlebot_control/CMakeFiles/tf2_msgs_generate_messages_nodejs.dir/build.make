@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/jose/Documents/6toSemestre/chrisAct1/src
+CMAKE_SOURCE_DIR = /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/jose/Documents/6toSemestre/chrisAct1/build
+CMAKE_BINARY_DIR = /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build
 
 # Utility rule file for tf2_msgs_generate_messages_nodejs.
 
@@ -63,10 +63,10 @@ puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/build: tf2_ms
 .PHONY : puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/build
 
 puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/clean:
-	cd /home/jose/Documents/6toSemestre/chrisAct1/build/puzzlebot_control && $(CMAKE_COMMAND) -P CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/cmake_clean.cmake
+	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build/puzzlebot_control && $(CMAKE_COMMAND) -P CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/cmake_clean.cmake
 .PHONY : puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/clean
 
 puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/depend:
-	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/jose/Documents/6toSemestre/chrisAct1/src /home/jose/Documents/6toSemestre/chrisAct1/src/puzzlebot_control /home/jose/Documents/6toSemestre/chrisAct1/build /home/jose/Documents/6toSemestre/chrisAct1/build/puzzlebot_control /home/jose/Documents/6toSemestre/chrisAct1/build/puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/src /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/src/puzzlebot_control /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build/puzzlebot_control /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build/puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/depend
 

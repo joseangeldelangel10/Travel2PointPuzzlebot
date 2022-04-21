@@ -7,4 +7,7 @@
 # new environment variables
 
 # modified environment variables
-export PWD='/home/jose/Documents/6toSemestre/chrisAct1/build'
+export CMAKE_PREFIX_PATH="/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/devel:$CMAKE_PREFIX_PATH"
+export PWD='/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build'
+export ROSLISP_PACKAGE_DIRECTORIES='/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/devel/share/common-lisp'
+export ROS_PACKAGE_PATH="/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/src:$ROS_PACKAGE_PATH"
