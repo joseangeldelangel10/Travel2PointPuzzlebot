@@ -19,13 +19,13 @@ class MovePuzzlebot():
 
         self.current_pose = None
 
-        self.target = [1.0,0.0]
+        self.target = [1.0,1.0]
         
         self.theta_target = np.arctan2(self.target[1], self.target[0])
         
         #self.theta_reached = False
         #self.pos_reached = False
-        self.state = "notPointingTowardsGoal"
+        self.state = "travelingTowardsGoal"
         #Creamos un función de que hacer cuando haya un shutdown
         rospy.on_shutdown(self.end_callback)
     def odom_callback(self, odom):
@@ -54,6 +54,7 @@ if __name__ == "__main__":
     mov = MovePuzzlebot()
     e_int_pos = 0
     e_int_theta = 0
+    last_time = rospy.get_time()
     #mientras este corriendo el nodo movemos el carro el circulo
     while not rospy.is_shutdown():
         #Llamamos el sleep para asegurar los 20 msg por segundo
@@ -61,27 +62,36 @@ if __name__ == "__main__":
         if mov.current_pose != None:
             e_theta = mov.theta_target - mov.current_pose.theta
             e_pos = np.sqrt((mov.target[0]-mov.current_pose.x)**2 + (mov.target[1]-mov.current_pose.y)**2)
-            
-            e_int_theta += e_theta
-            e_int_pos += e_pos
-            Kpw = 0.25
-            Kpv = 0.125
-            Kiw = 0.1
-            Kiv = 0.1
+            current_time = rospy.get_time()
+            dt = current_time - last_time
+            if dt > 0.1:
+                dt = 0.003333
+            e_int_theta += e_theta*dt
+            e_int_pos += e_pos*dt
+            Kiw = 0.25
+            Kiv = 0.125
+            Kpw = 0.1
+            Kpv = 0.1
             w = Kpw*e_theta + Kiw*e_int_theta
-            v = Kpv*e_pos + Kiv*e_int_pos
-            if w < 0.7 or v < 0.7: 
-                mov.move(v,w)
-            else:
-                w = 0.69
-                v = 0.69
-                mov.move(v,w)
+            #v = Kpv*e_pos + Kiv*e_int_pos
+            v = Kpv*e_pos
+            last_time = current_time
+            if mov.state == "travelingTowardsGoal":
+                if w < 0.7 or v < 0.7: 
+                    mov.move(v,w)
+                else:
+                    w = 0.69
+                    v = 0.69
+                    mov.move(v,w)
 
-            if (abs(e_theta) <= 0.01) and (abs(e_pos) <= 0.01):
+            if (abs(e_theta) <= 0.03) and (abs(e_pos) <= 0.01 and mov.state == "travelingTowardsGoal"):
                 mov.move(0.0,0.0)
+                mov.state = "goalReached"
                 print("============ final pose based in odometry is: =============")
                 print(mov.current_pose)
-                self.end_callback
+                print("============ dt is: =============")
+                print(dt)
+                mov.end_callback()            
 
 
             

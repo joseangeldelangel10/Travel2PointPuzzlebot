@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/src
+CMAKE_SOURCE_DIR = /home/jose/Documents/6toSemestre/chrisAct1/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build
+CMAKE_BINARY_DIR = /home/jose/Documents/6toSemestre/chrisAct1/build
 
 # Include any dependencies generated for this target.
 include puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/depend.make
@@ -58,17 +58,17 @@ include puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/progress.make
 include puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/flags.make
 
 puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/src/puzzlebot_control_node.cpp.o: puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/flags.make
-puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/src/puzzlebot_control_node.cpp.o: /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/src/puzzlebot_control/src/puzzlebot_control_node.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/src/puzzlebot_control_node.cpp.o"
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build/puzzlebot_control && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/puzzlebot_control_node.dir/src/puzzlebot_control_node.cpp.o -c /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/src/puzzlebot_control/src/puzzlebot_control_node.cpp
+puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/src/puzzlebot_control_node.cpp.o: /home/jose/Documents/6toSemestre/chrisAct1/src/puzzlebot_control/src/puzzlebot_control_node.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/jose/Documents/6toSemestre/chrisAct1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/src/puzzlebot_control_node.cpp.o"
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build/puzzlebot_control && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/puzzlebot_control_node.dir/src/puzzlebot_control_node.cpp.o -c /home/jose/Documents/6toSemestre/chrisAct1/src/puzzlebot_control/src/puzzlebot_control_node.cpp
 
 puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/src/puzzlebot_control_node.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/puzzlebot_control_node.dir/src/puzzlebot_control_node.cpp.i"
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build/puzzlebot_control && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/src/puzzlebot_control/src/puzzlebot_control_node.cpp > CMakeFiles/puzzlebot_control_node.dir/src/puzzlebot_control_node.cpp.i
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build/puzzlebot_control && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/jose/Documents/6toSemestre/chrisAct1/src/puzzlebot_control/src/puzzlebot_control_node.cpp > CMakeFiles/puzzlebot_control_node.dir/src/puzzlebot_control_node.cpp.i
 
 puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/src/puzzlebot_control_node.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/puzzlebot_control_node.dir/src/puzzlebot_control_node.cpp.s"
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build/puzzlebot_control && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/src/puzzlebot_control/src/puzzlebot_control_node.cpp -o CMakeFiles/puzzlebot_control_node.dir/src/puzzlebot_control_node.cpp.s
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build/puzzlebot_control && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/jose/Documents/6toSemestre/chrisAct1/src/puzzlebot_control/src/puzzlebot_control_node.cpp -o CMakeFiles/puzzlebot_control_node.dir/src/puzzlebot_control_node.cpp.s
 
 puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/src/puzzlebot_control_node.cpp.o.requires:
 
@@ -88,37 +88,37 @@ puzzlebot_control_node_OBJECTS = \
 # External object files for target puzzlebot_control_node
 puzzlebot_control_node_EXTERNAL_OBJECTS =
 
-/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/devel/lib/puzzlebot_control/puzzlebot_control_node: puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/src/puzzlebot_control_node.cpp.o
-/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/devel/lib/puzzlebot_control/puzzlebot_control_node: puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/build.make
-/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/devel/lib/puzzlebot_control/puzzlebot_control_node: /opt/ros/melodic/lib/libtf.so
-/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/devel/lib/puzzlebot_control/puzzlebot_control_node: /opt/ros/melodic/lib/libtf2_ros.so
-/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/devel/lib/puzzlebot_control/puzzlebot_control_node: /opt/ros/melodic/lib/libactionlib.so
-/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/devel/lib/puzzlebot_control/puzzlebot_control_node: /opt/ros/melodic/lib/libmessage_filters.so
-/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/devel/lib/puzzlebot_control/puzzlebot_control_node: /opt/ros/melodic/lib/libroscpp.so
-/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/devel/lib/puzzlebot_control/puzzlebot_control_node: /usr/lib/x86_64-linux-gnu/libboost_filesystem.so
-/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/devel/lib/puzzlebot_control/puzzlebot_control_node: /opt/ros/melodic/lib/libxmlrpcpp.so
-/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/devel/lib/puzzlebot_control/puzzlebot_control_node: /opt/ros/melodic/lib/libtf2.so
-/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/devel/lib/puzzlebot_control/puzzlebot_control_node: /opt/ros/melodic/lib/libroscpp_serialization.so
-/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/devel/lib/puzzlebot_control/puzzlebot_control_node: /opt/ros/melodic/lib/librosconsole.so
-/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/devel/lib/puzzlebot_control/puzzlebot_control_node: /opt/ros/melodic/lib/librosconsole_log4cxx.so
-/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/devel/lib/puzzlebot_control/puzzlebot_control_node: /opt/ros/melodic/lib/librosconsole_backend_interface.so
-/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/devel/lib/puzzlebot_control/puzzlebot_control_node: /usr/lib/x86_64-linux-gnu/liblog4cxx.so
-/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/devel/lib/puzzlebot_control/puzzlebot_control_node: /usr/lib/x86_64-linux-gnu/libboost_regex.so
-/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/devel/lib/puzzlebot_control/puzzlebot_control_node: /opt/ros/melodic/lib/librostime.so
-/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/devel/lib/puzzlebot_control/puzzlebot_control_node: /opt/ros/melodic/lib/libcpp_common.so
-/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/devel/lib/puzzlebot_control/puzzlebot_control_node: /usr/lib/x86_64-linux-gnu/libboost_system.so
-/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/devel/lib/puzzlebot_control/puzzlebot_control_node: /usr/lib/x86_64-linux-gnu/libboost_thread.so
-/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/devel/lib/puzzlebot_control/puzzlebot_control_node: /usr/lib/x86_64-linux-gnu/libboost_chrono.so
-/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/devel/lib/puzzlebot_control/puzzlebot_control_node: /usr/lib/x86_64-linux-gnu/libboost_date_time.so
-/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/devel/lib/puzzlebot_control/puzzlebot_control_node: /usr/lib/x86_64-linux-gnu/libboost_atomic.so
-/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/devel/lib/puzzlebot_control/puzzlebot_control_node: /usr/lib/x86_64-linux-gnu/libpthread.so
-/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/devel/lib/puzzlebot_control/puzzlebot_control_node: /usr/lib/x86_64-linux-gnu/libconsole_bridge.so.0.4
-/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/devel/lib/puzzlebot_control/puzzlebot_control_node: puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/devel/lib/puzzlebot_control/puzzlebot_control_node"
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build/puzzlebot_control && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/puzzlebot_control_node.dir/link.txt --verbose=$(VERBOSE)
+/home/jose/Documents/6toSemestre/chrisAct1/devel/lib/puzzlebot_control/puzzlebot_control_node: puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/src/puzzlebot_control_node.cpp.o
+/home/jose/Documents/6toSemestre/chrisAct1/devel/lib/puzzlebot_control/puzzlebot_control_node: puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/build.make
+/home/jose/Documents/6toSemestre/chrisAct1/devel/lib/puzzlebot_control/puzzlebot_control_node: /opt/ros/melodic/lib/libtf.so
+/home/jose/Documents/6toSemestre/chrisAct1/devel/lib/puzzlebot_control/puzzlebot_control_node: /opt/ros/melodic/lib/libtf2_ros.so
+/home/jose/Documents/6toSemestre/chrisAct1/devel/lib/puzzlebot_control/puzzlebot_control_node: /opt/ros/melodic/lib/libactionlib.so
+/home/jose/Documents/6toSemestre/chrisAct1/devel/lib/puzzlebot_control/puzzlebot_control_node: /opt/ros/melodic/lib/libmessage_filters.so
+/home/jose/Documents/6toSemestre/chrisAct1/devel/lib/puzzlebot_control/puzzlebot_control_node: /opt/ros/melodic/lib/libroscpp.so
+/home/jose/Documents/6toSemestre/chrisAct1/devel/lib/puzzlebot_control/puzzlebot_control_node: /usr/lib/x86_64-linux-gnu/libboost_filesystem.so
+/home/jose/Documents/6toSemestre/chrisAct1/devel/lib/puzzlebot_control/puzzlebot_control_node: /opt/ros/melodic/lib/libxmlrpcpp.so
+/home/jose/Documents/6toSemestre/chrisAct1/devel/lib/puzzlebot_control/puzzlebot_control_node: /opt/ros/melodic/lib/libtf2.so
+/home/jose/Documents/6toSemestre/chrisAct1/devel/lib/puzzlebot_control/puzzlebot_control_node: /opt/ros/melodic/lib/libroscpp_serialization.so
+/home/jose/Documents/6toSemestre/chrisAct1/devel/lib/puzzlebot_control/puzzlebot_control_node: /opt/ros/melodic/lib/librosconsole.so
+/home/jose/Documents/6toSemestre/chrisAct1/devel/lib/puzzlebot_control/puzzlebot_control_node: /opt/ros/melodic/lib/librosconsole_log4cxx.so
+/home/jose/Documents/6toSemestre/chrisAct1/devel/lib/puzzlebot_control/puzzlebot_control_node: /opt/ros/melodic/lib/librosconsole_backend_interface.so
+/home/jose/Documents/6toSemestre/chrisAct1/devel/lib/puzzlebot_control/puzzlebot_control_node: /usr/lib/x86_64-linux-gnu/liblog4cxx.so
+/home/jose/Documents/6toSemestre/chrisAct1/devel/lib/puzzlebot_control/puzzlebot_control_node: /usr/lib/x86_64-linux-gnu/libboost_regex.so
+/home/jose/Documents/6toSemestre/chrisAct1/devel/lib/puzzlebot_control/puzzlebot_control_node: /opt/ros/melodic/lib/librostime.so
+/home/jose/Documents/6toSemestre/chrisAct1/devel/lib/puzzlebot_control/puzzlebot_control_node: /opt/ros/melodic/lib/libcpp_common.so
+/home/jose/Documents/6toSemestre/chrisAct1/devel/lib/puzzlebot_control/puzzlebot_control_node: /usr/lib/x86_64-linux-gnu/libboost_system.so
+/home/jose/Documents/6toSemestre/chrisAct1/devel/lib/puzzlebot_control/puzzlebot_control_node: /usr/lib/x86_64-linux-gnu/libboost_thread.so
+/home/jose/Documents/6toSemestre/chrisAct1/devel/lib/puzzlebot_control/puzzlebot_control_node: /usr/lib/x86_64-linux-gnu/libboost_chrono.so
+/home/jose/Documents/6toSemestre/chrisAct1/devel/lib/puzzlebot_control/puzzlebot_control_node: /usr/lib/x86_64-linux-gnu/libboost_date_time.so
+/home/jose/Documents/6toSemestre/chrisAct1/devel/lib/puzzlebot_control/puzzlebot_control_node: /usr/lib/x86_64-linux-gnu/libboost_atomic.so
+/home/jose/Documents/6toSemestre/chrisAct1/devel/lib/puzzlebot_control/puzzlebot_control_node: /usr/lib/x86_64-linux-gnu/libpthread.so
+/home/jose/Documents/6toSemestre/chrisAct1/devel/lib/puzzlebot_control/puzzlebot_control_node: /usr/lib/x86_64-linux-gnu/libconsole_bridge.so.0.4
+/home/jose/Documents/6toSemestre/chrisAct1/devel/lib/puzzlebot_control/puzzlebot_control_node: puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/link.txt
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/jose/Documents/6toSemestre/chrisAct1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable /home/jose/Documents/6toSemestre/chrisAct1/devel/lib/puzzlebot_control/puzzlebot_control_node"
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build/puzzlebot_control && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/puzzlebot_control_node.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
-puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/build: /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/devel/lib/puzzlebot_control/puzzlebot_control_node
+puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/build: /home/jose/Documents/6toSemestre/chrisAct1/devel/lib/puzzlebot_control/puzzlebot_control_node
 
 .PHONY : puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/build
 
@@ -127,10 +127,10 @@ puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/requires: puzzlebot_cont
 .PHONY : puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/requires
 
 puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/clean:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build/puzzlebot_control && $(CMAKE_COMMAND) -P CMakeFiles/puzzlebot_control_node.dir/cmake_clean.cmake
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build/puzzlebot_control && $(CMAKE_COMMAND) -P CMakeFiles/puzzlebot_control_node.dir/cmake_clean.cmake
 .PHONY : puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/clean
 
 puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/depend:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/src /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/src/puzzlebot_control /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build/puzzlebot_control /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build/puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/jose/Documents/6toSemestre/chrisAct1/src /home/jose/Documents/6toSemestre/chrisAct1/src/puzzlebot_control /home/jose/Documents/6toSemestre/chrisAct1/build /home/jose/Documents/6toSemestre/chrisAct1/build/puzzlebot_control /home/jose/Documents/6toSemestre/chrisAct1/build/puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/depend
 
