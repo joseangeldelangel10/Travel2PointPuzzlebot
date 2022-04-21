@@ -52,25 +52,30 @@ class MovePuzzlebot():
 if __name__ == "__main__":
     #iniciamos la clase
     mov = MovePuzzlebot()
+    e_int_pos = 0
+    e_int_theta = 0
     #mientras este corriendo el nodo movemos el carro el circulo
     while not rospy.is_shutdown():
         #Llamamos el sleep para asegurar los 20 msg por segundo
         mov.rate.sleep()
         if mov.current_pose != None:
-            last_time = rospy.get_time()
             e_theta = mov.theta_target - mov.current_pose.theta
             e_pos = np.sqrt((mov.target[0]-mov.current_pose.x)**2 + (mov.target[1]-mov.current_pose.y)**2)
-            actual_time = rospy.get_time()
-            dt = actual_time - last_time
-            Kw = 0.25
-            Kv = 0.25
-            w = Kw*e_theta
-            v = Kv*e_pos
+            
+            e_int_theta += e_theta
+            e_int_pos += e_pos
+            Kpw = 0.25
+            Kpv = 0.125
+            Kiw = 0.1
+            Kiv = 0.1
+            w = Kpw*e_theta + Kiw*e_int_theta
+            v = Kpv*e_pos + Kiv*e_int_pos
             if w < 0.7 or v < 0.7: 
                 mov.move(v,w)
             else:
                 w = 0.69
                 v = 0.69
+                mov.move(v,w)
 
             if (abs(e_theta) <= 0.01) and (abs(e_pos) <= 0.01):
                 mov.move(0.0,0.0)
