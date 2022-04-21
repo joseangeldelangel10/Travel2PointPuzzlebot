@@ -1,0 +1,4 @@
+<launch>
+  <node name="odometry_test" pkg="chrisAct1" type="odometry.py"/>
+  <node name="circulo_mov" pkg="chrisAct1" type="movePuzzlebot.py"/>  
+</launch>

@@ -1,0 +1,2 @@
+
+-DCATKIN_DEVEL_PREFIX=/home/jose/Documents/6toSemestre/chrisAct1/src/chrisAct1/devel -DCMAKE_INSTALL_PREFIX=/home/jose/Documents/6toSemestre/chrisAct1/src/chrisAct1/install -G Unix Makefiles
