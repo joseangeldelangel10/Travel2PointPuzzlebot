@@ -26,7 +26,7 @@ class OdometryCal():
         #Iniciamos el voctor de posición en cero
         self.pos = np.array([[0.0],[0.0],[0.0]])
         #Declaramos que vamos a mandar 20 mensajes por segundo
-        self.rate = rospy.Rate(1000)
+        self.rate = rospy.Rate(30)
     #Las funciones callback para extraer los datos de los susbcribers
     def wr_callback(self,w):
         self.wr = w.data
@@ -55,7 +55,7 @@ class OdometryCal():
         t0 = rospy.get_rostime().to_sec()
         while not rospy.is_shutdown():
             #Calculamos la velocidad lineal y angular
-            w = 0.05*((self.wr-self.wl)/0.191)
+            w = 0.05*((self.wr-self.wl)/0.192)
             v = 0.05*((self.wr+self.wl)/2)
             #print(v,w)
             #Obtenemos el tiempo final

@@ -13,7 +13,7 @@ class MovePuzzlebot():
         self.pub = rospy.Publisher("/cmd_vel", Twist, queue_size=1)
         rospy.Subscriber("/pose2d",Pose2D,self.odom_callback)
         #Declaramos que vamos a mandar 20 mensajes por segundo.
-        self.rate = rospy.Rate(300)
+        self.rate = rospy.Rate(30)
         #Creamos el msg Twist
         self.msg = Twist()
 

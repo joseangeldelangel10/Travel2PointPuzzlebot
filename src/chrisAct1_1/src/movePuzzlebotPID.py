@@ -13,7 +13,7 @@ class MovePuzzlebot():
         self.pub = rospy.Publisher("/cmd_vel", Twist, queue_size=1)
         rospy.Subscriber("/pose2d",Pose2D,self.odom_callback)
         #Declaramos que vamos a mandar 20 mensajes por segundo.
-        self.rate = rospy.Rate(300)
+        self.rate = rospy.Rate(30)
         #Creamos el msg Twist
         self.msg = Twist()
 
@@ -60,38 +60,45 @@ if __name__ == "__main__":
         #Llamamos el sleep para asegurar los 20 msg por segundo
         mov.rate.sleep()
         if mov.current_pose != None:
-            e_theta = mov.theta_target - mov.current_pose.theta
-            e_pos = np.sqrt((mov.target[0]-mov.current_pose.x)**2 + (mov.target[1]-mov.current_pose.y)**2)
-            current_time = rospy.get_time()
-            dt = current_time - last_time
-            if dt > 0.1:
-                dt = 0.003333
-            e_int_theta += e_theta*dt
-            e_int_pos += e_pos*dt
-            Kiw = 0.25
-            Kiv = 0.125
-            Kpw = 0.1
-            Kpv = 0.1
-            w = Kpw*e_theta + Kiw*e_int_theta
-            #v = Kpv*e_pos + Kiv*e_int_pos
-            v = Kpv*e_pos
-            last_time = current_time
+            
             if mov.state == "travelingTowardsGoal":
-                if w < 0.7 or v < 0.7: 
-                    mov.move(v,w)
-                else:
-                    w = 0.69
-                    v = 0.69
-                    mov.move(v,w)
+                theta_target = np.arctan2(mov.target[1]-mov.current_pose.y, mov.target[0]-mov.current_pose.x)
+                e_theta = theta_target - mov.current_pose.theta
+                e_pos = np.sqrt((mov.target[0]-mov.current_pose.x)**2 + (mov.target[1]-mov.current_pose.y)**2)
+                current_time = rospy.get_time()
+                dt = current_time - last_time
+                if dt > 1:
+                    dt = 0.5
+                e_int_theta += e_theta*dt
+                e_int_pos += e_pos*dt
+                Kpw = 0.9
+                Kpv = 0.25
+                Kiw = 0.0
+                Kiv = 0.1
+                w = Kpw*e_theta + Kiw*e_int_theta
+                #v = Kpv*e_pos + Kiv*e_int_pos
+                v = Kpv*e_pos
+                last_time = current_time            
+                if w >= 0.4:
+                    w = 0.39
+                elif w <= -0.4:
+                    w = -0.39
+                if v >= 0.4:                   
+                    v = 0.39                                        
+                elif v <= -0.4:                    
+                    v = -0.39                    
+                
+                mov.move(v,w)
 
-            if (abs(e_theta) <= 0.03) and (abs(e_pos) <= 0.01 and mov.state == "travelingTowardsGoal"):
+            if (abs(e_theta) <= 0.05) and (abs(e_pos) <= 0.04 and mov.state == "travelingTowardsGoal"):
                 mov.move(0.0,0.0)
                 mov.state = "goalReached"
                 print("============ final pose based in odometry is: =============")
                 print(mov.current_pose)
                 print("============ dt is: =============")
-                print(dt)
-                mov.end_callback()            
+                print(dt)                
+            if mov.state == "goalReached":
+                mov.move(0.0,0.0)                            
 
 
             
