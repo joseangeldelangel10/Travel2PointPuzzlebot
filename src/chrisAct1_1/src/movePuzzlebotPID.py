@@ -13,7 +13,7 @@ class MovePuzzlebot():
         self.pub = rospy.Publisher("/cmd_vel", Twist, queue_size=1)
         rospy.Subscriber("/pose2d",Pose2D,self.odom_callback)
         #Declaramos que vamos a mandar 20 mensajes por segundo.
-        self.rate = rospy.Rate(30)
+        self.rate = rospy.Rate(60)
         #Creamos el msg Twist
         self.msg = Twist()
 
@@ -65,20 +65,14 @@ if __name__ == "__main__":
                 theta_target = np.arctan2(mov.target[1]-mov.current_pose.y, mov.target[0]-mov.current_pose.x)
                 e_theta = theta_target - mov.current_pose.theta
                 e_pos = np.sqrt((mov.target[0]-mov.current_pose.x)**2 + (mov.target[1]-mov.current_pose.y)**2)
-                current_time = rospy.get_time()
-                dt = current_time - last_time
-                if dt > 1:
-                    dt = 0.5
-                e_int_theta += e_theta*dt
-                e_int_pos += e_pos*dt
+                
                 Kpw = 0.9
                 Kpv = 0.25
-                Kiw = 0.0
-                Kiv = 0.1
-                w = Kpw*e_theta + Kiw*e_int_theta
-                #v = Kpv*e_pos + Kiv*e_int_pos
+
+                w = Kpw*e_theta
                 v = Kpv*e_pos
-                last_time = current_time            
+
+                           
                 if w >= 0.4:
                     w = 0.39
                 elif w <= -0.4:
@@ -90,7 +84,8 @@ if __name__ == "__main__":
                 
                 mov.move(v,w)
 
-            if (abs(e_theta) <= 0.05) and (abs(e_pos) <= 0.04 and mov.state == "travelingTowardsGoal"):
+                
+            if (abs(e_theta) <= 0.025) and (abs(e_pos) <= 0.02 and mov.state == "travelingTowardsGoal"):
                 mov.move(0.0,0.0)
                 mov.state = "goalReached"
                 print("============ final pose based in odometry is: =============")

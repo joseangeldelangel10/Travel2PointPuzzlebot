@@ -20,13 +20,11 @@ class OdometryCal():
         rospy.Subscriber("/wl",Float32,self.wl_callback)
         #Creamos los publishers
         self.pub_odom = rospy.Publisher("/pose2d", Pose2D, queue_size=1)
-        self.x_pub = rospy.Publisher("/est_state/x", Float64, queue_size=1)
-        self.y_pub = rospy.Publisher("/est_state/y", Float64, queue_size=1)
-        self.th_pub = rospy.Publisher("/est_state/theta", Float64, queue_size=1)
+
         #Iniciamos el voctor de posición en cero
         self.pos = np.array([[0.0],[0.0],[0.0]])
         #Declaramos que vamos a mandar 20 mensajes por segundo
-        self.rate = rospy.Rate(30)
+        self.rate = rospy.Rate(60)
     #Las funciones callback para extraer los datos de los susbcribers
     def wr_callback(self,w):
         self.wr = w.data
@@ -69,17 +67,10 @@ class OdometryCal():
             msg_odom.x = y_k[1,0]
             msg_odom.y = y_k[2,0]      
             self.pub_odom.publish(msg_odom)
-            # Publish the state
-            th_est = y_k[0,0]
-            x_est = y_k[1,0]
-            y_est = y_k[2,0]            
-            self.x_pub.publish(x_est)
-            self.y_pub.publish(y_est)
-            self.th_pub.publish(th_est)
-            #Hacemos el sleep para asegurar los 20 mensajes por segundo.
             self.rate.sleep()
             #Actualizamos el tiempo
             t0 = tf
+            
 #Si el archivo es corrido directametne y no llamado desde otro archivo corremos
 if __name__ == "__main__":
     #iniciamos la clase
