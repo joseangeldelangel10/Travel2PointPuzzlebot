@@ -1,8 +1,8 @@
-# Install script for directory: /home/jose/Documents/6toSemestre/chrisAct1/src/puzzlebot_gazebo
+# Install script for directory: /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/src/puzzlebot_gazebo
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/jose/Documents/6toSemestre/chrisAct1/install")
+  set(CMAKE_INSTALL_PREFIX "/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -38,17 +38,17 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/jose/Documents/6toSemestre/chrisAct1/build/puzzlebot_gazebo/catkin_generated/installspace/puzzlebot_gazebo.pc")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build/puzzlebot_gazebo/catkin_generated/installspace/puzzlebot_gazebo.pc")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/puzzlebot_gazebo/cmake" TYPE FILE FILES
-    "/home/jose/Documents/6toSemestre/chrisAct1/build/puzzlebot_gazebo/catkin_generated/installspace/puzzlebot_gazeboConfig.cmake"
-    "/home/jose/Documents/6toSemestre/chrisAct1/build/puzzlebot_gazebo/catkin_generated/installspace/puzzlebot_gazeboConfig-version.cmake"
+    "/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build/puzzlebot_gazebo/catkin_generated/installspace/puzzlebot_gazeboConfig.cmake"
+    "/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build/puzzlebot_gazebo/catkin_generated/installspace/puzzlebot_gazeboConfig-version.cmake"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/puzzlebot_gazebo" TYPE FILE FILES "/home/jose/Documents/6toSemestre/chrisAct1/src/puzzlebot_gazebo/package.xml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/puzzlebot_gazebo" TYPE FILE FILES "/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/src/puzzlebot_gazebo/package.xml")
 endif()
 

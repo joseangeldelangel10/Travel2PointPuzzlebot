@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/jose/Documents/6toSemestre/chrisAct1/src/puzzlebot_control/src/puzzlebot_control_node.cpp" "/home/jose/Documents/6toSemestre/chrisAct1/build/puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/src/puzzlebot_control_node.cpp.o"
+  "/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/src/puzzlebot_control/src/puzzlebot_control_node.cpp" "/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build/puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/src/puzzlebot_control_node.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -17,7 +17,7 @@ set(CMAKE_TARGET_DEFINITIONS_CXX
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
-  "/home/jose/Documents/6toSemestre/chrisAct1/src/puzzlebot_control/include"
+  "/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/src/puzzlebot_control/include"
   "/opt/ros/melodic/include"
   "/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp"
   "/usr/include/opencv"
