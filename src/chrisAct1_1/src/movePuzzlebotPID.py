@@ -13,7 +13,7 @@ class MovePuzzlebot():
         self.pub = rospy.Publisher("/cmd_vel", Twist, queue_size=1)
         rospy.Subscriber("/pose2d",Pose2D,self.odom_callback)
         #Declaramos que vamos a mandar 20 mensajes por segundo.
-        self.rate = rospy.Rate(60)
+        self.rate = rospy.Rate(100)
         #Creamos el msg Twist
         self.msg = Twist()
 
@@ -66,7 +66,7 @@ if __name__ == "__main__":
                 e_theta = theta_target - mov.current_pose.theta
                 e_pos = np.sqrt((mov.target[0]-mov.current_pose.x)**2 + (mov.target[1]-mov.current_pose.y)**2)
                 
-                Kpw = 0.9
+                Kpw = 0.92
                 Kpv = 0.25
 
                 w = Kpw*e_theta
@@ -83,15 +83,14 @@ if __name__ == "__main__":
                     v = -0.39                    
                 
                 mov.move(v,w)
+                
 
                 
             if (abs(e_theta) <= 0.025) and (abs(e_pos) <= 0.02 and mov.state == "travelingTowardsGoal"):
                 mov.move(0.0,0.0)
                 mov.state = "goalReached"
                 print("============ final pose based in odometry is: =============")
-                print(mov.current_pose)
-                print("============ dt is: =============")
-                print(dt)                
+                print(mov.current_pose)              
             if mov.state == "goalReached":
                 mov.move(0.0,0.0)                            
 

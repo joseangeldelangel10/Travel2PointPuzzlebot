@@ -24,7 +24,7 @@ class OdometryCal():
         #Iniciamos el voctor de posición en cero
         self.pos = np.array([[0.0],[0.0],[0.0]])
         #Declaramos que vamos a mandar 20 mensajes por segundo
-        self.rate = rospy.Rate(60)
+        self.rate = rospy.Rate(100)
     #Las funciones callback para extraer los datos de los susbcribers
     def wr_callback(self,w):
         self.wr = w.data
@@ -37,7 +37,7 @@ class OdometryCal():
         #Si el diferencialde tiempo es muy grande ignoramos esa iteracion
         if dt < 1:
             #Calculamos el nuevo vector de posicion
-            y_k1 = y_k + (np.array([[w],[v*np.cos(y_k[0,0])],[v*np.sin(y_k[0,0])]]))*dt
+            y_k1 = y_k + (np.array([[w],[(v*np.cos(y_k[0,0]))],[(v*np.sin(y_k[0,0]))]]))*dt 
             #print(dt)
         else:
             y_k1 = y_k
@@ -51,10 +51,11 @@ class OdometryCal():
     def main(self):
         #Obtenemos el tiempo inicial
         t0 = rospy.get_rostime().to_sec()
+        t = 0
         while not rospy.is_shutdown():
             #Calculamos la velocidad lineal y angular
-            w = 0.05*((self.wr-self.wl)/0.192)
-            v = 0.05*((self.wr+self.wl)/2)
+            w = 0.055*((self.wr-self.wl)/0.192)
+            v = 0.055*((self.wr+self.wl)/2)
             #print(v,w)
             #Obtenemos el tiempo final
             tf = rospy.get_rostime().to_sec()
@@ -70,7 +71,7 @@ class OdometryCal():
             self.rate.sleep()
             #Actualizamos el tiempo
             t0 = tf
-            
+
 #Si el archivo es corrido directametne y no llamado desde otro archivo corremos
 if __name__ == "__main__":
     #iniciamos la clase

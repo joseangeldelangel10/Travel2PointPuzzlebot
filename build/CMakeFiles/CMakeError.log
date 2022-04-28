@@ -1,22 +1,22 @@
 Determining if the pthread_create exist failed with the following output:
 Change Dir: /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_271ef/fast"
-/usr/bin/make -f CMakeFiles/cmTC_271ef.dir/build.make CMakeFiles/cmTC_271ef.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_26087/fast"
+/usr/bin/make -f CMakeFiles/cmTC_26087.dir/build.make CMakeFiles/cmTC_26087.dir/build
 make[1]: Entering directory '/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_271ef.dir/CheckSymbolExists.c.o
-/usr/bin/cc    -o CMakeFiles/cmTC_271ef.dir/CheckSymbolExists.c.o   -c /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
-Linking C executable cmTC_271ef
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_271ef.dir/link.txt --verbose=1
-/usr/bin/cc      -rdynamic CMakeFiles/cmTC_271ef.dir/CheckSymbolExists.c.o  -o cmTC_271ef 
-CMakeFiles/cmTC_271ef.dir/CheckSymbolExists.c.o: In function `main':
+Building C object CMakeFiles/cmTC_26087.dir/CheckSymbolExists.c.o
+/usr/bin/cc    -o CMakeFiles/cmTC_26087.dir/CheckSymbolExists.c.o   -c /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTC_26087
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_26087.dir/link.txt --verbose=1
+/usr/bin/cc      -rdynamic CMakeFiles/cmTC_26087.dir/CheckSymbolExists.c.o  -o cmTC_26087 
+CMakeFiles/cmTC_26087.dir/CheckSymbolExists.c.o: In function `main':
 CheckSymbolExists.c:(.text+0x1b): undefined reference to `pthread_create'
 collect2: error: ld returned 1 exit status
-CMakeFiles/cmTC_271ef.dir/build.make:97: recipe for target 'cmTC_271ef' failed
-make[1]: *** [cmTC_271ef] Error 1
+CMakeFiles/cmTC_26087.dir/build.make:97: recipe for target 'cmTC_26087' failed
+make[1]: *** [cmTC_26087] Error 1
 make[1]: Leaving directory '/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build/CMakeFiles/CMakeTmp'
-Makefile:126: recipe for target 'cmTC_271ef/fast' failed
-make: *** [cmTC_271ef/fast] Error 2
+Makefile:126: recipe for target 'cmTC_26087/fast' failed
+make: *** [cmTC_26087/fast] Error 2
 
 File /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
 /* */
@@ -36,20 +36,20 @@ int main(int argc, char** argv)
 Determining if the function pthread_create exists in the pthreads failed with the following output:
 Change Dir: /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_9b6be/fast"
-/usr/bin/make -f CMakeFiles/cmTC_9b6be.dir/build.make CMakeFiles/cmTC_9b6be.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_6afbb/fast"
+/usr/bin/make -f CMakeFiles/cmTC_6afbb.dir/build.make CMakeFiles/cmTC_6afbb.dir/build
 make[1]: Entering directory '/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_9b6be.dir/CheckFunctionExists.c.o
-/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_9b6be.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.10/Modules/CheckFunctionExists.c
-Linking C executable cmTC_9b6be
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_9b6be.dir/link.txt --verbose=1
-/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_9b6be.dir/CheckFunctionExists.c.o  -o cmTC_9b6be -lpthreads 
+Building C object CMakeFiles/cmTC_6afbb.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_6afbb.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.10/Modules/CheckFunctionExists.c
+Linking C executable cmTC_6afbb
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6afbb.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_6afbb.dir/CheckFunctionExists.c.o  -o cmTC_6afbb -lpthreads 
 /usr/bin/ld: cannot find -lpthreads
 collect2: error: ld returned 1 exit status
-CMakeFiles/cmTC_9b6be.dir/build.make:97: recipe for target 'cmTC_9b6be' failed
-make[1]: *** [cmTC_9b6be] Error 1
+CMakeFiles/cmTC_6afbb.dir/build.make:97: recipe for target 'cmTC_6afbb' failed
+make[1]: *** [cmTC_6afbb] Error 1
 make[1]: Leaving directory '/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build/CMakeFiles/CMakeTmp'
-Makefile:126: recipe for target 'cmTC_9b6be/fast' failed
-make: *** [cmTC_9b6be/fast] Error 2
+Makefile:126: recipe for target 'cmTC_6afbb/fast' failed
+make: *** [cmTC_6afbb/fast] Error 2
 
 
