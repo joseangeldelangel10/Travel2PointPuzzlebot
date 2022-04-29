@@ -9,7 +9,7 @@ import cv_bridge
 
 
 
-class ImageProcessor():
+class redCirclesDetector():
     def __init__(self):
         #Inicializamos el nodo
         rospy.init_node("RedCiclesDetector")       
@@ -17,18 +17,28 @@ class ImageProcessor():
         self.imageSubscriber = rospy.Subscriber("/video_source/raw",Image,self.on_image_callback)        
         self.bridge = cv_bridge.CvBridge()        
         #publishers
-        self.pub_red = rospy.Publisher("/processedImage/detectedObjects/redCircle", Image, queue_size=1)
-        self.pub_red_img = rospy.Publisher("/processedImage/detectedObjects/redCircleImage", Image, queue_size=1)        
+        self.pub_red = rospy.Publisher("/processedImage/detectedObjects/redCircle", Bool, queue_size=10)
+        self.pub_red_img = rospy.Publisher("/processedImage/detectedObjects/redCircleImage", Image, queue_size=10)        
         #Iniciamos el voctor de posición en cero
         self.image = None
-        self.rate = rospy.Rate(0.1)
+        self.rate = rospy.Rate(0.5)
 
         self.cv_image = np.zeros((300,300, 300))
         self.red1 = np.zeros((300,300, 300))
         self.red2 = np.zeros((300,300, 300))
         self.processedImage = np.zeros((300,280,300))
         self.outImage = np.zeros((300,280,300))
+
+        self.cv_image = np.uint8(self.cv_image)
+        self.red1 = np.uint8(self.red1)
+        self.red2 = np.uint8(self.red2)
+        self.processedImage = np.uint8(self.processedImage)
+        self.outImage = np.uint8(self.outImage)
+
         self.processed_image_msg = Image()
+
+        self.kernel = np.ones((8,8),np.uint8)
+        self.smaller_kernel = np.ones((4,4),np.uint8)
 
     
     def on_image_callback(self, image):
@@ -39,22 +49,22 @@ class ImageProcessor():
     		if (self.image != None):
     			self.rate.sleep()
     			self.cv_image = self.bridge.imgmsg_to_cv2(self.image, desired_encoding="passthrough")
-    			
+    			#self.cv_image = np.uint8(self.cv_image)
     			#print("image converted succesfully")
     			
 
                 self.processedImage = cv.cvtColor(self.cv_image, cv.COLOR_BGR2HSV)
     
-                self.red1 = cv.inRange(self.procesedImage,(170,70,50),(180,255,255))
-                self.red2 = cv.inRange(self.procesedImage,(0,70,50),(10,255,255))
+                self.red1 = cv.inRange(self.processedImage,(170,70,50),(180,255,255))
+                self.red2 = cv.inRange(self.processedImage,(0,70,50),(10,255,255))
 
                 self.proccesedImage = cv.bitwise_or(self.red1,self.red2)
-                self.processedImage = cv.morphologyEx(self.processedImage, cv.MORPH_CLOSE, smaller_kernel)
-                self.processedImage = cv.dilate(self.processedImage,smaller_kernel,iterations = 1)    
+                self.processedImage = cv.morphologyEx(self.processedImage, cv.MORPH_CLOSE, self.smaller_kernel)
+                self.processedImage = cv.dilate(self.processedImage,self.smaller_kernel,iterations = 1)    
                 self.processedImage = cv.bitwise_not(self.processedImage)
 
 
-                (cols, rows) = self.processedImage.shape
+                (cols, rows) = (480, 720)
 
                 blobDetectorParams = cv.SimpleBlobDetector_Params()
                 blobDetectorParams.filterByCircularity = True    
@@ -74,12 +84,12 @@ class ImageProcessor():
 
                 self.outImage = cv.drawKeypoints(self.processedImage, keypoints, 0, (0,0,255), cv.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 
-                result = Bool()
-                if(keypoints != 0):                    
-                    result.date = True
+                result = Bool()                
+                if(len(keypoints) != 0):                    
+                    result.data = True
                     self.pub_red.publish(result)
                 else:
-                    result.date = False
+                    result.data = False
                     self.pub_red.publish(result)
 
                 self.processed_image_msg = self.bridge.cv2_to_imgmsg(self.outImage, encoding = "passthrough")
@@ -87,7 +97,7 @@ class ImageProcessor():
 
 
 if __name__ == "__main__":
-	ip = ImageProcessor()
+	ip = redCirclesDetector()
 	ip.main()
 
 

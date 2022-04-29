@@ -6,13 +6,13 @@
 
 #IncludeRegexTransform: 
 
-/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/src/puzzlebot_control/include/puzzlebot_control/Shared.hpp
+/home/jose/Documents/6toSemestre/chrisAct1/src/puzzlebot_control/include/puzzlebot_control/Shared.hpp
 math.h
 -
 ros/ros.h
 -
 
-/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/src/puzzlebot_control/src/puzzlebot_control_node.cpp
+/home/jose/Documents/6toSemestre/chrisAct1/src/puzzlebot_control/src/puzzlebot_control_node.cpp
 ros/ros.h
 -
 geometry_msgs/Twist.h
@@ -24,7 +24,7 @@ std_msgs/Float32.h
 control_msgs/JointControllerState.h
 -
 puzzlebot_control/Shared.hpp
-/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/src/puzzlebot_control/src/puzzlebot_control/Shared.hpp
+/home/jose/Documents/6toSemestre/chrisAct1/src/puzzlebot_control/src/puzzlebot_control/Shared.hpp
 
 /opt/ros/melodic/include/control_msgs/JointControllerState.h
 string
