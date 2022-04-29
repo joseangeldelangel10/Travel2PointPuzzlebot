@@ -18,11 +18,15 @@ class controlColors():
         self.circleGreen = rospy.Subscriber("/processedImage/detectedObjects/greenCircle",Bool,self.green_circle_callback)
         self.circleYellow = rospy.Subscriber("/processedImage/detectedObjects/yellowCircle",Bool,self.yellow_circle_callback)
 
+        self.redCircleDetected = None
+        self.greenCircleDetected = None
+        self.yellowCircleDetected = None
+
         self.msg = Twist()
 
         self.maxVel = 0.5
 
-        self.rate = rospy.Rate(0.1)
+        self.rate = rospy.Rate(10)
     
     def red_circle_callback(self, data):
     	self.redCircleDetected = data.data
@@ -49,17 +53,16 @@ class controlColors():
     def main(self):
     	while not rospy.is_shutdown():
     		if (self.redCircleDetected != None) and (self.greenCircleDetected != None) and (self.yellowCircleDetected != None):
-    			self.rate.sleep()
-    			if (self.redCircleDetected == True) and (self.greenCircleDetected == False) and (self.yellowCircleDetected == False):
+    			if (self.redCircleDetected == True):
     				self.move(0.0,0.0)
-    			elif (self.redCircleDetected == False) and (self.greenCircleDetected == True) and (self.yellowCircleDetected == False):
-    				self.move(self.maxVel,0.0)
-    			elif (self.redCircleDetected == False) and (self.greenCircleDetected == False) and (self.yellowCircleDetected == True):
-    				self.move(self.maxVel/2,0.0)
-    			else:
-    				self.move(0.0,0.0)
+                elif (self.yellowCircleDetected == True):
+                    self.move(self.maxVel/2,0.0)
+                else:
+                    self.move(self.maxVel,0.0)
+                self.rate.sleep()
 
 
 if __name__ == "__main__":
 	controlC = controlColors()
 	controlC.main()
+
