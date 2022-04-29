@@ -24,7 +24,9 @@ class controlColors():
 
         self.msg = Twist()
 
-        self.maxVel = 0.5
+        self.maxVel = 0.2
+
+        self.state = "Running"
 
         self.rate = rospy.Rate(10)
     
@@ -34,7 +36,7 @@ class controlColors():
     def green_circle_callback(self, data):
     	self.greenCircleDetected = data.data
 
-    def yellow_circle_callback(self, image):
+    def yellow_circle_callback(self, data):
     	self.yellowCircleDetected = data.data
 
     def move(self,v_lin,v_ang):
@@ -52,14 +54,24 @@ class controlColors():
 
     def main(self):
     	while not rospy.is_shutdown():
-    		if (self.redCircleDetected != None) and (self.greenCircleDetected != None) and (self.yellowCircleDetected != None):
-    			if (self.redCircleDetected == True):
-    				self.move(0.0,0.0)
+
+            if (self.redCircleDetected != None) and (self.greenCircleDetected != None) and (self.yellowCircleDetected != None):
+
+                if (self.redCircleDetected == True):
+                    self.state = "Stoped"
                 elif (self.yellowCircleDetected == True):
-                    self.move(self.maxVel/2,0.0)
-                else:
-                    self.move(self.maxVel,0.0)
-                self.rate.sleep()
+                    self.state = "Running Half"
+                elif (self.greenCircleDetected == True):
+                    self.state = "Running"
+
+            if (self.state == "Running"):
+                self.move(self.maxVel,0.0)
+            elif (self.state == "Running Half"):
+                self.move(self.maxVel/2,0.0)
+            elif (self.state == "Stoped"):
+                self.move(0.0,0.0)
+
+            self.rate.sleep()
 
 
 if __name__ == "__main__":
