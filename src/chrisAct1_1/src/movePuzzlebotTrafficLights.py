@@ -41,7 +41,7 @@ class MovePuzzlebot():
         #self.theta_reached = False
         #self.pos_reached = False
         self.state = "travelingTowardsGoal"
-        self.colorState == "Running"
+        self.colorState == "Stopped"
         #Creamos un función de que hacer cuando haya un shutdown
         rospy.on_shutdown(self.end_callback)
 
@@ -121,7 +121,7 @@ if __name__ == "__main__":
                     v = -0.39
 
                 if (self.redCircleDetected == True):
-                    self.colorState = "Stoped"
+                    self.colorState = "Stopped"
                 elif (self.yellowCircleDetected == True):
                     self.colorState = "Running Half"
                 elif (self.greenCircleDetected == True):
@@ -130,7 +130,7 @@ if __name__ == "__main__":
                 if (self.state == "Running Half"):
                     v = v/2
                     w = w/2
-                elif (self.state == "Stoped"):
+                elif (self.state == "Stopped"):
                     v = 0.0
                     w = 0.0                
                 
