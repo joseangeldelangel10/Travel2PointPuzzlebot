@@ -1,0 +1,12 @@
+<launch>
+  <include file="$(find ros_deep_learning)/launch/video_source.ros1.launch">
+    <arg name="input_width" value="720"/>
+    <arg name="input_height" value="480"/>
+  </include>
+  <node name="RedCirclesDetector" pkg="activities" type="redCirclesDetector.py"/> 
+  <node name="YellowCirclesDetector" pkg="activities" type="yellowCirclesDetector.py"/> 
+  <node name="GreenCirclesDetector" pkg="activities" type="greenCirclesDetector.py"/> 
+  <node name="odometry_pub" pkg="activities" type="odometry.py"/>
+  <node name="circulo_mov_traffic_lights" pkg="activities" type="movePuzzlebotTrafficLights.py"/>
+  <node name="TargetSelector" pkg="activities" type="targetSelector.py"/>   
+</launch>
