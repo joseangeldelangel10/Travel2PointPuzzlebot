@@ -7,6 +7,5 @@
   <node name="YellowCirclesDetector" pkg="activities" type="yellowCirclesDetector.py"/> 
   <node name="GreenCirclesDetector" pkg="activities" type="greenCirclesDetector.py"/> 
   <node name="odometry_pub" pkg="activities" type="odometry.py"/>
-  <node name="circulo_mov_traffic_lights" pkg="activities" type="movePuzzlebotTrafficLights.py"/>
-  <node name="TargetSelector" pkg="activities" type="targetSelector.py"/>   
+  <node name="circulo_mov_traffic_lights" pkg="activities" type="movePuzzlebotTrafficLights.py"/>  
 </launch>
