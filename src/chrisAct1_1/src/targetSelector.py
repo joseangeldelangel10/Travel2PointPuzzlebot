@@ -22,7 +22,7 @@ class TargetSelector():
         #Creamos el msg Twist
         self.msg = Pose2D()
 
-        self.arrived2Target = None
+        self.arrived2Target = False
 
         self.current_pose = None
 
@@ -46,19 +46,15 @@ if __name__ == "__main__":
     while not rospy.is_shutdown():
         #Llamamos el sleep para asegurar los 20 msg por segundo
         
-        if tar.arrived2Target != None:
+        if tar.arrived2Target == True:
+            if tar.target_index == len(tar.targets)-1:
+                break
+            tar.target_index += 1
+            tar.current_target = tar.targets[tar.target_index]
 
-			if tar.arrived2Target == True:
-				if tar.target_index == len(tar.targets)-1:
-					break
-        		tar.target_index += 1
-        		tar.current_target = tar.targets[tar.target_index]
-
-
-        	tar.msg.x = tar.current_target[0]
-        	tar.msg.y = tar.current_target[1]
-        	tar.pub.publish(tar.msg)
-
+        tar.msg.x = tar.current_target[0]
+        tar.msg.y = tar.current_target[1]
+        tar.pub.publish(tar.msg)
 
 
             

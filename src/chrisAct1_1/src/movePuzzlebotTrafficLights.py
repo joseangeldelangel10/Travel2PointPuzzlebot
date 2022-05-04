@@ -36,12 +36,12 @@ class MovePuzzlebot():
 
         self.target = None
         
-        self.theta_target = np.arctan2(self.target[1], self.target[0])
+        #self.theta_target = None
         
         #self.theta_reached = False
         #self.pos_reached = False
         self.state = "travelingTowardsGoal"
-        self.colorState == "Stopped"
+        self.colorState = "Stopped"
         #Creamos un función de que hacer cuando haya un shutdown
         rospy.on_shutdown(self.end_callback)
 
@@ -89,48 +89,44 @@ class MovePuzzlebot():
 if __name__ == "__main__":
     #iniciamos la clase
     mov = MovePuzzlebot()
-    e_int_pos = 0
-    e_int_theta = 0
-    last_time = rospy.get_time()
     #mientras este corriendo el nodo movemos el carro el circulo
+    Kpw = 0.92
+    Kpv = 0.25
     while not rospy.is_shutdown():
         #Llamamos el sleep para asegurar los 20 msg por segundo
         
-        if mov.current_pose != None:
+        if mov.current_pose != None and mov.target != None:
+            #print("None condition passed")
 
             theta_target = np.arctan2(mov.target[1]-mov.current_pose.y, mov.target[0]-mov.current_pose.x)
             e_theta = theta_target - mov.current_pose.theta
             e_pos = np.sqrt((mov.target[0]-mov.current_pose.x)**2 + (mov.target[1]-mov.current_pose.y)**2)
             
             if mov.state == "travelingTowardsGoal":
-                
-                Kpw = 0.92
-                Kpv = 0.25
-
                 w = Kpw*e_theta
                 v = Kpv*e_pos
 
                            
-                if w >= 0.4:
-                    w = 0.39
-                elif w <= -0.4:
-                    w = -0.39
-                if v >= 0.4:                   
-                    v = 0.39                                        
-                elif v <= -0.4:                    
-                    v = -0.39
+                if w >= 0.2:
+                    w = 0.19
+                elif w <= -0.2:
+                    w = -0.19
+                if v >= 0.2:                   
+                    v = 0.19                                        
+                elif v <= -0.2:                    
+                    v = -0.19
 
-                if (self.redCircleDetected == True):
-                    self.colorState = "Stopped"
-                elif (self.yellowCircleDetected == True):
-                    self.colorState = "Running Half"
-                elif (self.greenCircleDetected == True):
-                    self.colorState = "Running"
+                if (mov.redCircleDetected == True):
+                    mov.colorState = "Stopped"
+                if (mov.yellowCircleDetected == True):
+                    mov.colorState = "Running Half"
+                if (mov.greenCircleDetected == True):
+                    mov.colorState = "Running"
 
-                if (self.state == "Running Half"):
+                if (mov.colorState == "Running Half"):
                     v = v/2
                     w = w/2
-                elif (self.state == "Stopped"):
+                elif (mov.colorState == "Stopped"):
                     v = 0.0
                     w = 0.0                
                 
@@ -147,14 +143,17 @@ if __name__ == "__main__":
                 mov.sendBool(True)
 
             if mov.state == "goalReached":
-                mov.move(0.0,0.0) 
+                mov.move(0.0,0.0)
+                mov.sendBool(False) 
 
             if (abs(e_theta) >= 0.025) and (abs(e_pos) >= 0.02 and mov.state == "goalReached"):
+                print("NEW TARGET RECIEVED AND STATE CHANGED")
                 mov.state = "travelingTowardsGoal"
+                mov.sendBool(False)
 
 
             
-            mov.rate.sleep()
+        mov.rate.sleep()
 
             
     #mov.main()
