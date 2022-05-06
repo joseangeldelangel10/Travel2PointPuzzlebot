@@ -138,14 +138,15 @@ if __name__ == "__main__":
             if blob_cord != "Error":
                 e1 = blob_cord[0]
                 e2 = follower.image_width - e1
-                if e1 < follower.image_width*(3/4):
+                if e1 < follower.image_width*(1/4):
                     new_w = "left"
                     new_v = "left"
-                elif e1 < follower.image_width*(3/4):
-                    new_w = "left"
-                    new_v = "left"
-                new_w = kpw*(e2-e1)
-                new_v = 0.07
+                elif e2 < follower.image_width*(1/4):
+                    new_w = "right"
+                    new_v = "right"
+                else:
+                    new_w = kpw*(e2-e1)
+                    new_v = 0.07
             else:
                 new_w = 0.0
                 new_v = 0.0            
