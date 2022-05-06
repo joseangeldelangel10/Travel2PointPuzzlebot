@@ -118,7 +118,17 @@ class LineFollowerController():
         else:
             return "Error" 
 
- 
+    def turn(self,angle):
+        omega = angle/2
+        for i in range(2):
+            # seven since 43cm/7cm = 6.14
+            self.velocities_queue.append( (0.00, omega))
+
+    def resetQueue(self):
+        self.velocities_queue = []
+        for i in range(6):
+            # seven since 43cm/7cm = 6.14
+            self.velocities_queue.append( (0.07, 0.0))
 
 
 #Si el archivo es corrido directametne y no llamado desde otro archivo corremos
