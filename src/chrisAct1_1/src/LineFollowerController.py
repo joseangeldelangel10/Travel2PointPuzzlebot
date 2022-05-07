@@ -4,6 +4,7 @@ import sys
 import numpy as np
 import rospy
 from std_msgs.msg import Bool
+from sensor_msgs.msg import Image
 from geometry_msgs.msg import Twist, Pose2D
 import cv2 as cv
 import cv_bridge
@@ -20,7 +21,9 @@ class LineFollowerController():
         #Creamos los subscribers
         self.imageSubscriber = rospy.Subscriber("/video_source/raw",Image,self.on_image_callback)
 
-        self.bridge = cv_bridge.CvBridge()      
+        self.bridge = cv_bridge.CvBridge()   
+
+        self.image = None   
 
         self.cv_image = np.zeros((300,300, 3))        
         self.gray_image = np.zeros((300,280))
@@ -32,23 +35,23 @@ class LineFollowerController():
         self.binary_image = np.uint8(self.binary_image)
         self.outImage = np.uint8(self.outImage)
 
+        self.image_height = 480
+        self.image_width = 720
+
         self.mask1 = None
         self.mask2 = None
-        self.kernel = np.ones((10,10),np.uint8)
+        self.kernel = np.ones((20,20),np.uint8)
         
         #Declaramos que vamos a mandar 20 mensajes por segundo.
-        self.rate = rospy.Rate(1)
+        self.rate = rospy.Rate(20)
         self.msg = Twist()
         self.processed_image_msg = Image()
 
-        self.velocities_queue = []
-        for i in range(6):
-            # seven since 43cm/7cm = 6.14
-            self.velocities_queue.append( (0.07, 0.0) ) #(vlin, w)        
+        self.last_point = [self.image_width/2, self.image_height/2]       
 
-        #self.state = "travelingTowardsGoal"
-        
-        #Creamos un función de que hacer cuando haya un shutdown
+        self.state = "common"
+        self.turnCounter = 8
+        #Creamos un función de que hacer cuando haya un shutdown        
         rospy.on_shutdown(self.end_callback)
 
 
@@ -78,7 +81,8 @@ class LineFollowerController():
 
     def detectROI(self):
 
-        self.cv_image = self.bridge.imgmsg_to_cv2(self.image, desired_encoding="bgr8")             
+        self.cv_image = self.bridge.imgmsg_to_cv2(self.image, desired_encoding="bgr8")
+        self.cv_image = cv.rotate(self.cv_image,cv.ROTATE_180)             
         self.gray_image = cv.cvtColor(self.cv_image, cv.COLOR_BGR2GRAY)
 
         image_height = self.gray_image.shape[0]
@@ -90,15 +94,23 @@ class LineFollowerController():
         thres, self.binary_image = cv.threshold(self.gray_image, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)
 
         self.mask2 = np.ones(self.binary_image.shape)*255
-        self.binary_image[0: image_height - 40, :] = self.mask2[0: image_height - 40, :]
+        self.binary_image[0: image_height - 80, :] = self.mask2[0: image_height - 80, :]
 
         #mask3 = np.ones(binary_image.shape)*255
-        self.binary_image[image_height-2:, :] = self.mask2[image_height-2:, :]
+        self.binary_image[image_height-8:, :] = self.mask2[image_height-8:, :]
+
+        self.binary_image[:, 0:5] = self.mask2[:, 0:5]
+        self.binary_image[:, image_width-5:] = self.mask2[:, image_width-5:]
     
         self.binary_image = cv.morphologyEx(self.binary_image, cv.MORPH_CLOSE, self.kernel)
+        self.binary_image = cv.morphologyEx(self.binary_image, cv.MORPH_CLOSE, self.kernel)
+        #self.binary_image = cv.morphologyEx(self.binary_image, cv.MORPH_CLOSE, self.kernel)
         #binary_image = cv.erode(binary_image, kernel, iterations = 2)    
 
         blobDetectorParams = cv.SimpleBlobDetector_Params()
+        blobDetectorParams.filterByArea = True
+        blobDetectorParams.minArea = float((image_height*image_width)*(1/9))
+        blobDetectorParams.maxArea = float((image_height*image_width)*0.75)
                 
         ver = (cv.__version__).split('.')
         if int(ver[0]) < 3 :
@@ -113,8 +125,20 @@ class LineFollowerController():
         self.processed_image_msg = self.bridge.cv2_to_imgmsg(self.outImage, encoding = "bgr8")
         self.pub_processed_img.publish(self.processed_image_msg)
 
-        if len(keypoints == 1):
-            return [ keypoints[0].pt[0], keypoints[0].pt[1] ]
+        min_dist = image_height*image_width
+        res_x = None
+        res_y = None
+        if len(keypoints) >= 1:
+            for keyp in keypoints:
+                cord_x = keypoints[0].pt[0]
+                cord_y = keypoints[0].pt[1]
+                dist = np.sqrt((cord_x-self.last_point[0])**2 + (cord_y-self.last_point[1])**2)
+                if dist < min_dist:
+                    min_dist = dist 
+                    res_x = cord_x
+                    res_y = cord_y
+            self.last_point = [res_x, res_y]
+            return [ res_x, res_y ]
         else:
             return "Error" 
 
@@ -138,8 +162,8 @@ if __name__ == "__main__":
     #iniciamos la clase
     follower = LineFollowerController()
     #mientras este corriendo el nodo movemos el carro el circulo
-    Kpw = 0.5
-
+    kpw = 0.0005
+    #rospy.sleep(5)
     while not rospy.is_shutdown():
         #Llamamos el sleep para asegurar los 20 msg por segundo
         
@@ -148,30 +172,50 @@ if __name__ == "__main__":
             if blob_cord != "Error":
                 e1 = blob_cord[0]
                 e2 = follower.image_width - e1
-                if e1 < follower.image_width*(1/4):
-                    new_w = "left"
-                    new_v = "left"
-                elif e2 < follower.image_width*(1/4):
-                    new_w = "right"
-                    new_v = "right"
+                if e1 < follower.image_width*(1/16):
+                    follower.state = "turningLeft"                    
+                elif e2 < follower.image_width*(1/16):
+                    follower.state = "turningRight"
                 else:
-                    new_w = kpw*(e2-e1)
-                    new_v = 0.07
+                    follower.state = "common"                    
             else:
-                new_w = 0.0
-                new_v = 0.0            
-            follower.velocities_queue.append( (new_v, new_w) )
-            if follower.velocities_queue[0][0] == "right"
-            follower.move( follower.velocities_queue[0][0], follower.velocities_queue[0][1] )
-            follower.velocities_queue = follower.velocities_queue[1:]
+                follower.state = "stopped"                 
             
-    
-
-                
 
 
+                              
+            if follower.state == "turningRight":                    
+                    new_v = 0.0
+                    new_w = -(np.pi/4)/follower.seconds2Turn
+                    if follower.turnCounter > 0:
+                        follower.move( new_v, new_w )
+                        follower.turnCounter -= 1
+                    else:
+                        follower.state = "common"
+                        follower.turnCounter = 2
+            elif follower.state == "turningLeft":
+                    new_v = 0.0
+                    new_w = (np.pi/4)/follower.seconds2Turn
+                    if follower.turnCounter > 0:
+                        follower.move( new_v, new_w )
+                        follower.turnCounter -= 1
+                    else:
+                        follower.state = "common"
+                        follower.turnCounter = 2
+            elif follower.state == "common":                                    
+                    new_v = 0.05                       
+                    new_w = kpw*(e2-e1)
+                    if new_w >= 0.3:
+                        new_w = 0.29
+                    elif new_w <= -0.3:
+                        new_w = -0.29
+
+                    follower.move( new_v, new_w )  
+            elif follower.state == "stopped":
+                follower.move( 0.0, 0.0 ) 
+          
             
-        follow.rate.sleep()
+        follower.rate.sleep()
 
             
     #mov.main()
