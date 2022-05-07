@@ -4,6 +4,8 @@
     <arg name="input_height" value="480"/>
   </include>
   <node name="LineFollowerController" pkg="activities" type="LineFollowerController.py"/>
-   
+  <node name="RedCirclesDetector" pkg="activities" type="redCirclesDetector.py"/> 
+  <node name="YellowCirclesDetector" pkg="activities" type="yellowCirclesDetector.py"/> 
+  <node name="GreenCirclesDetector" pkg="activities" type="greenCirclesDetector.py"/> 
    
 </launch>

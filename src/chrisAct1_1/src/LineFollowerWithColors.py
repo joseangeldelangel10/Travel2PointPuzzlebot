@@ -21,6 +21,14 @@ class LineFollowerController():
         #Creamos los subscribers
         self.imageSubscriber = rospy.Subscriber("/video_source/raw",Image,self.on_image_callback)
 
+        self.circleRed = rospy.Subscriber("/processedImage/detectedObjects/redCircle",Bool,self.red_circle_callback)
+        self.circleGreen = rospy.Subscriber("/processedImage/detectedObjects/greenCircle",Bool,self.green_circle_callback)
+        self.circleYellow = rospy.Subscriber("/processedImage/detectedObjects/yellowCircle",Bool,self.yellow_circle_callback)
+
+        self.redCircleDetected = None
+        self.greenCircleDetected = None
+        self.yellowCircleDetected = None
+
         self.bridge = cv_bridge.CvBridge()   
 
         self.image = None   
@@ -50,10 +58,19 @@ class LineFollowerController():
         self.last_point = [self.image_width/2, self.image_height/2]       
 
         self.state = "common"
+        self.colorState = "Stopped"
         self.turnCounter = 8
         #Creamos un función de que hacer cuando haya un shutdown        
         rospy.on_shutdown(self.end_callback)
 
+    def red_circle_callback(self, data):
+        self.redCircleDetected = data.data
+
+    def green_circle_callback(self, data):
+        self.greenCircleDetected = data.data
+
+    def yellow_circle_callback(self, data):
+        self.yellowCircleDetected = data.data
 
     def on_image_callback(self, image):
         self.image = image
@@ -182,8 +199,16 @@ if __name__ == "__main__":
     while not rospy.is_shutdown():
         #Llamamos el sleep para asegurar los 20 msg por segundo
         
-        if follower.image != None:
+        if follower.image != None and follower.redCircleDetected != None and follower.greenCircleDetected != None and follower.yellowCircleDetected != None :
             blob_cord = follower.detectROI()
+
+            if (follower.redCircleDetected == True):
+                follower.colorState = "Stopped"
+            if (follower.yellowCircleDetected == True):
+                follower.colorState = "Running Half"
+            if (follower.greenCircleDetected == True):
+                follower.colorState = "Running"
+
             if blob_cord != "Error":
                 e1 = blob_cord[0]
                 e2 = follower.image_width - e1
@@ -197,13 +222,14 @@ if __name__ == "__main__":
                 follower.state = "stopped"                 
             
 
-
+            if follower.turnCounter == 0:
+                follower.turnCounter = 0.0001
                               
             if follower.state == "turningRight":                    
                     new_v = 0.0
                     new_w = -(np.pi/4)/follower.turnCounter
                     if follower.turnCounter > 0:
-                        follower.move( new_v, new_w )
+                        #follower.move( new_v, new_w )
                         follower.turnCounter -= 1
                     else:
                         follower.state = "common"
@@ -212,7 +238,7 @@ if __name__ == "__main__":
                     new_v = 0.0
                     new_w = (np.pi/4)/follower.turnCounter
                     if follower.turnCounter > 0:
-                        follower.move( new_v, new_w )
+                        #follower.move( new_v, new_w )
                         follower.turnCounter -= 1
                     else:
                         follower.state = "common"
@@ -225,10 +251,19 @@ if __name__ == "__main__":
                     elif new_w <= -0.3:
                         new_w = -0.29
 
-                    follower.move( new_v, new_w )  
+                    #follower.move( new_v, new_w )  
             elif follower.state == "stopped":
-                follower.move( 0.0, 0.0 ) 
-          
+                new_w = 0.0
+                new_v = 0.0
+                #follower.move( 0.0, 0.0 ) 
+            
+            if follower.colorState == "Stopped":
+                new_w = 0.0
+                new_v = 0.0
+            elif follower.colorState == "Running Half":
+                new_w = new_w/2
+                new_v = new_v/2
+            follower.move( new_v, new_w )
             
         follower.rate.sleep()
 
