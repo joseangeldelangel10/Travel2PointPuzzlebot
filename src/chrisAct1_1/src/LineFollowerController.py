@@ -104,10 +104,11 @@ class LineFollowerController():
     
         self.binary_image = cv.morphologyEx(self.binary_image, cv.MORPH_CLOSE, self.kernel)
         self.binary_image = cv.morphologyEx(self.binary_image, cv.MORPH_CLOSE, self.kernel)
+        self.binary_image = cv.bitwise_not(self.binary_image)
         #self.binary_image = cv.morphologyEx(self.binary_image, cv.MORPH_CLOSE, self.kernel)
         #binary_image = cv.erode(binary_image, kernel, iterations = 2)    
 
-        blobDetectorParams = cv.SimpleBlobDetector_Params()
+        """blobDetectorParams = cv.SimpleBlobDetector_Params()
         blobDetectorParams.filterByArea = True
         blobDetectorParams.minArea = float((image_height*image_width)*(1/9))
         blobDetectorParams.maxArea = float((image_height*image_width)*0.75)
@@ -118,25 +119,39 @@ class LineFollowerController():
         else : 
             detector = cv.SimpleBlobDetector_create(blobDetectorParams)
                     
-        keypoints = detector.detect(self.binary_image)
+        keypoints = detector.detect(self.binary_image)"""
 
-        self.outImage = cv.drawKeypoints(self.binary_image, keypoints, 0, (0, 0,255), cv.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+        blobs = []
+        contours, _ = cv.findContours(self.binary_image, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
+        self.outImage = self.binary_image
 
-        self.processed_image_msg = self.bridge.cv2_to_imgmsg(self.outImage, encoding = "bgr8")
+        #print(contours)
+
+        for c in contours:
+            x,y,w,h = cv.boundingRect(c)
+            cv.rectangle(self.outImage, (x,y), (x+w, y+h), (255, 0, 0), 2)
+            center_x = x + (x+w)/2
+            center_y = x + (y+h)/2
+            blobs.append((center_x,center_y,w,h))
+
+        #self.outImage = cv.drawKeypoints(self.binary_image, keypoints, 0, (0, 0,255), cv.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+
+        self.processed_image_msg = self.bridge.cv2_to_imgmsg(self.outImage, encoding = "mono8")
         self.pub_processed_img.publish(self.processed_image_msg)
 
         min_dist = image_height*image_width
         res_x = None
         res_y = None
-        if len(keypoints) >= 1:
-            for keyp in keypoints:
-                cord_x = keypoints[0].pt[0]
-                cord_y = keypoints[0].pt[1]
-                dist = np.sqrt((cord_x-self.last_point[0])**2 + (cord_y-self.last_point[1])**2)
-                if dist < min_dist:
-                    min_dist = dist 
-                    res_x = cord_x
-                    res_y = cord_y
+        if len(blobs) >= 1:
+            for blob in blobs:
+                if blob[2]*blob[3] > (image_height*image_width)*(1/9):
+                    cord_x = blob[0]
+                    cord_y = blob[1]
+                    dist = np.sqrt((cord_x-self.last_point[0])**2 + (cord_y-self.last_point[1])**2)
+                    if dist < min_dist:
+                        min_dist = dist 
+                        res_x = cord_x
+                        res_y = cord_y
             self.last_point = [res_x, res_y]
             return [ res_x, res_y ]
         else:
@@ -186,7 +201,7 @@ if __name__ == "__main__":
                               
             if follower.state == "turningRight":                    
                     new_v = 0.0
-                    new_w = -(np.pi/4)/follower.seconds2Turn
+                    new_w = -(np.pi/4)/follower.turnCounter
                     if follower.turnCounter > 0:
                         follower.move( new_v, new_w )
                         follower.turnCounter -= 1
@@ -195,7 +210,7 @@ if __name__ == "__main__":
                         follower.turnCounter = 2
             elif follower.state == "turningLeft":
                     new_v = 0.0
-                    new_w = (np.pi/4)/follower.seconds2Turn
+                    new_w = (np.pi/4)/follower.turnCounter
                     if follower.turnCounter > 0:
                         follower.move( new_v, new_w )
                         follower.turnCounter -= 1
@@ -203,7 +218,7 @@ if __name__ == "__main__":
                         follower.state = "common"
                         follower.turnCounter = 2
             elif follower.state == "common":                                    
-                    new_v = 0.05                       
+                    new_v = 0.08                       
                     new_w = kpw*(e2-e1)
                     if new_w >= 0.3:
                         new_w = 0.29
