@@ -11,7 +11,7 @@ class MovePuzzlebot():
         #Inicializamos el nodo
         rospy.init_node("goToPoints")
         #Creamos el publisher
-        self.pub = rospy.Publisher("/cmd_vel_G2P", Twist, queue_size=1)
+        self.pub = rospy.Publisher("/cmd_vel_g2p", Twist, queue_size=1)
 
         self.successPub = rospy.Publisher("/g2p_success", Bool, queue_size = 1)
         
@@ -34,6 +34,7 @@ class MovePuzzlebot():
         self.targets = None
 
         self.curr_action = None
+        self.success = True 
 
         self.go_straigt_targets = [[0.5,0.0]]
         self.turn_right_targets = [[0.5,0.0],[0.5,0.5]]
@@ -49,16 +50,17 @@ class MovePuzzlebot():
         self.current_pose = odom
 
     def mode_callback(self, data_string):
-        self.g2p_mode = data_string
-        if data_string == "straight":
-            self.targets = self.go_straigt_targets
-        elif data_string == "turn right ahead":
-            self.targets = self.turn_right_targets
+        if self.success:
+            self.g2p_mode = data_string.data
+            if self.g2p_mode == "go straight":
+                self.targets = self.go_straigt_targets
+            elif self.g2p_mode == "turn right ahead":
+                self.targets = self.turn_right_targets
 
-        self.current_target = self.targets[self.target_index]
+            self.current_target = self.targets[self.target_index]
 
     def curr_action_callback(self, curr_action):
-            self.curr_action = curr_action
+            self.curr_action = curr_action.data
 
     def move(self,v_lin,v_ang):
         """Funcion que publica la velocidad lineal y angular en el puzzlebot"""
@@ -72,9 +74,9 @@ class MovePuzzlebot():
         #Publicamos la velocidad
         self.pub.publish(self.msg)
 
-    def sendSuccessValue(self,bool):
+    def sendSuccessValue(self,value):
         msg = Bool()
-        msg.data = bool
+        msg.data = value
         self.successPub.publish(msg)
 
 
