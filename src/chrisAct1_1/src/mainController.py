@@ -136,6 +136,7 @@ class mainController():
                 self.publish_vel(self.line_follower_v*self.vel_mult, self.line_follower_w)
             elif self.action_stack[-1] == "go straight":
                 if self.g2ps_succeded:
+                    self.g2ps_succeded = False
                     self.odometry_is_reseted = False
                     self.pop_from_action_stack()
                 if not self.odometry_is_reseted:
@@ -146,6 +147,7 @@ class mainController():
                 self.publish_vel(self.go_to_points_v*self.vel_mult, self.go_to_points_w)
             elif self.action_stack[-1] == "turn right ahead":
                 if self.g2ps_succeded:
+                    self.g2ps_succeded = False
                     self.odometry_is_reseted = False
                     self.pop_from_action_stack()
                 if not self.odometry_is_reseted:

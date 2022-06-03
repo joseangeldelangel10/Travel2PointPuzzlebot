@@ -42,7 +42,7 @@ class MovePuzzlebot():
 
         self.current_target = None
         
-        self.state = "travelingTowardsGoal"
+        self.state = "pointingTowardsGoal"
 
         #Creamos un función de que hacer cuando haya un shutdown
         rospy.on_shutdown(self.end_callback)
@@ -155,6 +155,7 @@ if __name__ == "__main__":
                     mov.state = "pointingTowardsGoal"
                 
             if mov.state == "goalReached":
+                mov.state = "pointingTowardsGoal"
                 mov.success = True
                 #mov.initializing = True
                 mov.sendSuccessValue(mov.success)
