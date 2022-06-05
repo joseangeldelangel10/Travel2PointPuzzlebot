@@ -20,7 +20,7 @@ class mainController():
         self.pub_last_ioi = rospy.Publisher("/last_instructions_and_interrupts", String, queue_size=1)        
         
         #Creamos los subscribers
-        self.sub_curr_ioi = rospy.Subscriber("/curr_instruction_or_interrupt",String, self.on_curr_ioi_callback)
+        self.sub_curr_ioi = rospy.Subscriber("/curr_instruction_or_interrupts",String, self.on_curr_ioi_callback)
         self.sub_line_follower = rospy.Subscriber("/cmd_vel_LF",Twist, self.on_line_follower_vel_callback)
         self.sub_g2ps = rospy.Subscriber("/cmd_vel_g2p",Twist,self.on_go_to_points_vel_callback)
         self.sub_g2ps_success = rospy.Subscriber("/g2p_success",Bool,self.on_g2p_success_msg)
