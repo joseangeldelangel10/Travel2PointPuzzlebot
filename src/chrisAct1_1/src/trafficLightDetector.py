@@ -189,7 +189,7 @@ class trafficLightDetector():
 
         self.processedImage_green = cv.cvtColor(self.cv_image, cv.COLOR_BGR2HSV)
 
-        self.processedImage2_green = cv.inRange(self.processedImage_green,(20,70,50),(37,255,255))   
+        self.processedImage2_green = cv.inRange(self.processedImage_green,(38,50,40),(85,255,255))   
 
         self.processedImage2_green = cv.morphologyEx(self.processedImage2_green, cv.MORPH_CLOSE, self.smaller_kernel)
         self.processedImage2_green = cv.dilate(self.processedImage2_green,self.smaller_kernel,iterations = 1)    
