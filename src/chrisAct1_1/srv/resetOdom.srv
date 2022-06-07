@@ -1,0 +1,4 @@
+# service to reset robot odometry
+int64 resetVal
+---
+bool result

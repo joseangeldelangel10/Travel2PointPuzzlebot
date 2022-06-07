@@ -34,7 +34,7 @@ print("corners shape 2: ")
 print(corners.shape)
 print("first 5 corners: ")
 corners_as_ints = corners.copy()
-corners_as_ints = corners_as_ints.astype(np.uint)
+corners_as_ints = corners_as_ints.astype(np.uint8)
 #corners_as_ints = corners_as_ints[:]
 print(corners[:5])  #Examine the first few rows of corners
 print("first 5 corners as ints: ")
@@ -79,7 +79,7 @@ plt.title('Close-Up No. 1 (Original Corners)')
 plt.subplot(235)
 plt.imshow(img3[200:400,200:500,:])
 plt.title('Close-Up No. 2 (Refined Corners)')
-
+""" """
 
 #The function drawChessboardCorners generates a new image with circles at the corners detected. The corners are 
 # displayed either as red circles if the board was not found, or as colored corners connected with lines if the board 
@@ -173,5 +173,5 @@ plt.title('Original Distorted Image (Example No. 2)')
 plt.subplot(224)
 plt.imshow(dst_2)
 plt.title('Corrected Image (Example No. 2)');
-
+"""
 plt.show()
