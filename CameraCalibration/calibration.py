@@ -9,7 +9,7 @@ images = sorted(glob.glob('*.png'))
 print(images)
 
 #Load an image from the previously constructed list of images.
-img = cv.imread(images[4]) # Extract the first image as img
+img = cv.imread(images[1]) # Extract the first image as img
 print("image shape: ")
 print(img.shape)
 gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY) # Convert to a gray scale image
@@ -84,7 +84,7 @@ plt.title('Close-Up No. 2 (Refined Corners)')
 #The function drawChessboardCorners generates a new image with circles at the corners detected. The corners are 
 # displayed either as red circles if the board was not found, or as colored corners connected with lines if the board 
 # was found (as determined by the output argument retval from findChessboardCorners).
-img4 = cv.drawChessboardCorners(img, (8, 6), corners, retval)
+img4 = cv.drawChessboardCorners(img, (7, 7), corners, retval)
 plt.subplot(236)
 plt.imshow(img4)
 plt.title('Chessboard with colored corners connected with lines\n (the chessboard was found)')
@@ -92,8 +92,8 @@ plt.title('Chessboard with colored corners connected with lines\n (the chessboar
 
 #Finally, we are going to repeat this process with all the chessboard images to remove distortion effects. First, 
 # assume a 3D world coordinate system aligned with the chessboard.
-obj_grid = np.zeros((8*6,3), np.float32)
-obj_grid[:,:2] = np.mgrid[0:8,0:6].T.reshape(-1,2)
+obj_grid = np.zeros((7*7,3), np.float32)
+obj_grid[:,:2] = np.mgrid[0:7,0:7].T.reshape(-1,2)
 print(obj_grid)
 
 # Initialize empty list to accumulate coordinates
@@ -102,12 +102,14 @@ img_points = [] # 2D Image coordinates
 
 criteria = (cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 30, 0.001)
 
+
+
 for fname in images:
     print('Loading {}'.format(fname))
     img = cv.imread(fname)
     gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
     
-    retval, corners = cv.findChessboardCorners(gray, (8,6))
+    retval, corners = cv.findChessboardCorners(gray, (7,7))
 
     if retval:
         obj_points.append(obj_grid)        
@@ -136,7 +138,7 @@ print(dist)   # Distortion coefficients
 # effects with undistort.
 
 #Optimization of a distorted image (radial distortion example No.1)
-img_d1 = cv.imread('original_a.png')
+img_d1 = cv.imread('./calibration_4.png')
 h,w = img_d1.shape[:2]
 newcameramtx, roi = cv.getOptimalNewCameraMatrix(mtx, dist, (w,h), 1, (w,h))
 
@@ -144,8 +146,8 @@ newcameramtx, roi = cv.getOptimalNewCameraMatrix(mtx, dist, (w,h), 1, (w,h))
 dst_1 = cv.undistort(img_d1, mtx, dist, None, newcameramtx) 
 
 #Crop the image
-x,y,w,h = roi
-dst_1 = dst_1[y:y+h, x:x+w] 
+#x,y,w,h = roi
+#dst_1 = dst_1[y:y+h, x:x+w] 
 
 plt.figure(figsize=(20,20))
 plt.subplot(221)
@@ -156,7 +158,7 @@ plt.imshow(dst_1)
 plt.title('Corrected Image (Example No. 1)');
 
 #Optimization of a distorted image (radial distortion example No.2)
-img_d2 = cv.imread('original_b.png')
+img_d2 = cv.imread('./stop.png')
 h,w = img_d2.shape[:2]
 newcameramtx, roi = cv.getOptimalNewCameraMatrix(mtx, dist, (w,h), 1, (w,h))
 
@@ -164,8 +166,8 @@ newcameramtx, roi = cv.getOptimalNewCameraMatrix(mtx, dist, (w,h), 1, (w,h))
 dst_2 = cv.undistort(img_d2, mtx, dist, None, newcameramtx)
 
 #Crop the image
-x,y,w,h = roi
-dst_2 = dst_2[y:y+h, x:x+w]
+#x,y,w,h = roi
+#dst_2 = dst_2[y:y+h, x:x+w]
 
 plt.subplot(223)
 plt.imshow(img_d2)
@@ -173,5 +175,5 @@ plt.title('Original Distorted Image (Example No. 2)')
 plt.subplot(224)
 plt.imshow(dst_2)
 plt.title('Corrected Image (Example No. 2)');
-"""
+
 plt.show()
