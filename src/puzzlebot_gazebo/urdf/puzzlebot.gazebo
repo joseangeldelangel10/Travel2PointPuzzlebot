@@ -34,6 +34,9 @@
    
   <!-- Standard Rapberry camera -->
   <gazebo reference="camera">
+    
+    <origin rpy="3.1416 0 0"/>
+    
     <material>Gazebo/Blue</material>
     <sensor type="camera" name="camera">
       <update_rate>30.0</update_rate>

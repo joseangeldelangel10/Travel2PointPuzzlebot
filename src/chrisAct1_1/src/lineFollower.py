@@ -11,7 +11,7 @@ import cv_bridge
 
 #Creamos la clase
 class LineFollowerController():
-    def __init__(self):
+    def __init__(self, i_width = 720, i_height = 480, camera_topic = "/video_source/raw", simulation = False):
         #Inicializamos el nodo
         rospy.init_node("LineFollowerController")
         #Creamos el publisher
@@ -19,12 +19,13 @@ class LineFollowerController():
         self.pub_processed_img = rospy.Publisher("/processedImage/ROI", Image, queue_size=10)
         
         #Creamos los subscribers
-        self.imageSubscriber = rospy.Subscriber("/video_source/raw",Image,self.on_image_callback)
+        self.imageSubscriber = rospy.Subscriber(camera_topic,Image,self.on_image_callback)
 
         self.subCurrAction = rospy.Subscriber("/curr_action", String, self.curr_action_callback)
 
         self.bridge = cv_bridge.CvBridge()   
 
+        self.simulation = simulation
         self.image = None   
 
         self.cv_image = np.zeros((300,300, 3))        
@@ -37,8 +38,8 @@ class LineFollowerController():
         self.binary_image = np.uint8(self.binary_image)
         self.outImage = np.uint8(self.outImage)
 
-        self.image_height = 480
-        self.image_width = 720
+        self.image_height = i_width
+        self.image_width = i_height
 
         self.mask1 = None
         self.mask2 = None
@@ -50,7 +51,7 @@ class LineFollowerController():
         self.msg = Twist()
         self.processed_image_msg = Image()
 
-        self.last_point = [self.image_width/2, 40]       
+        self.last_point = [self.image_width/2, self.image_height-40]       #[x,y]
 
         self.state = "common"    
         self.time2turn = 4 #4 sec
@@ -61,7 +62,7 @@ class LineFollowerController():
         rospy.on_shutdown(self.end_callback)
 
     def on_image_callback(self, image):
-        self.image = image
+        self.image = image        
 
     def curr_action_callback(self, curr_action):
         self.curr_action = curr_action.data
@@ -90,7 +91,7 @@ class LineFollowerController():
     def detectROI(self):
         self.cv_image = self.bridge.imgmsg_to_cv2(self.image, desired_encoding="bgr8")
         self.cv_image = cv.rotate(self.cv_image,cv.ROTATE_180)             
-        self.gray_image = cv.cvtColor(self.cv_image, cv.COLOR_BGR2GRAY)
+        self.gray_image = cv.cvtColor(self.cv_image, cv.COLOR_BGR2GRAY)        
 
         image_height = self.gray_image.shape[0]
         image_width = self.gray_image.shape[1]
@@ -98,7 +99,10 @@ class LineFollowerController():
         self.mask1 = np.ones(self.gray_image.shape)*127 # this mask removes upper half image noise
         self.gray_image[ 0: int(image_height/2), :] = self.mask1[ 0: int(image_height/2), :]
 
-        thres, self.binary_image = cv.threshold(self.gray_image, 80, 255, cv.THRESH_BINARY)
+        if self.simulation:
+            thres, self.binary_image = cv.threshold(self.gray_image, 150, 255, cv.THRESH_BINARY)
+        else:
+            thres, self.binary_image = cv.threshold(self.gray_image, 80, 255, cv.THRESH_BINARY)
 
         self.mask2 = np.ones(self.binary_image.shape)*255
         self.binary_image[0: image_height - 80, :] = self.mask2[0: image_height - 80, :]
@@ -115,7 +119,11 @@ class LineFollowerController():
         
 
         blobs = []
-        contours, _ = cv.findContours(self.binary_image, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
+        if self.simulation:
+            _, contours, _ = cv.findContours(self.binary_image, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
+        else: 
+            contours, _ = cv.findContours(self.binary_image, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
+        
         self.outImage = cv.merge((self.binary_image, self.binary_image, self.binary_image))
 
         #print(contours)
@@ -129,7 +137,7 @@ class LineFollowerController():
 
         #self.outImage = cv.drawKeypoints(self.binary_image, keypoints, 0, (0, 0,255), cv.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 
-        self.processed_image_msg = self.bridge.cv2_to_imgmsg(self.outImage, encoding = "bgr8")
+        self.processed_image_msg = self.bridge.cv2_to_imgmsg(self.cv_image, encoding = "bgr8")
         self.pub_processed_img.publish(self.processed_image_msg)
 
         min_dist = image_height*image_width
@@ -153,8 +161,32 @@ class LineFollowerController():
 #Si el archivo es corrido directametne y no llamado desde otro archivo corremos
 
 if __name__ == "__main__":
+    #  ==================== we extract the ROS arguments passed to init the node =======================
+    arguments  = rospy.myargv(argv=sys.argv)
+    if len(arguments) > 1:
+        if arguments[1] == "simulation":
+            simulation = True
+            camera_topic = "/camera/image_raw"
+            image_height = 800
+            image_width = 800
+        else:
+            simulation = False
+            camera_topic = "/video_source/raw"
+            image_height = 480
+            image_width = 720
+    else:
+        simulation = False
+        camera_topic = "/video_source/raw"
+        image_height = 480
+        image_width = 720
+    print("initial arguments are:")
+    print("image size = " + str( (image_height, image_width) ))
+    print("camera topic = " + camera_topic)
+        
+    #  ==================== ================================================== =======================
+    
     #iniciamos la clase
-    follower = LineFollowerController()
+    follower = LineFollowerController(image_width, image_height, camera_topic, simulation)    
     #mientras este corriendo el nodo movemos el carro el circulo
     kpw = 0.0005
     #rospy.sleep(5)

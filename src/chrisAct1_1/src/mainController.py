@@ -157,7 +157,7 @@ class mainController():
                 self.publish_g2p_mode("turn right ahead")
                 self.publish_vel(self.go_to_points_v*self.vel_mult, self.go_to_points_w)
 
-            print("action_stack is:" + str(self.action_stack))
+            #print("action_stack is:" + str(self.action_stack))
             self.rate.sleep()
 
 #Si el archivo es corrido directametne y no llamado desde otro archivo corremos
