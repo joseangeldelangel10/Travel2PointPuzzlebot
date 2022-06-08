@@ -18,7 +18,7 @@ class iois_checker():
         
         #Creamos los subscribers
         self.sub_curr_ioi = rospy.Subscriber("/last_instructions_and_interrupts",String, self.on_last_iois_callback)
-        self.sub_line_follower = rospy.Subscriber("/curr_traffic_light",String, self.on_curr_traffic_light)
+        self.sub_line_follower = rospy.Subscriber("/curr_traffic_lights",String, self.on_curr_traffic_light)
         self.sub_g2ps = rospy.Subscriber("/curr_traffic_signs",String,self.on_curr_traffic_signs)
 
         #self.last_ioi_time = None
@@ -65,13 +65,13 @@ class iois_checker():
             self.prorize_result.append("straight sign")
         if "turn right ahead sign" in iois:
             self.prorize_result.append("turn right ahead sign")
-        if  "red light" in iois or "yellow light" in iois or "green light" in iois:
-            if "red light" in iois:
-                self.prorize_result.append("red light")
-            elif "yellow light" in iois:
-                self.prorize_result.append("yellow light")
-            elif "green light" in iois:
-                self.prorize_result.append("green light")
+        if  "red traffic light" in iois or "yellow traffic light" in iois or "green traffic light" in iois:
+            if "red traffic light" in iois:
+                self.prorize_result.append("red traffic light")
+            elif "yellow traffic light" in iois:
+                self.prorize_result.append("yellow traffic light")
+            elif "green traffic light" in iois:
+                self.prorize_result.append("green traffic light")
         if "stop sign" in iois:
             self.prorize_result.append("stop sign")
         if "end of prohibition sign" in iois:

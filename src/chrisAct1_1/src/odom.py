@@ -57,24 +57,28 @@ class OdometryCal():
         t0 = rospy.get_rostime().to_sec()
         t = 0
         while not rospy.is_shutdown():
-            #Calculamos la velocidad lineal y angular
-            w = 0.055*((self.wr-self.wl)/0.192)
-            v = 0.055*((self.wr+self.wl)/2)
-            #print(v,w)
-            #Obtenemos el tiempo final
-            tf = rospy.get_rostime().to_sec()
-            #odometria calculada
-            y_k = self.odometry_cal(tf-t0,v,w)
-            #print("calculado",y_k)
-            #Publicamos lo nuevos valores de odometria
-            msg_odom = Pose2D()
-            msg_odom.theta = y_k[0,0]
-            msg_odom.x = y_k[1,0]
-            msg_odom.y = y_k[2,0]      
-            self.pub_odom.publish(msg_odom)
-            self.rate.sleep()
-            #Actualizamos el tiempo
-            t0 = tf
+            try:
+                #Calculamos la velocidad lineal y angular
+                w = 0.055*((self.wr-self.wl)/0.192)
+                v = 0.055*((self.wr+self.wl)/2)
+                #print(v,w)
+                #Obtenemos el tiempo final
+                tf = rospy.get_rostime().to_sec()
+                #odometria calculada
+                y_k = self.odometry_cal(tf-t0,v,w)
+                #print("calculado",y_k)
+                #Publicamos lo nuevos valores de odometria
+                msg_odom = Pose2D()
+                msg_odom.theta = y_k[0,0]
+                msg_odom.x = y_k[1,0]
+                msg_odom.y = y_k[2,0]      
+                self.pub_odom.publish(msg_odom)
+                self.rate.sleep()
+                #Actualizamos el tiempo
+                t0 = tf
+            except rospy.ROSTimeMovedBackwardsException:
+                self.pos = np.array([[0.0],[0.0],[0.0]])
+                rospy.logerr("ROS Time Backwards! reseting odom!")
 
 #Si el archivo es corrido directametne y no llamado desde otro archivo corremos
 if __name__ == "__main__":
