@@ -12,8 +12,8 @@
     <arg name="input_height" value="480"/>
   </include>
   ======= ===================== ======= -->
-  <node name="odometry" pkg="chrisAct1_1" type="odom.py"/>
-  <node name="lineFollower" pkg="chrisAct1_1" type="lineFollower.py" args="simulation"/>
-  <node name="goToPoints" pkg="chrisAct1_1" type="goToPoints.py"/>
+  <node name="odometry" pkg="chrisAct1_1" type="odom.py" output="screen"/>
+  <node name="lineFollower" pkg="chrisAct1_1" type="lineFollower.py" args="simulation" output="screen"/>
+  <node name="goToPoints" pkg="chrisAct1_1" type="goToPoints.py" output="screen"/>
 
 </launch>

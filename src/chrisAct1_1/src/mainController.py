@@ -5,7 +5,7 @@ import numpy as np
 import rospy
 from std_msgs.msg import String, Bool
 from geometry_msgs.msg import Twist
-from std_srvs.srv import Empty, EmptyRequest
+from std_srvs.srv import Empty, EmptyRequest, EmptyResponse
 #from roseus.msg import StringStamped
 
 #Creamos la clase
@@ -23,7 +23,9 @@ class mainController():
         self.sub_curr_ioi = rospy.Subscriber("/curr_instruction_or_interrupts",String, self.on_curr_ioi_callback)
         self.sub_line_follower = rospy.Subscriber("/cmd_vel_LF",Twist, self.on_line_follower_vel_callback)
         self.sub_g2ps = rospy.Subscriber("/cmd_vel_g2p",Twist,self.on_go_to_points_vel_callback)
-        self.sub_g2ps_success = rospy.Subscriber("/g2p_success",Bool,self.on_g2p_success_msg)
+        #self.sub_g2ps_success = rospy.Subscriber("/g2p_success",Bool,self.on_g2p_success_msg)
+
+        s = rospy.Service('end_g2ps', Empty , self.end_g2ps_callback)
 
         #self.last_ioi_time = None
         self.last_ioi_time = 0
@@ -34,7 +36,7 @@ class mainController():
         self.line_follower_w = 0.0        
         self.go_to_points_v = 0.0
         self.go_to_points_w = 0.0
-        self.g2ps_succeded = False
+        #self.g2ps_succeded = False
         self.odometry_is_reseted = False
         self.vel_mult = 1.0
         self.last_iois = []
@@ -47,8 +49,7 @@ class mainController():
         self.speedInterruptions = ["red traffic light", "yellow traffic light", "green traffic light", "stop sign", "end of prohibition sign"]
         self.instructors = ["straight sign", "turn right ahead sign"]
         self.speedInterruptionsCoefficients = {"red traffic light":0.0, "yellow traffic light":0.5, "green traffic light":1.0, "stop sign":0.0, "end of prohibition sign":1.25}
-        self.action_stack = ["line follower"]
-        self.state = "line follower"
+        self.action_stack = ["line follower"]        
 
         #Declaramos que vamos a mandar 20 mensajes por segundo.
         self.rate = rospy.Rate(30)
@@ -62,6 +63,11 @@ class mainController():
     
         #Creamos un función de que hacer cuando haya un shutdown        
         rospy.on_shutdown(self.end_callback)
+
+    def end_g2ps_callback(self, req):
+        self.odometry_is_reseted = False
+        self.pop_from_action_stack()
+        return EmptyResponse() 
 
     def on_curr_ioi_callback(self, data):
         self.curr_ioi_time = self.last_ioi_time + 1
@@ -133,29 +139,23 @@ class mainController():
 
             if self.action_stack[-1] == "line follower":                
                 self.publish_current_action("line follower")
-                self.publish_vel(self.line_follower_v*self.vel_mult, self.line_follower_w)
+                self.publish_vel(self.line_follower_v*self.vel_mult, self.line_follower_w*self.vel_mult)
             elif self.action_stack[-1] == "go straight":
-                if self.g2ps_succeded:
-                    self.g2ps_succeded = False
-                    self.odometry_is_reseted = False
-                    self.pop_from_action_stack()
+                # this state ends when g2ps node calls the end_g2ps service                
                 if not self.odometry_is_reseted:
                     self.reset_odometry()
                     self.odometry_is_reseted = True
                 self.publish_current_action("go to point")
                 self.publish_g2p_mode("go straight")
-                self.publish_vel(self.go_to_points_v*self.vel_mult, self.go_to_points_w)
-            elif self.action_stack[-1] == "turn right ahead":
-                if self.g2ps_succeded:
-                    self.g2ps_succeded = False
-                    self.odometry_is_reseted = False
-                    self.pop_from_action_stack()
+                self.publish_vel(self.go_to_points_v*self.vel_mult, self.go_to_points_w*self.vel_mult)
+            elif self.action_stack[-1] == "turn right ahead":                
+                # this state ends when g2ps node calls the end_g2ps service
                 if not self.odometry_is_reseted:
                     self.reset_odometry()
                     self.odometry_is_reseted = True
                 self.publish_current_action("go to point")
                 self.publish_g2p_mode("turn right ahead")
-                self.publish_vel(self.go_to_points_v*self.vel_mult, self.go_to_points_w)
+                self.publish_vel(self.go_to_points_v*self.vel_mult, self.go_to_points_w*self.vel_mult)
 
             #print("action_stack is:" + str(self.action_stack))
             self.rate.sleep()
