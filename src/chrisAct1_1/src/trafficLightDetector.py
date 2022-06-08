@@ -87,6 +87,7 @@ class trafficLightDetector():
 
         self.rate.sleep()
         self.cv_image = self.bridge.imgmsg_to_cv2(self.image, desired_encoding="bgr8")
+        self.cv_image = cv.rotate(self.cv_image,cv.ROTATE_180)
         self.processedImage_red = cv.cvtColor(self.cv_image, cv.COLOR_BGR2HSV)
 
         self.red1 = cv.inRange(self.processedImage_red,(170,70,50),(180,255,255))                
@@ -139,7 +140,7 @@ class trafficLightDetector():
 
         self.rate.sleep()
         self.cv_image = self.bridge.imgmsg_to_cv2(self.image, desired_encoding="bgr8")
-
+        self.cv_image = cv.rotate(self.cv_image,cv.ROTATE_180)
         self.processedImage_yellow = cv.cvtColor(self.cv_image, cv.COLOR_BGR2HSV)
 
         self.processedImage2_yellow = cv.inRange(self.processedImage_yellow,(20,70,50),(37,255,255))   
@@ -186,7 +187,7 @@ class trafficLightDetector():
 
         self.rate.sleep()
         self.cv_image = self.bridge.imgmsg_to_cv2(self.image, desired_encoding="bgr8")
-
+        self.cv_image = cv.rotate(self.cv_image,cv.ROTATE_180)
         self.processedImage_green = cv.cvtColor(self.cv_image, cv.COLOR_BGR2HSV)
 
         self.processedImage2_green = cv.inRange(self.processedImage_green,(38,50,40),(85,255,255))   
