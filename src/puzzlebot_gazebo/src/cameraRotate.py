@@ -52,12 +52,16 @@ class cameraRotor():
 
     def main(self):
         while not rospy.is_shutdown():
-            if self.image != None:
-                self.cv_image = self.bridge.imgmsg_to_cv2(self.image, desired_encoding="bgr8")
-                self.outImage = cv.rotate(self.cv_image,cv.ROTATE_180) 
-                self.processed_image_msg = self.bridge.cv2_to_imgmsg(self.outImage, encoding = "bgr8")
-                self.pub.publish(self.processed_image_msg)
-            self.rate.sleep()         
+            try:
+                if self.image != None:
+                    self.cv_image = self.bridge.imgmsg_to_cv2(self.image, desired_encoding="bgr8")
+                    self.outImage = cv.rotate(self.cv_image,cv.ROTATE_180) 
+                    self.processed_image_msg = self.bridge.cv2_to_imgmsg(self.outImage, encoding = "bgr8")
+                    self.pub.publish(self.processed_image_msg)
+                self.rate.sleep()
+            except rospy.ROSTimeMovedBackwardsException:
+                rospy.logerr("ROS Time Backwards! Just ignore the exception!")
+
 
 #Si el archivo es corrido directametne y no llamado desde otro archivo corremos
 

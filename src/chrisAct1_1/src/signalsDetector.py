@@ -24,8 +24,13 @@ class trafficSignalsDetector():
         
         self.curr_traffic_signs = []
         self.kernel = np.ones((5,5), np.uint8)
-        
-        self.curr_ioi_msg = String()
+        self.red_hexagons_classifier = cv.CascadeClassifier("../../challenge_autonomous_nav/ai_models/haar/redHexagons.xml")
+        self.blue_circles_classifier = cv.CascadeClassifier("../../challenge_autonomous_nav/ai_models/haar/blueCircles.xml")
+        self.black_circles_classifier = cv.CascadeClassifier("../../challenge_autonomous_nav/ai_models/haar/blackCircles.xml")
+        self.cnn_model = load_model('"../../challenge_autonomous_nav/ai_models/cnns/traffic_signs_cnn_model_5/my_model')
+        self.cnn_probability_threshold = 0.90
+
+        self.curr_signs_msg = String()
 
         #Declaramos que vamos a mandar 20 mensajes por segundo.
         self.rate = rospy.Rate(20)

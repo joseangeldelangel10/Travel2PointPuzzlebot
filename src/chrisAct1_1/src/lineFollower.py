@@ -99,10 +99,7 @@ class LineFollowerController():
         self.mask1 = np.ones(self.gray_image.shape)*127 # this mask removes upper half image noise
         self.gray_image[ 0: int(image_height/2), :] = self.mask1[ 0: int(image_height/2), :]
 
-        if self.simulation:
-            thres, self.binary_image = cv.threshold(self.gray_image, 150, 255, cv.THRESH_BINARY)
-        else:
-            thres, self.binary_image = cv.threshold(self.gray_image, 80, 255, cv.THRESH_BINARY)
+        thres, self.binary_image = cv.threshold(self.gray_image, 80, 255, cv.THRESH_BINARY)
 
         self.mask2 = np.ones(self.binary_image.shape)*255
         self.binary_image[0: image_height - 80, :] = self.mask2[0: image_height - 80, :]
@@ -131,14 +128,14 @@ class LineFollowerController():
         for c in contours:
             x,y,w,h = cv.boundingRect(c)
             cv.rectangle(self.outImage, (x,y), (x+w, y+h), (255, 0, 0), 2)
-            center_x = x + (x+w)/2
-            center_y = x + (y+h)/2
+            center_x = x + w/2 
+            center_y = y + h/2 
             blobs.append((center_x,center_y,w,h))
 
         #self.outImage = cv.drawKeypoints(self.binary_image, keypoints, 0, (0, 0,255), cv.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 
-        self.processed_image_msg = self.bridge.cv2_to_imgmsg(self.cv_image, encoding = "bgr8")
-        self.pub_processed_img.publish(self.processed_image_msg)
+        #self.processed_image_msg = self.bridge.cv2_to_imgmsg(self.outImage, encoding = "bgr8")
+        #self.pub_processed_img.publish(self.processed_image_msg)
 
         min_dist = image_height*image_width
         res_x = None
@@ -153,7 +150,10 @@ class LineFollowerController():
                         min_dist = dist 
                         res_x = cord_x
                         res_y = cord_y
-            self.last_point = [res_x, res_y]
+            self.last_point = [res_x, res_y]            
+            cv.rectangle(self.outImage, (res_x-5,res_y-5), (res_x+5, res_y+5), (0, 0, 255), 2)
+            self.processed_image_msg = self.bridge.cv2_to_imgmsg(self.outImage, encoding = "bgr8")
+            self.pub_processed_img.publish(self.processed_image_msg)
             return [ res_x, res_y ]
         else:
             return "Error"  
@@ -166,7 +166,7 @@ if __name__ == "__main__":
     if len(arguments) > 1:
         if arguments[1] == "simulation":
             simulation = True
-            camera_topic = "/camera/image_raw"
+            camera_topic = "/camera/image_rotated"
             image_height = 800
             image_width = 800
         else:
@@ -188,57 +188,63 @@ if __name__ == "__main__":
     #iniciamos la clase
     follower = LineFollowerController(image_width, image_height, camera_topic, simulation)    
     #mientras este corriendo el nodo movemos el carro el circulo
-    kpw = 0.0005
+    #kpw = 0.0005
+    kpw = 0.001
     #rospy.sleep(5)
     while not rospy.is_shutdown():
-        #Llamamos el sleep para asegurar los 20 msg por segundo
-        
-        if follower.image != None and follower.curr_action == "line follower":
-            blob_cord = follower.detectROI()
+        try:    
+            if follower.image != None and follower.curr_action == "line follower":
+                blob_cord = follower.detectROI()
 
-            if blob_cord != "Error":
-                e1 = blob_cord[0]
-                e2 = follower.image_width - e1
-                if e1 < follower.image_width*(1/8):
-                    follower.state = "turningLeft"                    
-                elif e2 < follower.image_width*(1/8):
-                    follower.state = "turningRight"
+                if blob_cord != "Error":
+                    e1 = blob_cord[0]
+                    e2 = follower.image_width - e1
+                    if e1 < follower.image_width*(1/8):
+                        follower.state = "turningLeft"                    
+                    elif e2 < follower.image_width*(1/8):
+                        follower.state = "turningRight"
+                    else:
+                        follower.state = "common"                    
                 else:
-                    follower.state = "common"                    
-            else:
-                follower.state = "stopped"                 
-            
-                              
-            if follower.state == "turningRight":                    
-                    new_v = 0.0
-                    new_w = -(np.pi/2)/follower.time2turn
-                    if follower.cicles2Turn - follower.turnCounter > 0:                        
-                        follower.turnCounter += 1
-                    else:
-                        follower.state = "common"
-                        follower.turnCounter = 1
-            elif follower.state == "turningLeft":
-                    new_v = 0.0
-                    new_w = (np.pi/2)/follower.time2turn
-                    if follower.cicles2Turn - follower.turnCounter > 0:                        
-                        follower.turnCounter += 1
-                    else:
-                        follower.state = "common"
-                        follower.turnCounter = 1
-            elif follower.state == "common":                                    
-                    new_v = 0.07                       
-                    new_w = kpw*(e2-e1)
-                    if new_w >= 0.3:
-                        new_w = 0.29
-                    elif new_w <= -0.3:
-                        new_w = -0.29
+                    follower.state = "stopped"                 
+                
+                                  
+                if follower.state == "turningRight":                    
+                        new_v = 0.0
+                        new_w = -(np.pi/2)/follower.time2turn
+                        if follower.cicles2Turn - follower.turnCounter > 0:                        
+                            follower.turnCounter += 1
+                        else:
+                            follower.state = "common"
+                            follower.turnCounter = 1
+                elif follower.state == "turningLeft":
+                        new_v = 0.0
+                        new_w = (np.pi/2)/follower.time2turn
+                        if follower.cicles2Turn - follower.turnCounter > 0:                        
+                            follower.turnCounter += 1
+                        else:
+                            follower.state = "common"
+                            follower.turnCounter = 1
+                elif follower.state == "common":                                    
+                        if follower.simulation:
+                            new_v = 0.05
+                        else:
+                            new_v = 0.07 
 
-                    #follower.move( new_v, new_w )  
-            elif follower.state == "stopped":
-                new_w = 0.0
-                new_v = 0.0
-                #follower.move( 0.0, 0.0 ) 
-            
-            follower.move( new_v, new_w )
-            
-        follower.rate.sleep()
+                        new_w = kpw*(e2-e1)
+                        if new_w >= 0.3:
+                            new_w = 0.29
+                        elif new_w <= -0.3:
+                            new_w = -0.29
+
+                        #follower.move( new_v, new_w )  
+                elif follower.state == "stopped":
+                    new_w = 0.0
+                    new_v = 0.0
+                    #follower.move( 0.0, 0.0 ) 
+                
+                follower.move( new_v, new_w )
+                
+            follower.rate.sleep()
+        except rospy.ROSTimeMovedBackwardsException:
+                rospy.logerr("ROS Time Backwards! Just ignore the exception!")
