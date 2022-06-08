@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/src
+CMAKE_SOURCE_DIR = /home/jose/Documents/6toSemestre/chrisAct1/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build
+CMAKE_BINARY_DIR = /home/jose/Documents/6toSemestre/chrisAct1/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -91,6 +91,17 @@ rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
 
+# Special rule for the target test
+test:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
+	/usr/bin/ctest --force-new-ctest-process $(ARGS)
+.PHONY : test
+
+# Special rule for the target test
+test/fast: test
+
+.PHONY : test/fast
+
 # Special rule for the target list_install_components
 list_install_components:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
@@ -124,27 +135,16 @@ install/fast: preinstall/fast
 	/usr/bin/cmake -P cmake_install.cmake
 .PHONY : install/fast
 
-# Special rule for the target test
-test:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
-	/usr/bin/ctest --force-new-ctest-process $(ARGS)
-.PHONY : test
-
-# Special rule for the target test
-test/fast: test
-
-.PHONY : test/fast
-
 # The main all target
 all: cmake_check_build_system
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build/CMakeFiles /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build/chrisAct1_1/CMakeFiles/progress.marks
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f CMakeFiles/Makefile2 chrisAct1_1/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build/CMakeFiles 0
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/jose/Documents/6toSemestre/chrisAct1/build/CMakeFiles /home/jose/Documents/6toSemestre/chrisAct1/build/chrisAct1_1/CMakeFiles/progress.marks
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f CMakeFiles/Makefile2 chrisAct1_1/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/jose/Documents/6toSemestre/chrisAct1/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f CMakeFiles/Makefile2 chrisAct1_1/clean
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f CMakeFiles/Makefile2 chrisAct1_1/clean
 .PHONY : clean
 
 # The main clean target
@@ -154,217 +154,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f CMakeFiles/Makefile2 chrisAct1_1/preinstall
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f CMakeFiles/Makefile2 chrisAct1_1/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f CMakeFiles/Makefile2 chrisAct1_1/preinstall
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f CMakeFiles/Makefile2 chrisAct1_1/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
-chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_py.dir/rule:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f CMakeFiles/Makefile2 chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_py.dir/rule
-.PHONY : chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_py.dir/rule
-
-# Convenience name for target.
-geometry_msgs_generate_messages_py: chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_py.dir/rule
-
-.PHONY : geometry_msgs_generate_messages_py
-
-# fast build rule for target.
-geometry_msgs_generate_messages_py/fast:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_py.dir/build.make chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_py.dir/build
-.PHONY : geometry_msgs_generate_messages_py/fast
-
-# Convenience name for target.
-chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/rule:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f CMakeFiles/Makefile2 chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/rule
-.PHONY : chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/rule
-
-# Convenience name for target.
-geometry_msgs_generate_messages_cpp: chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/rule
-
-.PHONY : geometry_msgs_generate_messages_cpp
-
-# fast build rule for target.
-geometry_msgs_generate_messages_cpp/fast:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/build.make chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/build
-.PHONY : geometry_msgs_generate_messages_cpp/fast
-
-# Convenience name for target.
-chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_cpp.dir/rule:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f CMakeFiles/Makefile2 chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_cpp.dir/rule
-.PHONY : chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_cpp.dir/rule
-
-# Convenience name for target.
-nav_msgs_generate_messages_cpp: chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_cpp.dir/rule
-
-.PHONY : nav_msgs_generate_messages_cpp
-
-# fast build rule for target.
-nav_msgs_generate_messages_cpp/fast:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_cpp.dir/build.make chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_cpp.dir/build
-.PHONY : nav_msgs_generate_messages_cpp/fast
-
-# Convenience name for target.
-chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_eus.dir/rule:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f CMakeFiles/Makefile2 chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_eus.dir/rule
-.PHONY : chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-geometry_msgs_generate_messages_eus: chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_eus.dir/rule
-
-.PHONY : geometry_msgs_generate_messages_eus
-
-# fast build rule for target.
-geometry_msgs_generate_messages_eus/fast:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_eus.dir/build.make chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_eus.dir/build
-.PHONY : geometry_msgs_generate_messages_eus/fast
-
-# Convenience name for target.
-chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_eus.dir/rule:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f CMakeFiles/Makefile2 chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_eus.dir/rule
-.PHONY : chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-nav_msgs_generate_messages_eus: chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_eus.dir/rule
-
-.PHONY : nav_msgs_generate_messages_eus
-
-# fast build rule for target.
-nav_msgs_generate_messages_eus/fast:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_eus.dir/build.make chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_eus.dir/build
-.PHONY : nav_msgs_generate_messages_eus/fast
-
-# Convenience name for target.
-chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/rule:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f CMakeFiles/Makefile2 chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/rule
-.PHONY : chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/rule
-
-# Convenience name for target.
-geometry_msgs_generate_messages_nodejs: chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/rule
-
-.PHONY : geometry_msgs_generate_messages_nodejs
-
-# fast build rule for target.
-geometry_msgs_generate_messages_nodejs/fast:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/build.make chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/build
-.PHONY : geometry_msgs_generate_messages_nodejs/fast
-
-# Convenience name for target.
-chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_lisp.dir/rule:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f CMakeFiles/Makefile2 chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_lisp.dir/rule
-.PHONY : chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-nav_msgs_generate_messages_lisp: chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_lisp.dir/rule
-
-.PHONY : nav_msgs_generate_messages_lisp
-
-# fast build rule for target.
-nav_msgs_generate_messages_lisp/fast:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_lisp.dir/build.make chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_lisp.dir/build
-.PHONY : nav_msgs_generate_messages_lisp/fast
-
-# Convenience name for target.
-chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_nodejs.dir/rule:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f CMakeFiles/Makefile2 chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_nodejs.dir/rule
-.PHONY : chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_nodejs.dir/rule
-
-# Convenience name for target.
-nav_msgs_generate_messages_nodejs: chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_nodejs.dir/rule
-
-.PHONY : nav_msgs_generate_messages_nodejs
-
-# fast build rule for target.
-nav_msgs_generate_messages_nodejs/fast:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_nodejs.dir/build.make chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_nodejs.dir/build
-.PHONY : nav_msgs_generate_messages_nodejs/fast
-
-# Convenience name for target.
-chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_py.dir/rule:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f CMakeFiles/Makefile2 chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_py.dir/rule
-.PHONY : chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_py.dir/rule
-
-# Convenience name for target.
-nav_msgs_generate_messages_py: chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_py.dir/rule
-
-.PHONY : nav_msgs_generate_messages_py
-
-# fast build rule for target.
-nav_msgs_generate_messages_py/fast:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_py.dir/build.make chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_py.dir/build
-.PHONY : nav_msgs_generate_messages_py/fast
-
-# Convenience name for target.
-chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/rule:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f CMakeFiles/Makefile2 chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/rule
-.PHONY : chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/rule
-
-# Convenience name for target.
-actionlib_msgs_generate_messages_cpp: chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/rule
-
-.PHONY : actionlib_msgs_generate_messages_cpp
-
-# fast build rule for target.
-actionlib_msgs_generate_messages_cpp/fast:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/build.make chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/build
-.PHONY : actionlib_msgs_generate_messages_cpp/fast
-
-# Convenience name for target.
-chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_eus.dir/rule:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f CMakeFiles/Makefile2 chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_eus.dir/rule
-.PHONY : chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-actionlib_msgs_generate_messages_eus: chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_eus.dir/rule
-
-.PHONY : actionlib_msgs_generate_messages_eus
-
-# fast build rule for target.
-actionlib_msgs_generate_messages_eus/fast:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_eus.dir/build.make chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_eus.dir/build
-.PHONY : actionlib_msgs_generate_messages_eus/fast
-
-# Convenience name for target.
-chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/rule:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f CMakeFiles/Makefile2 chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/rule
-.PHONY : chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-actionlib_msgs_generate_messages_lisp: chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/rule
-
-.PHONY : actionlib_msgs_generate_messages_lisp
-
-# fast build rule for target.
-actionlib_msgs_generate_messages_lisp/fast:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/build.make chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/build
-.PHONY : actionlib_msgs_generate_messages_lisp/fast
-
-# Convenience name for target.
-chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/rule:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f CMakeFiles/Makefile2 chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/rule
-.PHONY : chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/rule
-
-# Convenience name for target.
-actionlib_msgs_generate_messages_nodejs: chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/rule
-
-.PHONY : actionlib_msgs_generate_messages_nodejs
-
-# fast build rule for target.
-actionlib_msgs_generate_messages_nodejs/fast:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/build.make chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/build
-.PHONY : actionlib_msgs_generate_messages_nodejs/fast
-
-# Convenience name for target.
 chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_py.dir/rule:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f CMakeFiles/Makefile2 chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_py.dir/rule
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f CMakeFiles/Makefile2 chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_py.dir/rule
 .PHONY : chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_py.dir/rule
 
 # Convenience name for target.
@@ -374,12 +179,57 @@ actionlib_msgs_generate_messages_py: chrisAct1_1/CMakeFiles/actionlib_msgs_gener
 
 # fast build rule for target.
 actionlib_msgs_generate_messages_py/fast:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_py.dir/build.make chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_py.dir/build
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_py.dir/build.make chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_py.dir/build
 .PHONY : actionlib_msgs_generate_messages_py/fast
 
 # Convenience name for target.
+chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/rule:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f CMakeFiles/Makefile2 chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/rule
+.PHONY : chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/rule
+
+# Convenience name for target.
+actionlib_msgs_generate_messages_lisp: chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/rule
+
+.PHONY : actionlib_msgs_generate_messages_lisp
+
+# fast build rule for target.
+actionlib_msgs_generate_messages_lisp/fast:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/build.make chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/build
+.PHONY : actionlib_msgs_generate_messages_lisp/fast
+
+# Convenience name for target.
+chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_eus.dir/rule:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f CMakeFiles/Makefile2 chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_eus.dir/rule
+.PHONY : chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_eus.dir/rule
+
+# Convenience name for target.
+actionlib_msgs_generate_messages_eus: chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_eus.dir/rule
+
+.PHONY : actionlib_msgs_generate_messages_eus
+
+# fast build rule for target.
+actionlib_msgs_generate_messages_eus/fast:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_eus.dir/build.make chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_eus.dir/build
+.PHONY : actionlib_msgs_generate_messages_eus/fast
+
+# Convenience name for target.
+chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_py.dir/rule:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f CMakeFiles/Makefile2 chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_py.dir/rule
+.PHONY : chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_py.dir/rule
+
+# Convenience name for target.
+geometry_msgs_generate_messages_py: chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_py.dir/rule
+
+.PHONY : geometry_msgs_generate_messages_py
+
+# fast build rule for target.
+geometry_msgs_generate_messages_py/fast:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_py.dir/build.make chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_py.dir/build
+.PHONY : geometry_msgs_generate_messages_py/fast
+
+# Convenience name for target.
 chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_lisp.dir/rule:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f CMakeFiles/Makefile2 chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_lisp.dir/rule
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f CMakeFiles/Makefile2 chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_lisp.dir/rule
 .PHONY : chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_lisp.dir/rule
 
 # Convenience name for target.
@@ -389,8 +239,233 @@ geometry_msgs_generate_messages_lisp: chrisAct1_1/CMakeFiles/geometry_msgs_gener
 
 # fast build rule for target.
 geometry_msgs_generate_messages_lisp/fast:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_lisp.dir/build.make chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_lisp.dir/build
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_lisp.dir/build.make chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_lisp.dir/build
 .PHONY : geometry_msgs_generate_messages_lisp/fast
+
+# Convenience name for target.
+chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/rule:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f CMakeFiles/Makefile2 chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/rule
+.PHONY : chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/rule
+
+# Convenience name for target.
+geometry_msgs_generate_messages_cpp: chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/rule
+
+.PHONY : geometry_msgs_generate_messages_cpp
+
+# fast build rule for target.
+geometry_msgs_generate_messages_cpp/fast:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/build.make chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/build
+.PHONY : geometry_msgs_generate_messages_cpp/fast
+
+# Convenience name for target.
+chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_cpp.dir/rule:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f CMakeFiles/Makefile2 chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_cpp.dir/rule
+.PHONY : chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_cpp.dir/rule
+
+# Convenience name for target.
+nav_msgs_generate_messages_cpp: chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_cpp.dir/rule
+
+.PHONY : nav_msgs_generate_messages_cpp
+
+# fast build rule for target.
+nav_msgs_generate_messages_cpp/fast:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_cpp.dir/build.make chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_cpp.dir/build
+.PHONY : nav_msgs_generate_messages_cpp/fast
+
+# Convenience name for target.
+chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_eus.dir/rule:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f CMakeFiles/Makefile2 chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_eus.dir/rule
+.PHONY : chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_eus.dir/rule
+
+# Convenience name for target.
+geometry_msgs_generate_messages_eus: chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_eus.dir/rule
+
+.PHONY : geometry_msgs_generate_messages_eus
+
+# fast build rule for target.
+geometry_msgs_generate_messages_eus/fast:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_eus.dir/build.make chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_eus.dir/build
+.PHONY : geometry_msgs_generate_messages_eus/fast
+
+# Convenience name for target.
+chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/rule:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f CMakeFiles/Makefile2 chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/rule
+.PHONY : chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/rule
+
+# Convenience name for target.
+actionlib_msgs_generate_messages_nodejs: chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/rule
+
+.PHONY : actionlib_msgs_generate_messages_nodejs
+
+# fast build rule for target.
+actionlib_msgs_generate_messages_nodejs/fast:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/build.make chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/build
+.PHONY : actionlib_msgs_generate_messages_nodejs/fast
+
+# Convenience name for target.
+chrisAct1_1/CMakeFiles/std_msgs_generate_messages_eus.dir/rule:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f CMakeFiles/Makefile2 chrisAct1_1/CMakeFiles/std_msgs_generate_messages_eus.dir/rule
+.PHONY : chrisAct1_1/CMakeFiles/std_msgs_generate_messages_eus.dir/rule
+
+# Convenience name for target.
+std_msgs_generate_messages_eus: chrisAct1_1/CMakeFiles/std_msgs_generate_messages_eus.dir/rule
+
+.PHONY : std_msgs_generate_messages_eus
+
+# fast build rule for target.
+std_msgs_generate_messages_eus/fast:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f chrisAct1_1/CMakeFiles/std_msgs_generate_messages_eus.dir/build.make chrisAct1_1/CMakeFiles/std_msgs_generate_messages_eus.dir/build
+.PHONY : std_msgs_generate_messages_eus/fast
+
+# Convenience name for target.
+chrisAct1_1/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f CMakeFiles/Makefile2 chrisAct1_1/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
+.PHONY : chrisAct1_1/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
+
+# Convenience name for target.
+std_msgs_generate_messages_lisp: chrisAct1_1/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
+
+.PHONY : std_msgs_generate_messages_lisp
+
+# fast build rule for target.
+std_msgs_generate_messages_lisp/fast:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f chrisAct1_1/CMakeFiles/std_msgs_generate_messages_lisp.dir/build.make chrisAct1_1/CMakeFiles/std_msgs_generate_messages_lisp.dir/build
+.PHONY : std_msgs_generate_messages_lisp/fast
+
+# Convenience name for target.
+chrisAct1_1/CMakeFiles/std_msgs_generate_messages_nodejs.dir/rule:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f CMakeFiles/Makefile2 chrisAct1_1/CMakeFiles/std_msgs_generate_messages_nodejs.dir/rule
+.PHONY : chrisAct1_1/CMakeFiles/std_msgs_generate_messages_nodejs.dir/rule
+
+# Convenience name for target.
+std_msgs_generate_messages_nodejs: chrisAct1_1/CMakeFiles/std_msgs_generate_messages_nodejs.dir/rule
+
+.PHONY : std_msgs_generate_messages_nodejs
+
+# fast build rule for target.
+std_msgs_generate_messages_nodejs/fast:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f chrisAct1_1/CMakeFiles/std_msgs_generate_messages_nodejs.dir/build.make chrisAct1_1/CMakeFiles/std_msgs_generate_messages_nodejs.dir/build
+.PHONY : std_msgs_generate_messages_nodejs/fast
+
+# Convenience name for target.
+chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/rule:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f CMakeFiles/Makefile2 chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/rule
+.PHONY : chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/rule
+
+# Convenience name for target.
+geometry_msgs_generate_messages_nodejs: chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/rule
+
+.PHONY : geometry_msgs_generate_messages_nodejs
+
+# fast build rule for target.
+geometry_msgs_generate_messages_nodejs/fast:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/build.make chrisAct1_1/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/build
+.PHONY : geometry_msgs_generate_messages_nodejs/fast
+
+# Convenience name for target.
+chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_lisp.dir/rule:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f CMakeFiles/Makefile2 chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_lisp.dir/rule
+.PHONY : chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_lisp.dir/rule
+
+# Convenience name for target.
+nav_msgs_generate_messages_lisp: chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_lisp.dir/rule
+
+.PHONY : nav_msgs_generate_messages_lisp
+
+# fast build rule for target.
+nav_msgs_generate_messages_lisp/fast:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_lisp.dir/build.make chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_lisp.dir/build
+.PHONY : nav_msgs_generate_messages_lisp/fast
+
+# Convenience name for target.
+chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_eus.dir/rule:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f CMakeFiles/Makefile2 chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_eus.dir/rule
+.PHONY : chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_eus.dir/rule
+
+# Convenience name for target.
+nav_msgs_generate_messages_eus: chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_eus.dir/rule
+
+.PHONY : nav_msgs_generate_messages_eus
+
+# fast build rule for target.
+nav_msgs_generate_messages_eus/fast:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_eus.dir/build.make chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_eus.dir/build
+.PHONY : nav_msgs_generate_messages_eus/fast
+
+# Convenience name for target.
+chrisAct1_1/CMakeFiles/std_msgs_generate_messages_cpp.dir/rule:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f CMakeFiles/Makefile2 chrisAct1_1/CMakeFiles/std_msgs_generate_messages_cpp.dir/rule
+.PHONY : chrisAct1_1/CMakeFiles/std_msgs_generate_messages_cpp.dir/rule
+
+# Convenience name for target.
+std_msgs_generate_messages_cpp: chrisAct1_1/CMakeFiles/std_msgs_generate_messages_cpp.dir/rule
+
+.PHONY : std_msgs_generate_messages_cpp
+
+# fast build rule for target.
+std_msgs_generate_messages_cpp/fast:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f chrisAct1_1/CMakeFiles/std_msgs_generate_messages_cpp.dir/build.make chrisAct1_1/CMakeFiles/std_msgs_generate_messages_cpp.dir/build
+.PHONY : std_msgs_generate_messages_cpp/fast
+
+# Convenience name for target.
+chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_nodejs.dir/rule:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f CMakeFiles/Makefile2 chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_nodejs.dir/rule
+.PHONY : chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_nodejs.dir/rule
+
+# Convenience name for target.
+nav_msgs_generate_messages_nodejs: chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_nodejs.dir/rule
+
+.PHONY : nav_msgs_generate_messages_nodejs
+
+# fast build rule for target.
+nav_msgs_generate_messages_nodejs/fast:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_nodejs.dir/build.make chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_nodejs.dir/build
+.PHONY : nav_msgs_generate_messages_nodejs/fast
+
+# Convenience name for target.
+chrisAct1_1/CMakeFiles/std_msgs_generate_messages_py.dir/rule:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f CMakeFiles/Makefile2 chrisAct1_1/CMakeFiles/std_msgs_generate_messages_py.dir/rule
+.PHONY : chrisAct1_1/CMakeFiles/std_msgs_generate_messages_py.dir/rule
+
+# Convenience name for target.
+std_msgs_generate_messages_py: chrisAct1_1/CMakeFiles/std_msgs_generate_messages_py.dir/rule
+
+.PHONY : std_msgs_generate_messages_py
+
+# fast build rule for target.
+std_msgs_generate_messages_py/fast:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f chrisAct1_1/CMakeFiles/std_msgs_generate_messages_py.dir/build.make chrisAct1_1/CMakeFiles/std_msgs_generate_messages_py.dir/build
+.PHONY : std_msgs_generate_messages_py/fast
+
+# Convenience name for target.
+chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_py.dir/rule:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f CMakeFiles/Makefile2 chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_py.dir/rule
+.PHONY : chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_py.dir/rule
+
+# Convenience name for target.
+nav_msgs_generate_messages_py: chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_py.dir/rule
+
+.PHONY : nav_msgs_generate_messages_py
+
+# fast build rule for target.
+nav_msgs_generate_messages_py/fast:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_py.dir/build.make chrisAct1_1/CMakeFiles/nav_msgs_generate_messages_py.dir/build
+.PHONY : nav_msgs_generate_messages_py/fast
+
+# Convenience name for target.
+chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/rule:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f CMakeFiles/Makefile2 chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/rule
+.PHONY : chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/rule
+
+# Convenience name for target.
+actionlib_msgs_generate_messages_cpp: chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/rule
+
+.PHONY : actionlib_msgs_generate_messages_cpp
+
+# fast build rule for target.
+actionlib_msgs_generate_messages_cpp/fast:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/build.make chrisAct1_1/CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/build
+.PHONY : actionlib_msgs_generate_messages_cpp/fast
 
 # Help Target
 help:
@@ -401,25 +476,30 @@ help:
 	@echo "... install/strip"
 	@echo "... install/local"
 	@echo "... rebuild_cache"
+	@echo "... actionlib_msgs_generate_messages_py"
+	@echo "... actionlib_msgs_generate_messages_lisp"
+	@echo "... actionlib_msgs_generate_messages_eus"
 	@echo "... geometry_msgs_generate_messages_py"
+	@echo "... test"
+	@echo "... geometry_msgs_generate_messages_lisp"
 	@echo "... geometry_msgs_generate_messages_cpp"
 	@echo "... nav_msgs_generate_messages_cpp"
 	@echo "... list_install_components"
 	@echo "... geometry_msgs_generate_messages_eus"
-	@echo "... nav_msgs_generate_messages_eus"
+	@echo "... actionlib_msgs_generate_messages_nodejs"
+	@echo "... std_msgs_generate_messages_eus"
+	@echo "... std_msgs_generate_messages_lisp"
+	@echo "... std_msgs_generate_messages_nodejs"
 	@echo "... edit_cache"
 	@echo "... geometry_msgs_generate_messages_nodejs"
 	@echo "... nav_msgs_generate_messages_lisp"
+	@echo "... nav_msgs_generate_messages_eus"
+	@echo "... std_msgs_generate_messages_cpp"
 	@echo "... nav_msgs_generate_messages_nodejs"
+	@echo "... std_msgs_generate_messages_py"
 	@echo "... nav_msgs_generate_messages_py"
 	@echo "... install"
 	@echo "... actionlib_msgs_generate_messages_cpp"
-	@echo "... actionlib_msgs_generate_messages_eus"
-	@echo "... actionlib_msgs_generate_messages_lisp"
-	@echo "... actionlib_msgs_generate_messages_nodejs"
-	@echo "... actionlib_msgs_generate_messages_py"
-	@echo "... geometry_msgs_generate_messages_lisp"
-	@echo "... test"
 .PHONY : help
 
 
@@ -431,6 +511,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/src
+CMAKE_SOURCE_DIR = /home/jose/Documents/6toSemestre/chrisAct1/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build
+CMAKE_BINARY_DIR = /home/jose/Documents/6toSemestre/chrisAct1/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -66,28 +66,6 @@ list_install_components/fast: list_install_components
 
 .PHONY : list_install_components/fast
 
-# Special rule for the target test
-test:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
-	/usr/bin/ctest --force-new-ctest-process $(ARGS)
-.PHONY : test
-
-# Special rule for the target test
-test/fast: test
-
-.PHONY : test/fast
-
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
-.PHONY : edit_cache
-
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
-
-.PHONY : edit_cache/fast
-
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
@@ -98,6 +76,17 @@ rebuild_cache:
 rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
+
+# Special rule for the target test
+test:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
+	/usr/bin/ctest --force-new-ctest-process $(ARGS)
+.PHONY : test
+
+# Special rule for the target test
+test/fast: test
+
+.PHONY : test/fast
 
 # Special rule for the target install
 install: preinstall
@@ -110,6 +99,17 @@ install/fast: preinstall/fast
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
 	/usr/bin/cmake -P cmake_install.cmake
 .PHONY : install/fast
+
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
+
+.PHONY : edit_cache/fast
 
 # Special rule for the target install/local
 install/local: preinstall
@@ -137,14 +137,14 @@ install/strip/fast: preinstall/fast
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build/CMakeFiles /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build/puzzlebot_control/CMakeFiles/progress.marks
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build/CMakeFiles 0
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/jose/Documents/6toSemestre/chrisAct1/build/CMakeFiles /home/jose/Documents/6toSemestre/chrisAct1/build/puzzlebot_control/CMakeFiles/progress.marks
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/jose/Documents/6toSemestre/chrisAct1/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/clean
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/clean
 .PHONY : clean
 
 # The main clean target
@@ -154,247 +154,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/preinstall
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/preinstall
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
-puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/rule:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/rule
-.PHONY : puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/rule
-
-# Convenience name for target.
-puzzlebot_control_node: puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/rule
-
-.PHONY : puzzlebot_control_node
-
-# fast build rule for target.
-puzzlebot_control_node/fast:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/build.make puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/build
-.PHONY : puzzlebot_control_node/fast
-
-# Convenience name for target.
-puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/rule:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/rule
-.PHONY : puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-tf2_msgs_generate_messages_lisp: puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/rule
-
-.PHONY : tf2_msgs_generate_messages_lisp
-
-# fast build rule for target.
-tf2_msgs_generate_messages_lisp/fast:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/build.make puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/build
-.PHONY : tf2_msgs_generate_messages_lisp/fast
-
-# Convenience name for target.
-puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_py.dir/rule:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_py.dir/rule
-.PHONY : puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_py.dir/rule
-
-# Convenience name for target.
-tf2_msgs_generate_messages_py: puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_py.dir/rule
-
-.PHONY : tf2_msgs_generate_messages_py
-
-# fast build rule for target.
-tf2_msgs_generate_messages_py/fast:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_py.dir/build.make puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_py.dir/build
-.PHONY : tf2_msgs_generate_messages_py/fast
-
-# Convenience name for target.
-puzzlebot_control/CMakeFiles/sensor_msgs_generate_messages_py.dir/rule:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/CMakeFiles/sensor_msgs_generate_messages_py.dir/rule
-.PHONY : puzzlebot_control/CMakeFiles/sensor_msgs_generate_messages_py.dir/rule
-
-# Convenience name for target.
-sensor_msgs_generate_messages_py: puzzlebot_control/CMakeFiles/sensor_msgs_generate_messages_py.dir/rule
-
-.PHONY : sensor_msgs_generate_messages_py
-
-# fast build rule for target.
-sensor_msgs_generate_messages_py/fast:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f puzzlebot_control/CMakeFiles/sensor_msgs_generate_messages_py.dir/build.make puzzlebot_control/CMakeFiles/sensor_msgs_generate_messages_py.dir/build
-.PHONY : sensor_msgs_generate_messages_py/fast
-
-# Convenience name for target.
-puzzlebot_control/CMakeFiles/actionlib_generate_messages_eus.dir/rule:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/CMakeFiles/actionlib_generate_messages_eus.dir/rule
-.PHONY : puzzlebot_control/CMakeFiles/actionlib_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-actionlib_generate_messages_eus: puzzlebot_control/CMakeFiles/actionlib_generate_messages_eus.dir/rule
-
-.PHONY : actionlib_generate_messages_eus
-
-# fast build rule for target.
-actionlib_generate_messages_eus/fast:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f puzzlebot_control/CMakeFiles/actionlib_generate_messages_eus.dir/build.make puzzlebot_control/CMakeFiles/actionlib_generate_messages_eus.dir/build
-.PHONY : actionlib_generate_messages_eus/fast
-
-# Convenience name for target.
-puzzlebot_control/CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/rule:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/rule
-.PHONY : puzzlebot_control/CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/rule
-
-# Convenience name for target.
-sensor_msgs_generate_messages_nodejs: puzzlebot_control/CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/rule
-
-.PHONY : sensor_msgs_generate_messages_nodejs
-
-# fast build rule for target.
-sensor_msgs_generate_messages_nodejs/fast:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f puzzlebot_control/CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/build.make puzzlebot_control/CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/build
-.PHONY : sensor_msgs_generate_messages_nodejs/fast
-
-# Convenience name for target.
-puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_eus.dir/rule:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_eus.dir/rule
-.PHONY : puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-tf2_msgs_generate_messages_eus: puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_eus.dir/rule
-
-.PHONY : tf2_msgs_generate_messages_eus
-
-# fast build rule for target.
-tf2_msgs_generate_messages_eus/fast:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_eus.dir/build.make puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_eus.dir/build
-.PHONY : tf2_msgs_generate_messages_eus/fast
-
-# Convenience name for target.
-puzzlebot_control/CMakeFiles/tf_generate_messages_lisp.dir/rule:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/CMakeFiles/tf_generate_messages_lisp.dir/rule
-.PHONY : puzzlebot_control/CMakeFiles/tf_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-tf_generate_messages_lisp: puzzlebot_control/CMakeFiles/tf_generate_messages_lisp.dir/rule
-
-.PHONY : tf_generate_messages_lisp
-
-# fast build rule for target.
-tf_generate_messages_lisp/fast:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f puzzlebot_control/CMakeFiles/tf_generate_messages_lisp.dir/build.make puzzlebot_control/CMakeFiles/tf_generate_messages_lisp.dir/build
-.PHONY : tf_generate_messages_lisp/fast
-
-# Convenience name for target.
-puzzlebot_control/CMakeFiles/sensor_msgs_generate_messages_lisp.dir/rule:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/CMakeFiles/sensor_msgs_generate_messages_lisp.dir/rule
-.PHONY : puzzlebot_control/CMakeFiles/sensor_msgs_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-sensor_msgs_generate_messages_lisp: puzzlebot_control/CMakeFiles/sensor_msgs_generate_messages_lisp.dir/rule
-
-.PHONY : sensor_msgs_generate_messages_lisp
-
-# fast build rule for target.
-sensor_msgs_generate_messages_lisp/fast:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f puzzlebot_control/CMakeFiles/sensor_msgs_generate_messages_lisp.dir/build.make puzzlebot_control/CMakeFiles/sensor_msgs_generate_messages_lisp.dir/build
-.PHONY : sensor_msgs_generate_messages_lisp/fast
-
-# Convenience name for target.
-puzzlebot_control/CMakeFiles/sensor_msgs_generate_messages_cpp.dir/rule:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/CMakeFiles/sensor_msgs_generate_messages_cpp.dir/rule
-.PHONY : puzzlebot_control/CMakeFiles/sensor_msgs_generate_messages_cpp.dir/rule
-
-# Convenience name for target.
-sensor_msgs_generate_messages_cpp: puzzlebot_control/CMakeFiles/sensor_msgs_generate_messages_cpp.dir/rule
-
-.PHONY : sensor_msgs_generate_messages_cpp
-
-# fast build rule for target.
-sensor_msgs_generate_messages_cpp/fast:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f puzzlebot_control/CMakeFiles/sensor_msgs_generate_messages_cpp.dir/build.make puzzlebot_control/CMakeFiles/sensor_msgs_generate_messages_cpp.dir/build
-.PHONY : sensor_msgs_generate_messages_cpp/fast
-
-# Convenience name for target.
-puzzlebot_control/CMakeFiles/tf_generate_messages_cpp.dir/rule:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/CMakeFiles/tf_generate_messages_cpp.dir/rule
-.PHONY : puzzlebot_control/CMakeFiles/tf_generate_messages_cpp.dir/rule
-
-# Convenience name for target.
-tf_generate_messages_cpp: puzzlebot_control/CMakeFiles/tf_generate_messages_cpp.dir/rule
-
-.PHONY : tf_generate_messages_cpp
-
-# fast build rule for target.
-tf_generate_messages_cpp/fast:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f puzzlebot_control/CMakeFiles/tf_generate_messages_cpp.dir/build.make puzzlebot_control/CMakeFiles/tf_generate_messages_cpp.dir/build
-.PHONY : tf_generate_messages_cpp/fast
-
-# Convenience name for target.
-puzzlebot_control/CMakeFiles/sensor_msgs_generate_messages_eus.dir/rule:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/CMakeFiles/sensor_msgs_generate_messages_eus.dir/rule
-.PHONY : puzzlebot_control/CMakeFiles/sensor_msgs_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-sensor_msgs_generate_messages_eus: puzzlebot_control/CMakeFiles/sensor_msgs_generate_messages_eus.dir/rule
-
-.PHONY : sensor_msgs_generate_messages_eus
-
-# fast build rule for target.
-sensor_msgs_generate_messages_eus/fast:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f puzzlebot_control/CMakeFiles/sensor_msgs_generate_messages_eus.dir/build.make puzzlebot_control/CMakeFiles/sensor_msgs_generate_messages_eus.dir/build
-.PHONY : sensor_msgs_generate_messages_eus/fast
-
-# Convenience name for target.
-puzzlebot_control/CMakeFiles/tf_generate_messages_eus.dir/rule:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/CMakeFiles/tf_generate_messages_eus.dir/rule
-.PHONY : puzzlebot_control/CMakeFiles/tf_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-tf_generate_messages_eus: puzzlebot_control/CMakeFiles/tf_generate_messages_eus.dir/rule
-
-.PHONY : tf_generate_messages_eus
-
-# fast build rule for target.
-tf_generate_messages_eus/fast:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f puzzlebot_control/CMakeFiles/tf_generate_messages_eus.dir/build.make puzzlebot_control/CMakeFiles/tf_generate_messages_eus.dir/build
-.PHONY : tf_generate_messages_eus/fast
-
-# Convenience name for target.
-puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/rule:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/rule
-.PHONY : puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/rule
-
-# Convenience name for target.
-tf2_msgs_generate_messages_nodejs: puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/rule
-
-.PHONY : tf2_msgs_generate_messages_nodejs
-
-# fast build rule for target.
-tf2_msgs_generate_messages_nodejs/fast:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/build.make puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/build
-.PHONY : tf2_msgs_generate_messages_nodejs/fast
-
-# Convenience name for target.
-puzzlebot_control/CMakeFiles/tf_generate_messages_nodejs.dir/rule:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/CMakeFiles/tf_generate_messages_nodejs.dir/rule
-.PHONY : puzzlebot_control/CMakeFiles/tf_generate_messages_nodejs.dir/rule
-
-# Convenience name for target.
-tf_generate_messages_nodejs: puzzlebot_control/CMakeFiles/tf_generate_messages_nodejs.dir/rule
-
-.PHONY : tf_generate_messages_nodejs
-
-# fast build rule for target.
-tf_generate_messages_nodejs/fast:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f puzzlebot_control/CMakeFiles/tf_generate_messages_nodejs.dir/build.make puzzlebot_control/CMakeFiles/tf_generate_messages_nodejs.dir/build
-.PHONY : tf_generate_messages_nodejs/fast
-
-# Convenience name for target.
 puzzlebot_control/CMakeFiles/tf_generate_messages_py.dir/rule:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/CMakeFiles/tf_generate_messages_py.dir/rule
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/CMakeFiles/tf_generate_messages_py.dir/rule
 .PHONY : puzzlebot_control/CMakeFiles/tf_generate_messages_py.dir/rule
 
 # Convenience name for target.
@@ -404,12 +179,27 @@ tf_generate_messages_py: puzzlebot_control/CMakeFiles/tf_generate_messages_py.di
 
 # fast build rule for target.
 tf_generate_messages_py/fast:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f puzzlebot_control/CMakeFiles/tf_generate_messages_py.dir/build.make puzzlebot_control/CMakeFiles/tf_generate_messages_py.dir/build
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f puzzlebot_control/CMakeFiles/tf_generate_messages_py.dir/build.make puzzlebot_control/CMakeFiles/tf_generate_messages_py.dir/build
 .PHONY : tf_generate_messages_py/fast
 
 # Convenience name for target.
+puzzlebot_control/CMakeFiles/tf_generate_messages_cpp.dir/rule:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/CMakeFiles/tf_generate_messages_cpp.dir/rule
+.PHONY : puzzlebot_control/CMakeFiles/tf_generate_messages_cpp.dir/rule
+
+# Convenience name for target.
+tf_generate_messages_cpp: puzzlebot_control/CMakeFiles/tf_generate_messages_cpp.dir/rule
+
+.PHONY : tf_generate_messages_cpp
+
+# fast build rule for target.
+tf_generate_messages_cpp/fast:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f puzzlebot_control/CMakeFiles/tf_generate_messages_cpp.dir/build.make puzzlebot_control/CMakeFiles/tf_generate_messages_cpp.dir/build
+.PHONY : tf_generate_messages_cpp/fast
+
+# Convenience name for target.
 puzzlebot_control/CMakeFiles/actionlib_generate_messages_cpp.dir/rule:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/CMakeFiles/actionlib_generate_messages_cpp.dir/rule
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/CMakeFiles/actionlib_generate_messages_cpp.dir/rule
 .PHONY : puzzlebot_control/CMakeFiles/actionlib_generate_messages_cpp.dir/rule
 
 # Convenience name for target.
@@ -419,12 +209,42 @@ actionlib_generate_messages_cpp: puzzlebot_control/CMakeFiles/actionlib_generate
 
 # fast build rule for target.
 actionlib_generate_messages_cpp/fast:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f puzzlebot_control/CMakeFiles/actionlib_generate_messages_cpp.dir/build.make puzzlebot_control/CMakeFiles/actionlib_generate_messages_cpp.dir/build
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f puzzlebot_control/CMakeFiles/actionlib_generate_messages_cpp.dir/build.make puzzlebot_control/CMakeFiles/actionlib_generate_messages_cpp.dir/build
 .PHONY : actionlib_generate_messages_cpp/fast
 
 # Convenience name for target.
+puzzlebot_control/CMakeFiles/tf_generate_messages_eus.dir/rule:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/CMakeFiles/tf_generate_messages_eus.dir/rule
+.PHONY : puzzlebot_control/CMakeFiles/tf_generate_messages_eus.dir/rule
+
+# Convenience name for target.
+tf_generate_messages_eus: puzzlebot_control/CMakeFiles/tf_generate_messages_eus.dir/rule
+
+.PHONY : tf_generate_messages_eus
+
+# fast build rule for target.
+tf_generate_messages_eus/fast:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f puzzlebot_control/CMakeFiles/tf_generate_messages_eus.dir/build.make puzzlebot_control/CMakeFiles/tf_generate_messages_eus.dir/build
+.PHONY : tf_generate_messages_eus/fast
+
+# Convenience name for target.
+puzzlebot_control/CMakeFiles/actionlib_generate_messages_eus.dir/rule:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/CMakeFiles/actionlib_generate_messages_eus.dir/rule
+.PHONY : puzzlebot_control/CMakeFiles/actionlib_generate_messages_eus.dir/rule
+
+# Convenience name for target.
+actionlib_generate_messages_eus: puzzlebot_control/CMakeFiles/actionlib_generate_messages_eus.dir/rule
+
+.PHONY : actionlib_generate_messages_eus
+
+# fast build rule for target.
+actionlib_generate_messages_eus/fast:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f puzzlebot_control/CMakeFiles/actionlib_generate_messages_eus.dir/build.make puzzlebot_control/CMakeFiles/actionlib_generate_messages_eus.dir/build
+.PHONY : actionlib_generate_messages_eus/fast
+
+# Convenience name for target.
 puzzlebot_control/CMakeFiles/actionlib_generate_messages_lisp.dir/rule:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/CMakeFiles/actionlib_generate_messages_lisp.dir/rule
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/CMakeFiles/actionlib_generate_messages_lisp.dir/rule
 .PHONY : puzzlebot_control/CMakeFiles/actionlib_generate_messages_lisp.dir/rule
 
 # Convenience name for target.
@@ -434,12 +254,12 @@ actionlib_generate_messages_lisp: puzzlebot_control/CMakeFiles/actionlib_generat
 
 # fast build rule for target.
 actionlib_generate_messages_lisp/fast:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f puzzlebot_control/CMakeFiles/actionlib_generate_messages_lisp.dir/build.make puzzlebot_control/CMakeFiles/actionlib_generate_messages_lisp.dir/build
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f puzzlebot_control/CMakeFiles/actionlib_generate_messages_lisp.dir/build.make puzzlebot_control/CMakeFiles/actionlib_generate_messages_lisp.dir/build
 .PHONY : actionlib_generate_messages_lisp/fast
 
 # Convenience name for target.
 puzzlebot_control/CMakeFiles/actionlib_generate_messages_nodejs.dir/rule:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/CMakeFiles/actionlib_generate_messages_nodejs.dir/rule
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/CMakeFiles/actionlib_generate_messages_nodejs.dir/rule
 .PHONY : puzzlebot_control/CMakeFiles/actionlib_generate_messages_nodejs.dir/rule
 
 # Convenience name for target.
@@ -449,12 +269,72 @@ actionlib_generate_messages_nodejs: puzzlebot_control/CMakeFiles/actionlib_gener
 
 # fast build rule for target.
 actionlib_generate_messages_nodejs/fast:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f puzzlebot_control/CMakeFiles/actionlib_generate_messages_nodejs.dir/build.make puzzlebot_control/CMakeFiles/actionlib_generate_messages_nodejs.dir/build
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f puzzlebot_control/CMakeFiles/actionlib_generate_messages_nodejs.dir/build.make puzzlebot_control/CMakeFiles/actionlib_generate_messages_nodejs.dir/build
 .PHONY : actionlib_generate_messages_nodejs/fast
 
 # Convenience name for target.
+puzzlebot_control/CMakeFiles/tf_generate_messages_lisp.dir/rule:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/CMakeFiles/tf_generate_messages_lisp.dir/rule
+.PHONY : puzzlebot_control/CMakeFiles/tf_generate_messages_lisp.dir/rule
+
+# Convenience name for target.
+tf_generate_messages_lisp: puzzlebot_control/CMakeFiles/tf_generate_messages_lisp.dir/rule
+
+.PHONY : tf_generate_messages_lisp
+
+# fast build rule for target.
+tf_generate_messages_lisp/fast:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f puzzlebot_control/CMakeFiles/tf_generate_messages_lisp.dir/build.make puzzlebot_control/CMakeFiles/tf_generate_messages_lisp.dir/build
+.PHONY : tf_generate_messages_lisp/fast
+
+# Convenience name for target.
+puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_eus.dir/rule:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_eus.dir/rule
+.PHONY : puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_eus.dir/rule
+
+# Convenience name for target.
+tf2_msgs_generate_messages_eus: puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_eus.dir/rule
+
+.PHONY : tf2_msgs_generate_messages_eus
+
+# fast build rule for target.
+tf2_msgs_generate_messages_eus/fast:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_eus.dir/build.make puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_eus.dir/build
+.PHONY : tf2_msgs_generate_messages_eus/fast
+
+# Convenience name for target.
+puzzlebot_control/CMakeFiles/tf_generate_messages_nodejs.dir/rule:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/CMakeFiles/tf_generate_messages_nodejs.dir/rule
+.PHONY : puzzlebot_control/CMakeFiles/tf_generate_messages_nodejs.dir/rule
+
+# Convenience name for target.
+tf_generate_messages_nodejs: puzzlebot_control/CMakeFiles/tf_generate_messages_nodejs.dir/rule
+
+.PHONY : tf_generate_messages_nodejs
+
+# fast build rule for target.
+tf_generate_messages_nodejs/fast:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f puzzlebot_control/CMakeFiles/tf_generate_messages_nodejs.dir/build.make puzzlebot_control/CMakeFiles/tf_generate_messages_nodejs.dir/build
+.PHONY : tf_generate_messages_nodejs/fast
+
+# Convenience name for target.
+puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/rule:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/rule
+.PHONY : puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/rule
+
+# Convenience name for target.
+tf2_msgs_generate_messages_nodejs: puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/rule
+
+.PHONY : tf2_msgs_generate_messages_nodejs
+
+# fast build rule for target.
+tf2_msgs_generate_messages_nodejs/fast:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/build.make puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/build
+.PHONY : tf2_msgs_generate_messages_nodejs/fast
+
+# Convenience name for target.
 puzzlebot_control/CMakeFiles/actionlib_generate_messages_py.dir/rule:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/CMakeFiles/actionlib_generate_messages_py.dir/rule
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/CMakeFiles/actionlib_generate_messages_py.dir/rule
 .PHONY : puzzlebot_control/CMakeFiles/actionlib_generate_messages_py.dir/rule
 
 # Convenience name for target.
@@ -464,12 +344,27 @@ actionlib_generate_messages_py: puzzlebot_control/CMakeFiles/actionlib_generate_
 
 # fast build rule for target.
 actionlib_generate_messages_py/fast:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f puzzlebot_control/CMakeFiles/actionlib_generate_messages_py.dir/build.make puzzlebot_control/CMakeFiles/actionlib_generate_messages_py.dir/build
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f puzzlebot_control/CMakeFiles/actionlib_generate_messages_py.dir/build.make puzzlebot_control/CMakeFiles/actionlib_generate_messages_py.dir/build
 .PHONY : actionlib_generate_messages_py/fast
 
 # Convenience name for target.
+puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/rule:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/rule
+.PHONY : puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/rule
+
+# Convenience name for target.
+tf2_msgs_generate_messages_lisp: puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/rule
+
+.PHONY : tf2_msgs_generate_messages_lisp
+
+# fast build rule for target.
+tf2_msgs_generate_messages_lisp/fast:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/build.make puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/build
+.PHONY : tf2_msgs_generate_messages_lisp/fast
+
+# Convenience name for target.
 puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_cpp.dir/rule:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_cpp.dir/rule
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_cpp.dir/rule
 .PHONY : puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_cpp.dir/rule
 
 # Convenience name for target.
@@ -479,8 +374,38 @@ tf2_msgs_generate_messages_cpp: puzzlebot_control/CMakeFiles/tf2_msgs_generate_m
 
 # fast build rule for target.
 tf2_msgs_generate_messages_cpp/fast:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_cpp.dir/build.make puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_cpp.dir/build
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_cpp.dir/build.make puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_cpp.dir/build
 .PHONY : tf2_msgs_generate_messages_cpp/fast
+
+# Convenience name for target.
+puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_py.dir/rule:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_py.dir/rule
+.PHONY : puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_py.dir/rule
+
+# Convenience name for target.
+tf2_msgs_generate_messages_py: puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_py.dir/rule
+
+.PHONY : tf2_msgs_generate_messages_py
+
+# fast build rule for target.
+tf2_msgs_generate_messages_py/fast:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_py.dir/build.make puzzlebot_control/CMakeFiles/tf2_msgs_generate_messages_py.dir/build
+.PHONY : tf2_msgs_generate_messages_py/fast
+
+# Convenience name for target.
+puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/rule:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f CMakeFiles/Makefile2 puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/rule
+.PHONY : puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/rule
+
+# Convenience name for target.
+puzzlebot_control_node: puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/rule
+
+.PHONY : puzzlebot_control_node
+
+# fast build rule for target.
+puzzlebot_control_node/fast:
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/build.make puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/build
+.PHONY : puzzlebot_control_node/fast
 
 src/puzzlebot_control_node.o: src/puzzlebot_control_node.cpp.o
 
@@ -488,7 +413,7 @@ src/puzzlebot_control_node.o: src/puzzlebot_control_node.cpp.o
 
 # target to build an object file
 src/puzzlebot_control_node.cpp.o:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/build.make puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/src/puzzlebot_control_node.cpp.o
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/build.make puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/src/puzzlebot_control_node.cpp.o
 .PHONY : src/puzzlebot_control_node.cpp.o
 
 src/puzzlebot_control_node.i: src/puzzlebot_control_node.cpp.i
@@ -497,7 +422,7 @@ src/puzzlebot_control_node.i: src/puzzlebot_control_node.cpp.i
 
 # target to preprocess a source file
 src/puzzlebot_control_node.cpp.i:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/build.make puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/src/puzzlebot_control_node.cpp.i
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/build.make puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/src/puzzlebot_control_node.cpp.i
 .PHONY : src/puzzlebot_control_node.cpp.i
 
 src/puzzlebot_control_node.s: src/puzzlebot_control_node.cpp.s
@@ -506,7 +431,7 @@ src/puzzlebot_control_node.s: src/puzzlebot_control_node.cpp.s
 
 # target to generate assembly for a file
 src/puzzlebot_control_node.cpp.s:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(MAKE) -f puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/build.make puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/src/puzzlebot_control_node.cpp.s
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(MAKE) -f puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/build.make puzzlebot_control/CMakeFiles/puzzlebot_control_node.dir/src/puzzlebot_control_node.cpp.s
 .PHONY : src/puzzlebot_control_node.cpp.s
 
 # Help Target
@@ -516,33 +441,28 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... list_install_components"
-	@echo "... test"
-	@echo "... puzzlebot_control_node"
-	@echo "... tf2_msgs_generate_messages_lisp"
-	@echo "... tf2_msgs_generate_messages_py"
-	@echo "... sensor_msgs_generate_messages_py"
-	@echo "... actionlib_generate_messages_eus"
-	@echo "... sensor_msgs_generate_messages_nodejs"
-	@echo "... edit_cache"
-	@echo "... tf2_msgs_generate_messages_eus"
-	@echo "... tf_generate_messages_lisp"
 	@echo "... rebuild_cache"
-	@echo "... sensor_msgs_generate_messages_lisp"
-	@echo "... sensor_msgs_generate_messages_cpp"
+	@echo "... test"
+	@echo "... tf_generate_messages_py"
 	@echo "... tf_generate_messages_cpp"
-	@echo "... sensor_msgs_generate_messages_eus"
+	@echo "... actionlib_generate_messages_cpp"
 	@echo "... install"
 	@echo "... tf_generate_messages_eus"
-	@echo "... install/local"
-	@echo "... tf2_msgs_generate_messages_nodejs"
-	@echo "... tf_generate_messages_nodejs"
-	@echo "... tf_generate_messages_py"
-	@echo "... actionlib_generate_messages_cpp"
+	@echo "... actionlib_generate_messages_eus"
 	@echo "... actionlib_generate_messages_lisp"
 	@echo "... actionlib_generate_messages_nodejs"
+	@echo "... edit_cache"
+	@echo "... tf_generate_messages_lisp"
+	@echo "... tf2_msgs_generate_messages_eus"
+	@echo "... install/local"
+	@echo "... tf_generate_messages_nodejs"
+	@echo "... tf2_msgs_generate_messages_nodejs"
 	@echo "... actionlib_generate_messages_py"
+	@echo "... tf2_msgs_generate_messages_lisp"
 	@echo "... install/strip"
 	@echo "... tf2_msgs_generate_messages_cpp"
+	@echo "... tf2_msgs_generate_messages_py"
+	@echo "... puzzlebot_control_node"
 	@echo "... src/puzzlebot_control_node.o"
 	@echo "... src/puzzlebot_control_node.i"
 	@echo "... src/puzzlebot_control_node.s"
@@ -557,6 +477,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

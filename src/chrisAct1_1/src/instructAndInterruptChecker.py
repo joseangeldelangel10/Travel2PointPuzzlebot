@@ -9,7 +9,7 @@ from std_srvs.srv import Empty, EmptyRequest
 #from roseus.msg import StringStamped
 
 #Creamos la clase
-class mainController():
+class iois_checker():
     def __init__(self):
         #Inicializamos el nodo
         rospy.init_node("instructAndInterruptChecker")
@@ -101,8 +101,8 @@ class mainController():
 
 #Si el archivo es corrido directametne y no llamado desde otro archivo corremos
 if __name__ == "__main__":
-    controller = mainController()
-    controller.main()
+    checker = iois_checker()
+    checker.main()
 
             
     #mov.main()
