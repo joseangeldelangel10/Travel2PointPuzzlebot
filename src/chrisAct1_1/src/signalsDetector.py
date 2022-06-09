@@ -6,9 +6,9 @@ import tensorflow as tf
 from tensorflow.keras.models import load_model
 import rospy
 from sensor_msgs.msg import Image
-from std_msgs.msg import String
+from std_msgs.msg import String, Header
 import cv2 as cv
-import cv_bridge
+#import cv_bridge
 #from roseus.msg import StringStamped
 
 #Creamos la clase
@@ -46,7 +46,7 @@ class trafficSignalsDetector():
         self.image = None                
         self.curr_signs_msg = String()
         self.curr_signs_image_msg = Image()
-        self.bridge = cv_bridge.CvBridge()
+        #self.bridge = cv_bridge.CvBridge()
 
         #Declaramos que vamos a mandar 20 mensajes por segundo.
         self.rate = rospy.Rate(1)
@@ -76,14 +76,44 @@ class trafficSignalsDetector():
         elif classNo == 2: return 'roundobout'
         elif classNo == 3: return 'turn right ahead sign'
         elif classNo == 4: return 'turn left ahead sign'
-        elif classNo == 5: return 'end of prhibition sign'        
+        elif classNo == 5: return 'end of prhibition sign'
+
+    def imgmsg_to_cv2(self, ros_image):
+        if ros_image.encoding == "bgr8" and ros_image.is_bigendian == 0:
+            cv_img = np.array(list(ros_image.data), dtype= np.uint8)
+            cv_img = np.reshape(cv_img, (ros_image.height, ros_image.step))
+            cv_img = np.reshape(cv_img, (ros_image.height, ros_image.width, int(ros_image.step/ros_image.width) ) )
+        else:
+            cv_img = None
+            raise Exception("Error while convering ros image message to a cv image")                  
+        return cv_img
+
+    def cv2_to_imgmsg(self, image, encoding = "bgr8"):
+        #print("cv2_to_imgmsg image shape is:" + str(image.shape))
+        if encoding == "bgr8":
+            self.curr_signs_image_msg.header = Header()
+            self.curr_signs_image_msg.height = image.shape[0]
+            self.curr_signs_image_msg.width = image.shape[1]
+            self.curr_signs_image_msg.encoding = encoding
+            self.curr_signs_image_msg.is_bigendian = 0
+            self.curr_signs_image_msg.step = image.shape[1]*image.shape[2]
+
+            data = np.reshape(image, (self.curr_signs_image_msg.height, self.curr_signs_image_msg.step) )
+            data = np.reshape(image, (self.curr_signs_image_msg.height*self.curr_signs_image_msg.step) )
+            data = list(data)
+            self.curr_signs_image_msg.data = data
+            return self.curr_signs_image_msg
+        else:            
+            raise Exception("Error while convering cv image to ros message") 
+            return None
+
 
     def main(self):
         while not rospy.is_shutdown():
-            print("starting main")
+            #print("starting main")
             if self.image != None:
-                print("image is different to none")                            
-                self.cv_original_image = self.bridge.imgmsg_to_cv2(self.image, desired_encoding="bgr8")
+                #print("image is different to none")                            
+                self.cv_original_image = self.imgmsg_to_cv2(self.image)
                 self.cv_original_image = cv.rotate(self.cv_original_image,cv.ROTATE_180)
                 (originalWidth, originalHeight, _) = self.cv_original_image.shape
                 self.newWidth = int((1.0/2.0)*(originalWidth))
@@ -109,9 +139,9 @@ class trafficSignalsDetector():
                 redHexagons = self.red_hexagons_classifier.detectMultiScale(red, scaleFactor=1.1, minNeighbors=350, minSize=(40,40))
                 blueCircles = self.blue_circles_classifier.detectMultiScale(blue, scaleFactor=1.1, minNeighbors=700, minSize=(40,40))
                 blackCircles = self.black_circles_classifier.detectMultiScale(black, scaleFactor=1.1, minNeighbors=300, minSize=(40,40))
-                print("{n} red hexagons where fornd".format(n=len(redHexagons)) )
-                print("{n} blue circles where fornd".format(n=len(blueCircles)) )
-                print("{n} blackCircles where fornd".format(n=len(blackCircles)) )
+                #print("{n} red hexagons where fornd".format(n=len(redHexagons)) )
+                #print("{n} blue circles where fornd".format(n=len(blueCircles)) )
+                #print("{n} blackCircles where fornd".format(n=len(blackCircles)) )
 
                 for (x,y,w,h) in redHexagons:                                    
                     red_hexagon_roi = self.cv_image[y:y+h,x:x+w]
@@ -159,7 +189,7 @@ class trafficSignalsDetector():
                 self.curr_signs_msg.data = self.array2string(self.curr_traffic_signs)
                 self.pub_curr_signs.publish(self.curr_signs_msg)
                 self.curr_traffic_signs = []
-                self.curr_signs_image_msg = self.bridge.cv2_to_imgmsg(self.final_detection, encoding = "bgr8")
+                self.curr_signs_image_msg = self.cv2_to_imgmsg(self.final_detection, encoding = "bgr8")
                 self.pub_curr_signs_image.publish(self.curr_signs_image_msg)
             self.rate.sleep()
 
