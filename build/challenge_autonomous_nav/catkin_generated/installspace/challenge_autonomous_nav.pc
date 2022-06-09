@@ -1,4 +1,4 @@
-prefix=/home/jose/Documents/6toSemestre/chrisAct1/install
+prefix=/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/install
 
 Name: challenge_autonomous_nav
 Description: Description of challenge_autonomous_nav
