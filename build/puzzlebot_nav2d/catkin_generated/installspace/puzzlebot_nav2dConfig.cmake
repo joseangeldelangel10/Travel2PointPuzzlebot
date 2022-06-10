@@ -67,14 +67,14 @@ set(puzzlebot_nav2d_CONFIG_INCLUDED TRUE)
 
 # set variables for source/devel/install prefixes
 if("FALSE" STREQUAL "TRUE")
-  set(puzzlebot_nav2d_SOURCE_PREFIX /home/jose/Documents/6toSemestre/chrisAct1/src/puzzlebot_nav2d)
-  set(puzzlebot_nav2d_DEVEL_PREFIX /home/jose/Documents/6toSemestre/chrisAct1/devel)
+  set(puzzlebot_nav2d_SOURCE_PREFIX /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/src/puzzlebot_nav2d)
+  set(puzzlebot_nav2d_DEVEL_PREFIX /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/devel)
   set(puzzlebot_nav2d_INSTALL_PREFIX "")
   set(puzzlebot_nav2d_PREFIX ${puzzlebot_nav2d_DEVEL_PREFIX})
 else()
   set(puzzlebot_nav2d_SOURCE_PREFIX "")
   set(puzzlebot_nav2d_DEVEL_PREFIX "")
-  set(puzzlebot_nav2d_INSTALL_PREFIX /home/jose/Documents/6toSemestre/chrisAct1/install)
+  set(puzzlebot_nav2d_INSTALL_PREFIX /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/install)
   set(puzzlebot_nav2d_PREFIX ${puzzlebot_nav2d_INSTALL_PREFIX})
 endif()
 
@@ -154,7 +154,7 @@ foreach(library ${libraries})
     set(lib_path "")
     set(lib "${library}-NOTFOUND")
     # since the path where the library is found is returned we have to iterate over the paths manually
-    foreach(path /home/jose/Documents/6toSemestre/chrisAct1/install/lib;/home/jose/Documents/6toSemestre/chrisAct1/devel/lib;/opt/ros/melodic/lib)
+    foreach(path /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/install/lib;/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/devel/lib;/opt/ros/melodic/lib)
       find_library(lib ${library}
         PATHS ${path}
         NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)

@@ -140,7 +140,7 @@ print(dist)   # Distortion coefficients
 #Optimization of a distorted image (radial distortion example No.1)
 img_d1 = cv.imread('./calibration_4.png')
 h,w = img_d1.shape[:2]
-newcameramtx, roi = cv.getOptimalNewCameraMatrix(mtx, dist, (w,h), 1, (w,h))
+newcameramtx, roi = cv.getOptimalNewCameraMatrix(mtx, dist*(1/8), (w,h), 1, (w,h))
 
 #Undistort
 dst_1 = cv.undistort(img_d1, mtx, dist, None, newcameramtx) 
@@ -160,7 +160,7 @@ plt.title('Corrected Image (Example No. 1)');
 #Optimization of a distorted image (radial distortion example No.2)
 img_d2 = cv.imread('./stop.png')
 h,w = img_d2.shape[:2]
-newcameramtx, roi = cv.getOptimalNewCameraMatrix(mtx, dist, (w,h), 1, (w,h))
+newcameramtx, roi = cv.getOptimalNewCameraMatrix(mtx*0.9, dist*(1/2), (w,h), 1, (w,h))
 
 #Undistort
 dst_2 = cv.undistort(img_d2, mtx, dist, None, newcameramtx)

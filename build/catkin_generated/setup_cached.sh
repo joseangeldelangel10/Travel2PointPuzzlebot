@@ -9,5 +9,5 @@
 # modified environment variables
 export LD_LIBRARY_PATH='/opt/ros/melodic/lib'
 export PKG_CONFIG_PATH='/opt/ros/melodic/lib/pkgconfig'
-export PWD='/home/jose/Documents/6toSemestre/chrisAct1/build'
-export ROS_PACKAGE_PATH='/home/jose/Documents/6toSemestre/chrisAct1/src:/opt/ros/melodic/share'
+export PWD='/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build'
+export ROS_PACKAGE_PATH='/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/src:/opt/ros/melodic/share'
