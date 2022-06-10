@@ -25,9 +25,12 @@ class trafficSignalsDetector():
         
         self.curr_traffic_signs = []
         self.kernel = np.ones((5,5), np.uint8)
-        self.red_hexagons_classifier = cv.CascadeClassifier("/home/jose/Documents/6toSemestre/chrisAct1/src/challenge_autonomous_nav/ai_models/haar/redHexagons.xml")
+        """self.red_hexagons_classifier = cv.CascadeClassifier("/home/jose/Documents/6toSemestre/chrisAct1/src/challenge_autonomous_nav/ai_models/haar/redHexagons.xml")
         self.blue_circles_classifier = cv.CascadeClassifier("/home/jose/Documents/6toSemestre/chrisAct1/src/challenge_autonomous_nav/ai_models/haar/blueCircles.xml")
-        self.black_circles_classifier = cv.CascadeClassifier("/home/jose/Documents/6toSemestre/chrisAct1/src/challenge_autonomous_nav/ai_models/haar/blackCircles.xml")
+        self.black_circles_classifier = cv.CascadeClassifier("/home/jose/Documents/6toSemestre/chrisAct1/src/challenge_autonomous_nav/ai_models/haar/blackCircles.xml")"""
+        self.stopSignClassifier = cv.CascadeClassifier("/home/jose/Documents/6toSemestre/chrisAct1/src/challenge_autonomous_nav/ai_models/haar/stopSign.xml")
+        self.goStraightClassifier = cv.CascadeClassifier("/home/jose/Documents/6toSemestre/chrisAct1/src/challenge_autonomous_nav/ai_models/haar/goStraight.xml")
+        self.turnRightAheadClassifier = cv.CascadeClassifier("/home/jose/Documents/6toSemestre/chrisAct1/src/challenge_autonomous_nav/ai_models/haar/blueCircles.xml")
         print("casscade classifiers loaded")
         self.cnn_model = load_model("/home/jose/Documents/6toSemestre/chrisAct1/src/challenge_autonomous_nav/ai_models/cnns/traffic_signs_cnn_model_5/my_model")
         print("cnn loaded")
@@ -77,6 +80,9 @@ class trafficSignalsDetector():
         elif classNo == 3: return 'turn right ahead sign'
         elif classNo == 4: return 'turn left ahead sign'
         elif classNo == 5: return 'end of prhibition sign'
+        """if   classNo == 0: return 'stop sign'
+        elif classNo == 1: return 'straigth sign'
+        elif classNo == 2: return 'turn right ahead sign'"""        
 
     def imgmsg_to_cv2(self, ros_image):
         if ros_image.encoding == "bgr8" and ros_image.is_bigendian == 0:
@@ -136,14 +142,16 @@ class trafficSignalsDetector():
                 _,black = cv.threshold(black, 128, 255, cv.THRESH_BINARY_INV)    
                 black = cv.dilate(black, self.kernel, iterations=1) 
 
-                redHexagons = self.red_hexagons_classifier.detectMultiScale(red, scaleFactor=1.1, minNeighbors=350, minSize=(40,40))
+                """redHexagons = self.red_hexagons_classifier.detectMultiScale(red, scaleFactor=1.1, minNeighbors=350, minSize=(40,40))
                 blueCircles = self.blue_circles_classifier.detectMultiScale(blue, scaleFactor=1.1, minNeighbors=700, minSize=(40,40))
-                blackCircles = self.black_circles_classifier.detectMultiScale(black, scaleFactor=1.1, minNeighbors=300, minSize=(40,40))
-                #print("{n} red hexagons where fornd".format(n=len(redHexagons)) )
-                #print("{n} blue circles where fornd".format(n=len(blueCircles)) )
-                #print("{n} blackCircles where fornd".format(n=len(blackCircles)) )
+                blackCircles = self.black_circles_classifier.detectMultiScale(black, scaleFactor=1.1, minNeighbors=300, minSize=(40,40))"""
+                
+                stopSignsHC = self.stopSignClassifier.detectMultiScale(red, scaleFactor=1.1, minNeighbors=100, minSize=(20,20))
+                goStraightSignsHC = self.goStraightClassifier.detectMultiScale(blue, scaleFactor=1.1, minNeighbors=50, minSize=(20,20))
+                turnRightAheadSignsHC = self.turnRightAheadClassifier.detectMultiScale(blue, scaleFactor=1.1, minNeighbors=150, minSize=(20,20))
 
-                for (x,y,w,h) in redHexagons:                                    
+
+                for (x,y,w,h) in stopSignsHC:                                    
                     red_hexagon_roi = self.cv_image[y:y+h,x:x+w]
                     red_hexagon_roi = cv.resize(red_hexagon_roi,(45,45), interpolation = cv.INTER_AREA)   
                     red_hexagon_roi = self.cnn_preprocessing(red_hexagon_roi)
@@ -152,12 +160,14 @@ class trafficSignalsDetector():
                     classIndex = np.argmax(predictions)
                     probabilityValue = np.amax(predictions)
                     className = self.getClassName(classIndex)
+                    #cv.rectangle(self.final_detection, (x,y),(x+w,y+h),(0,0,255),2)
+                    #cv.putText(self.final_detection,'stop sign, prob={prob:.2f}'.format(class_name=className, prob=probabilityValue),(x,y-10),2,0.7,(0,0,255),2,cv.LINE_AA)
                     if probabilityValue > self.cnn_probability_threshold and className == "stop sign":
                         cv.rectangle(self.final_detection, (x,y),(x+w,y+h),(0,0,255),2)
                         cv.putText(self.final_detection,'{class_name}, prob={prob:.2f}'.format(class_name=className, prob=probabilityValue),(x,y-10),2,0.7,(0,0,255),2,cv.LINE_AA)
                         self.curr_traffic_signs.append(className)
 
-                for (x,y,w,h) in blueCircles:
+                for (x,y,w,h) in goStraightSignsHC:
                     blue_circle_roi = self.cv_image[y:y+h,x:x+w]
                     blue_circle_roi = cv.resize(blue_circle_roi,(45,45), interpolation = cv.INTER_AREA)   
                     blue_circle_roi = self.cnn_preprocessing(blue_circle_roi)
@@ -166,25 +176,29 @@ class trafficSignalsDetector():
                     classIndex = np.argmax(predictions)
                     probabilityValue = np.amax(predictions)
                     className = self.getClassName(classIndex)
-                    if probabilityValue > self.cnn_probability_threshold and (className == "straigth sign" or className == "roundobout" or className == "turn right ahead sign" or className == "turn left ahead sign"):
+                    #cv.rectangle(self.final_detection, (x,y),(x+w,y+h),(255,0,0),2)
+                    #cv.putText(self.final_detection,'go straight, prob={prob:.2f}'.format(class_name=className, prob=probabilityValue),(x,y-10),2,0.7,(0,0,255),2,cv.LINE_AA)
+                    if probabilityValue > self.cnn_probability_threshold and (className == "straigth sign"):
                         cv.rectangle(self.final_detection, (x,y),(x+w,y+h),(255,0,0),2)
                         cv.putText(self.final_detection,'{class_name}, prob={prob:.2f}'.format(class_name=className, prob=probabilityValue),(x,y-10),2,0.7,(255,0,0),2,cv.LINE_AA)
                         self.curr_traffic_signs.append(className)
 
-
-                for (x,y,w,h) in blackCircles:
-                    black_circle_roi = self.cv_image[y:y+h,x:x+w]
-                    black_circle_roi = cv.resize(black_circle_roi,(45,45), interpolation = cv.INTER_AREA)   
-                    black_circle_roi = self.cnn_preprocessing(black_circle_roi)
-                    black_circle_roi = black_circle_roi.reshape(1, 45, 45, 1)
-                    predictions = self.cnn_model.predict(black_circle_roi)       
+                for (x,y,w,h) in turnRightAheadSignsHC:
+                    blue_circle_roi = self.cv_image[y:y+h,x:x+w]
+                    blue_circle_roi = cv.resize(blue_circle_roi,(45,45), interpolation = cv.INTER_AREA)   
+                    blue_circle_roi = self.cnn_preprocessing(blue_circle_roi)
+                    blue_circle_roi = blue_circle_roi.reshape(1, 45, 45, 1)
+                    predictions = self.cnn_model.predict(blue_circle_roi)
                     classIndex = np.argmax(predictions)
                     probabilityValue = np.amax(predictions)
                     className = self.getClassName(classIndex)
-                    if probabilityValue > self.cnn_probability_threshold and (className == "end of prhibition sign"):
-                        cv.rectangle(self.final_detection, (x,y),(x+w,y+h),(0,0,0),2)
-                        cv.putText(self.final_detection,'{class_name}, prob={prob:.2f}'.format(class_name=className, prob=probabilityValue),(x,y-10),2,0.7,(0,0,0),2,cv.LINE_AA)                       
+                    #cv.rectangle(self.final_detection, (x,y),(x+w,y+h),(255,0,0),2)
+                    #cv.putText(self.final_detection,'turn right ahead, prob={prob:.2f}'.format(class_name=className, prob=probabilityValue),(x,y-10),2,0.7,(0,0,255),2,cv.LINE_AA)
+                    if probabilityValue > self.cnn_probability_threshold and (className == "turn right ahead sign"):
+                        cv.rectangle(self.final_detection, (x,y),(x+w,y+h),(255,0,0),2)
+                        cv.putText(self.final_detection,'{class_name}, prob={prob:.2f}'.format(class_name=className, prob=probabilityValue),(x,y-10),2,0.7,(255,0,0),2,cv.LINE_AA)
                         self.curr_traffic_signs.append(className)
+                
 
                 self.curr_signs_msg.data = self.array2string(self.curr_traffic_signs)
                 self.pub_curr_signs.publish(self.curr_signs_msg)
