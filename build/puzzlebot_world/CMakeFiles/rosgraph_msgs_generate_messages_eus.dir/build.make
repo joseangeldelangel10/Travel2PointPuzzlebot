@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/src
+CMAKE_SOURCE_DIR = /home/jose/Documents/6toSemestre/chrisAct1/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build
+CMAKE_BINARY_DIR = /home/jose/Documents/6toSemestre/chrisAct1/build
 
 # Utility rule file for rosgraph_msgs_generate_messages_eus.
 
@@ -63,10 +63,10 @@ puzzlebot_world/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build: rosgra
 .PHONY : puzzlebot_world/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build
 
 puzzlebot_world/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/clean:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build/puzzlebot_world && $(CMAKE_COMMAND) -P CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/cmake_clean.cmake
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build/puzzlebot_world && $(CMAKE_COMMAND) -P CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/cmake_clean.cmake
 .PHONY : puzzlebot_world/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/clean
 
 puzzlebot_world/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/depend:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/src /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/src/puzzlebot_world /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build/puzzlebot_world /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build/puzzlebot_world/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/jose/Documents/6toSemestre/chrisAct1/src /home/jose/Documents/6toSemestre/chrisAct1/src/puzzlebot_world /home/jose/Documents/6toSemestre/chrisAct1/build /home/jose/Documents/6toSemestre/chrisAct1/build/puzzlebot_world /home/jose/Documents/6toSemestre/chrisAct1/build/puzzlebot_world/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : puzzlebot_world/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/depend
 

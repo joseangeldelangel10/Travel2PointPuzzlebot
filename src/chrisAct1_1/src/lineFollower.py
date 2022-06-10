@@ -16,6 +16,7 @@ class LineFollowerController():
         rospy.init_node("LineFollowerController")
         #Creamos el publisher
         self.pub = rospy.Publisher("/cmd_vel_LF", Twist, queue_size=1)
+        #self.pub = rospy.Publisher("/cmd_vel_LF2", Twist, queue_size=1)
         self.pub_processed_img = rospy.Publisher("/processedImage/ROI", Image, queue_size=10)
         
         #Creamos los subscribers

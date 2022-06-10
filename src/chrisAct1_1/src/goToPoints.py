@@ -27,10 +27,9 @@ class MovePuzzlebot():
         self.target_index = 0
         self.targets = None
         self.curr_action = None
-        self.initializing = True
-        self.success = False 
+        self.initializing = True        
 
-        self.go_straigt_targets = [[0.5,0.0]]
+        self.go_straigt_targets = [[0.95,0.0]]
         self.turn_right_targets = [[0.30,0.0],[0.30,-0.30]]
 
         self.current_target = None
@@ -53,8 +52,7 @@ class MovePuzzlebot():
         self.target_index = 0
         self.targets = None
         self.curr_action = None
-        self.initializing = True
-        self.success = False
+        self.initializing = True        
         self.current_target = None        
         self.state = "pointingTowardsGoal"
 
@@ -81,12 +79,6 @@ class MovePuzzlebot():
         self.msg.angular.z = v_ang
         #Publicamos la velocidad
         self.pub.publish(self.msg)
-
-    def sendSuccessValue(self,value):
-        msg = Bool()
-        msg.data = value
-        self.successPub.publish(msg)
-
 
     def end_callback(self):
         """Funcion que para el puzzlebot cuando el nodo deja de ser corrido"""

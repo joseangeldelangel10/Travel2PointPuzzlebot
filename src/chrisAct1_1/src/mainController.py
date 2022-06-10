@@ -20,7 +20,7 @@ class mainController():
         self.pub_last_iois = rospy.Publisher("/last_instructions_and_interrupts", String, queue_size=1)        
         
         #Creamos los subscribers
-        self.sub_curr_ioi = rospy.Subscriber("/curr_instruction_or_interrupt",String, self.on_curr_ioi_callback)
+        self.sub_curr_ioi = rospy.Subscriber("/curr_instruction_or_interrupt",String, self.on_curr_ioi_callback)        
         self.sub_line_follower = rospy.Subscriber("/cmd_vel_LF",Twist, self.on_line_follower_vel_callback)
         self.sub_g2ps = rospy.Subscriber("/cmd_vel_g2p",Twist,self.on_go_to_points_vel_callback)        
 
@@ -36,7 +36,7 @@ class mainController():
         self.go_to_points_v = 0.0
         self.go_to_points_w = 0.0
         #self.g2ps_succeded = False
-        self.odometry_is_reseted = False
+        self.odometry_is_reseted = False        
         self.vel_mult = 1.0
         self.last_iois = []
         
@@ -137,9 +137,10 @@ class mainController():
                     if self.last_ioi_time < self.curr_ioi_time:                        
                         if self.curr_ioi_data in self.instructors:
                             self.addInstruction(self.curr_ioi_data)
-                            print("instructor detected")                                                
+                            print("instructor detected: " + self.curr_ioi_data)                                                
                         elif self.curr_ioi_data in self.speedInterruptions:
-                            print("speedInterruption detected")
+                            #elif self.curr_ioi_data in self.speedInterruptions: <------ last version that did not considered crosswalk 
+                            print("speedInterruption detected: " + self.curr_ioi_data)
                             self.delete_speed_interruptors_from_last_iois()
                             self.vel_mult = self.speedInterruptionsCoefficients[self.curr_ioi_data]
 
@@ -150,7 +151,10 @@ class mainController():
                     #is the fist iteration
                     if self.curr_ioi_data in self.instructors:
                         self.addInstruction(self.curr_ioi_data)
+                        print("instructor detected: " + self.curr_ioi_data) 
                     elif self.curr_ioi_data in self.speedInterruptions:
+                        print("speedInterruption detected: " + self.curr_ioi_data)
+                        #elif self.curr_ioi_data in self.speedInterruptions: <------ last version that did not considered crosswalk 
                         self.delete_speed_interruptors_from_last_iois()
                         self.vel_mult = self.speedInterruptionsCoefficients[self.curr_ioi_data]
                     self.last_iois.append(self.curr_ioi_data) 
@@ -163,7 +167,7 @@ class mainController():
 
             if self.action_stack[-1] == "line follower":                
                 self.publish_current_action("line follower")
-                self.publish_vel(self.line_follower_v*self.vel_mult, self.line_follower_w*self.vel_mult)
+                self.publish_vel(self.line_follower_v*self.vel_mult, self.line_follower_w)
             elif self.action_stack[-1] == "go straight":
                 # this state ends when g2ps node calls the end_g2ps service                
                 if not self.odometry_is_reseted:

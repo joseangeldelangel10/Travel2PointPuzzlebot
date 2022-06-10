@@ -17,6 +17,7 @@ class iois_checker():
         self.pub_curr_ioi = rospy.Publisher("/curr_instruction_or_interrupt", String, queue_size=1)
         
         #Creamos los subscribers
+        self.sub_crosswalk_det = rospy.Subscriber("/crosswalk_in_scene",Bool, self.on_crosswalk_in_scene_callback)
         self.sub_curr_ioi = rospy.Subscriber("/last_instructions_and_interrupts",String, self.on_last_iois_callback)
         self.sub_line_follower = rospy.Subscriber("/curr_traffic_lights",String, self.on_curr_traffic_light)
         self.sub_g2ps = rospy.Subscriber("/curr_traffic_signs",String,self.on_curr_traffic_signs)
@@ -27,6 +28,7 @@ class iois_checker():
         self.curr_traffic_signs = []
         self.curr_iois = []
         self.last_iois = []
+        self.crosswalk_in_scene = False
         
         self.curr_ioi_msg = String()
         
@@ -42,7 +44,10 @@ class iois_checker():
         rospy.on_shutdown(self.end_callback)
 
     def on_last_iois_callback(self, data):
-        self.last_iois = eval(data.data)        
+        self.last_iois = eval(data.data)
+
+    def on_crosswalk_in_scene_callback(self, data):
+        self.crosswalk_in_scene = data.data        
 
     def on_curr_traffic_light(self, data):
         self.curr_traffic_lights = eval(data.data)        
@@ -66,11 +71,11 @@ class iois_checker():
         if "turn right ahead sign" in iois:
             self.prorize_result.append("turn right ahead sign")
         if  "red traffic light" in iois or "yellow traffic light" in iois or "green traffic light" in iois:
-            if "red traffic light" in iois:
+            if "red traffic light" in iois and self.crosswalk_in_scene:                 
                 self.prorize_result.append("red traffic light")
-            elif "yellow traffic light" in iois:
+            elif "yellow traffic light" in iois and self.crosswalk_in_scene:
                 self.prorize_result.append("yellow traffic light")
-            elif "green traffic light" in iois:
+            elif "green traffic light" in iois and self.crosswalk_in_scene:
                 self.prorize_result.append("green traffic light")
         if "stop sign" in iois:
             self.prorize_result.append("stop sign")
@@ -79,6 +84,7 @@ class iois_checker():
         return self.prorize_result
         
     def compare_curr_iois_with_last_iois(self,curr, last):
+        #self.compare_result = []
         self.compare_result = [i for i in curr if i not in last]
         # we remove iois in current iois that are already in last iois
         return self.compare_result

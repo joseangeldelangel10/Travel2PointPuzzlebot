@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/src
+CMAKE_SOURCE_DIR = /home/jose/Documents/6toSemestre/chrisAct1/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build
+CMAKE_BINARY_DIR = /home/jose/Documents/6toSemestre/chrisAct1/build
 
 # Utility rule file for trajectory_msgs_generate_messages_nodejs.
 
@@ -63,10 +63,10 @@ puzzlebot_gazebo/CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/build: 
 .PHONY : puzzlebot_gazebo/CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/build
 
 puzzlebot_gazebo/CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/clean:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build/puzzlebot_gazebo && $(CMAKE_COMMAND) -P CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/cmake_clean.cmake
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build/puzzlebot_gazebo && $(CMAKE_COMMAND) -P CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/cmake_clean.cmake
 .PHONY : puzzlebot_gazebo/CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/clean
 
 puzzlebot_gazebo/CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/depend:
-	cd /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/src /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/src/puzzlebot_gazebo /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build/puzzlebot_gazebo /home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/build/puzzlebot_gazebo/CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/jose/Documents/6toSemestre/chrisAct1/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/jose/Documents/6toSemestre/chrisAct1/src /home/jose/Documents/6toSemestre/chrisAct1/src/puzzlebot_gazebo /home/jose/Documents/6toSemestre/chrisAct1/build /home/jose/Documents/6toSemestre/chrisAct1/build/puzzlebot_gazebo /home/jose/Documents/6toSemestre/chrisAct1/build/puzzlebot_gazebo/CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : puzzlebot_gazebo/CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/depend
 

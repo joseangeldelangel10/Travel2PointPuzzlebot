@@ -1,4 +1,4 @@
-prefix=/home/leonardonavacastellanos/Documents/Tec/SextoSemestre/RoboticaInteligente/actividadesManchester/Travel2PointPuzzlebot/install
+prefix=/home/jose/Documents/6toSemestre/chrisAct1/install
 
 Name: puzzlebot_control
 Description: Description of puzzlebot_control

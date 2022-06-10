@@ -75,13 +75,13 @@ class trafficSignalsDetector():
 
     def getClassName(self, classNo):        
         if   classNo == 0: return 'stop sign'
-        elif classNo == 1: return 'straigth sign'
+        elif classNo == 1: return 'straight sign'
         elif classNo == 2: return 'roundobout'
         elif classNo == 3: return 'turn right ahead sign'
         elif classNo == 4: return 'turn left ahead sign'
         elif classNo == 5: return 'end of prhibition sign'
         """if   classNo == 0: return 'stop sign'
-        elif classNo == 1: return 'straigth sign'
+        elif classNo == 1: return 'straight sign'
         elif classNo == 2: return 'turn right ahead sign'"""        
 
     def imgmsg_to_cv2(self, ros_image):
@@ -178,7 +178,7 @@ class trafficSignalsDetector():
                     className = self.getClassName(classIndex)
                     #cv.rectangle(self.final_detection, (x,y),(x+w,y+h),(255,0,0),2)
                     #cv.putText(self.final_detection,'go straight, prob={prob:.2f}'.format(class_name=className, prob=probabilityValue),(x,y-10),2,0.7,(0,0,255),2,cv.LINE_AA)
-                    if probabilityValue > self.cnn_probability_threshold and (className == "straigth sign"):
+                    if probabilityValue > self.cnn_probability_threshold and (className == "straight sign"):
                         cv.rectangle(self.final_detection, (x,y),(x+w,y+h),(255,0,0),2)
                         cv.putText(self.final_detection,'{class_name}, prob={prob:.2f}'.format(class_name=className, prob=probabilityValue),(x,y-10),2,0.7,(255,0,0),2,cv.LINE_AA)
                         self.curr_traffic_signs.append(className)
