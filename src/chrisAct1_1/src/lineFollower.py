@@ -143,7 +143,7 @@ class LineFollowerController():
         res_y = None
         if len(blobs) >= 1:
             for blob in blobs:
-                if blob[2]*blob[3] > (image_height*image_width)*(1/10):
+                if blob[2]*blob[3] > (image_height*image_width)*(1/100):
                     cord_x = blob[0]
                     cord_y = blob[1]
                     dist = np.sqrt((cord_x-self.last_point[0])**2 + (cord_y-self.last_point[1])**2)

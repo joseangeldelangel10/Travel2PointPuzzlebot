@@ -15,7 +15,7 @@ class MovePuzzlebot():
         self.pub = rospy.Publisher("/cmd_vel_g2p", Twist, queue_size=1)        
         
         self.subPose = rospy.Subscriber("/pose2d",Pose2D,self.odom_callback)
-        self.subMode = rospy.Subscriber("/g2p_mode", String, self.mode_callback)
+        #self.subMode = rospy.Subscriber("/g2p_mode", String, self.mode_callback)
         self.subCurrAction = rospy.Subscriber("/curr_action", String, self.curr_action_callback)
 
         #Declaramos que vamos a mandar 20 mensajes por segundo.
@@ -23,7 +23,7 @@ class MovePuzzlebot():
         self.msg = Twist()
 
         self.current_pose = None
-        self.g2p_mode = None
+        #self.g2p_mode = None
         self.target_index = 0
         self.targets = None
         self.curr_action = None
@@ -45,32 +45,45 @@ class MovePuzzlebot():
         #Creamos un función de que hacer cuando haya un shutdown
         rospy.on_shutdown(self.end_callback)
 
-    def reset(self):
-        mov.move(0.0,0.0)
-        self.current_pose = None
-        self.g2p_mode = None
+    def reset(self):        
+        #self.current_pose = None
+        #self.g2p_mode = None
         self.target_index = 0
         self.targets = None
         self.curr_action = None
         self.initializing = True        
         self.current_target = None        
         self.state = "pointingTowardsGoal"
+        mov.move(0.0,0.0)
 
     def odom_callback(self, odom):
         self.current_pose = odom
 
-    def mode_callback(self, data_string):
-        if self.initializing:
+    """def mode_callback(self, data_string):
+        if self.initializing and self.curr_action=="go to point":
             self.g2p_mode = data_string.data
             if self.g2p_mode == "go straight":
                 self.targets = self.go_straigt_targets
             elif self.g2p_mode == "turn right ahead":
                 self.targets = self.turn_right_targets
             self.initializing = False
-            self.current_target = self.targets[self.target_index]
+            self.target_index = 0
+            self.current_target = self.targets[self.target_index]"""
 
-    def curr_action_callback(self, curr_action):
-        self.curr_action = curr_action.data
+    def curr_action_callback(self, data_string):
+        if self.initializing:
+            self.curr_action = data_string.data
+            if self.curr_action == "go straight":
+                self.targets = self.go_straigt_targets
+                self.initializing = False
+                self.target_index = 0
+                self.current_target = self.targets[self.target_index]
+            elif self.curr_action == "turn right ahead":
+                self.targets = self.turn_right_targets
+                self.initializing = False
+                self.target_index = 0
+                self.current_target = self.targets[self.target_index]        
+
 
     def move(self,v_lin,v_ang):
         """Funcion que publica la velocidad lineal y angular en el puzzlebot"""
@@ -98,7 +111,7 @@ if __name__ == "__main__":
     Kpv = 0.25
     while not rospy.is_shutdown():        
         try:
-            if mov.current_pose != None and mov.curr_action == "go to point":
+            if mov.current_pose != None and (mov.curr_action == "go straight" or mov.curr_action == "turn right ahead"):
                 #print("None condition passed")
      
 
@@ -119,9 +132,10 @@ if __name__ == "__main__":
                     mov.move(v,w)
 
                 if mov.state == "travelingTowardsGoal":
-                    w = Kpw*e_theta
-                    v = Kpv*e_pos
-
+                    w = Kpw*0.25*e_theta
+                    #w = 0.0
+                    #v = Kpv*e_pos
+                    v = 0.07
                                
                     if w >= 0.25:
                         w = 0.24
@@ -149,14 +163,11 @@ if __name__ == "__main__":
                         mov.state = "pointingTowardsGoal"
                     
                 if mov.state == "goalReached":
-                    mov.state = "pointingTowardsGoal"                    
-                    mov.initializing = True                                                        
-                    mov.target_index = 0
-                    mov.move(0.0,0.0)
-                    mov.end_g2ps()            
-                    
-            mov.rate.sleep()
+                    mov.reset()                    
+                    mov.end_g2ps()                                                
 
         except rospy.ROSTimeMovedBackwardsException:
                 rospy.logerr("ROS Time Backwards! reseting g2ps!")
                 mov.reset() 
+
+        mov.rate.sleep()

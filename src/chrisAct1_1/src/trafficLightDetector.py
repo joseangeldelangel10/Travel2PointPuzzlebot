@@ -88,12 +88,12 @@ class trafficLightDetector():
     def passes_blob_filters(self, image, bound_rect_x, bound_rect_y, bound_rect_w, bound_rect_h, contour, simulation=False):
         if simulation:            
             bounding_rect_area = bound_rect_h*bound_rect_w
-            minImageArea = float(image.shape[0])*float(image.shape[1])*(1.0/800.0)
+            minImageArea = float(image.shape[0])*float(image.shape[1])*(1.0/900.0)
             #print("image shape is: " + str(image.shape))
             #print("bounding_rect_area is {boundingRectArea} and minImageArea is {minImageArea}".format(boundingRectArea=bounding_rect_area, minImageArea=minImageArea))
             if bounding_rect_area >= minImageArea:
                 bounding_box = cv.minAreaRect(contour)                                
-                if abs(bounding_box[1][0]-bounding_box[1][1]) <= abs(bounding_box[1][0]*(0.25)): 
+                if abs(bounding_box[1][0]-bounding_box[1][1]) <= abs(bounding_box[1][0]*(0.25)) and abs(bounding_box[2]) >= 0.05: 
                     return True
             return False
         else:

@@ -16,11 +16,12 @@ class mainController():
         #Creamos el publisher
         self.pub_cmd_vel = rospy.Publisher("/cmd_vel", Twist, queue_size=1)
         self.pub_curr_action = rospy.Publisher("/curr_action", String, queue_size=1)
-        self.pub_g2p_mode = rospy.Publisher("/g2p_mode", String, queue_size=1)
+        #self.pub_g2p_mode = rospy.Publisher("/g2p_mode", String, queue_size=1)
         self.pub_last_iois = rospy.Publisher("/last_instructions_and_interrupts", String, queue_size=1)        
         
         #Creamos los subscribers
-        self.sub_curr_ioi = rospy.Subscriber("/curr_instruction_or_interrupt",String, self.on_curr_ioi_callback)        
+        self.sub_curr_ioi = rospy.Subscriber("/curr_instruction_or_interrupt",String, self.on_curr_ioi_callback)
+        self.sub_crosswalk_det = rospy.Subscriber("/crosswalk_in_scene",Bool, self.on_crosswalk_in_scene_callback)        
         self.sub_line_follower = rospy.Subscriber("/cmd_vel_LF",Twist, self.on_line_follower_vel_callback)
         self.sub_g2ps = rospy.Subscriber("/cmd_vel_g2p",Twist,self.on_go_to_points_vel_callback)        
 
@@ -36,13 +37,14 @@ class mainController():
         self.go_to_points_v = 0.0
         self.go_to_points_w = 0.0
         #self.g2ps_succeded = False
+        self.crosswalk_in_scene = False
         self.odometry_is_reseted = False        
         self.vel_mult = 1.0
         self.last_iois = []
         
         self.cmd_vel_msg = Twist()
         self.curr_action_msg = String()
-        self.g2p_mode_msg = String()
+        #self.g2p_mode_msg = String()
         self.last_iois_msg = String()
 
         self.speedInterruptions = ["red traffic light", "yellow traffic light", "green traffic light", "stop sign", "end of prohibition sign"]
@@ -73,18 +75,17 @@ class mainController():
             return "[]"
 
     def end_g2ps_callback(self, req):
-        self.odometry_is_reseted = False
+        self.odometry_is_reseted = False                
         self.pop_from_action_stack()
-        i = len(self.last_iois)-1
-        while i >= 0:
-            if self.last_iois[i] in self.instructors:
-                self.last_iois.pop(i)
-                break
+        self.last_iois = [i for i in self.last_iois if i not in self.instructors]
         return EmptyResponse() 
 
     def on_curr_ioi_callback(self, data):
         self.curr_ioi_time = self.last_ioi_time + 1
         self.curr_ioi_data = data.data
+
+    def on_crosswalk_in_scene_callback(self, data):
+        self.crosswalk_in_scene = data.data
 
     def on_line_follower_vel_callback(self, data):
         self.line_follower_v = data.linear.x
@@ -119,13 +120,15 @@ class mainController():
         self.curr_action_msg.data = action
         self.pub_curr_action.publish(self.curr_action_msg)
 
-    def publish_g2p_mode(self, mode):
+    """def publish_g2p_mode(self, mode):
         self.g2p_mode_msg.data = mode
-        self.pub_g2p_mode.publish(self.g2p_mode_msg)
+        self.pub_g2p_mode.publish(self.g2p_mode_msg)"""
 
     def pop_from_action_stack(self):
-        if len(self.action_stack) > 1:
-            self.action_stack = self.action_stack[:-1]
+        instructor_actions = ["go straight", "turn right ahead"]
+        #if len(self.action_stack) > 1:
+        #    self.action_stack = self.action_stack[:-1]
+        self.action_stack = [i for i in self.action_stack if i not in instructor_actions]
 
     def main(self):
         while not rospy.is_shutdown():
@@ -144,11 +147,12 @@ class mainController():
                             self.delete_speed_interruptors_from_last_iois()
                             self.vel_mult = self.speedInterruptionsCoefficients[self.curr_ioi_data]
 
-                        if self.curr_ioi_data in self.instructors or self.speedInterruptions:
+                        if (self.curr_ioi_data in self.instructors) or (self.curr_ioi_data in self.speedInterruptions):
                             self.last_iois.append(self.curr_ioi_data) 
                             self.last_ioi_time = self.curr_ioi_time
                 else:
                     #is the fist iteration
+                    # we wont enter this ever
                     if self.curr_ioi_data in self.instructors:
                         self.addInstruction(self.curr_ioi_data)
                         print("instructor detected: " + self.curr_ioi_data) 
@@ -173,17 +177,17 @@ class mainController():
                 if not self.odometry_is_reseted:
                     self.reset_odometry()
                     self.odometry_is_reseted = True
-                self.publish_current_action("go to point")
-                self.publish_g2p_mode("go straight")
-                self.publish_vel(self.go_to_points_v*self.vel_mult, self.go_to_points_w*self.vel_mult)
+                self.publish_current_action("go straight")
+                #self.publish_g2p_mode("go straight")
+                self.publish_vel(self.go_to_points_v*self.vel_mult, self.go_to_points_w)
             elif self.action_stack[-1] == "turn right ahead":                
                 # this state ends when g2ps node calls the end_g2ps service
                 if not self.odometry_is_reseted:
                     self.reset_odometry()
                     self.odometry_is_reseted = True
-                self.publish_current_action("go to point")
-                self.publish_g2p_mode("turn right ahead")
-                self.publish_vel(self.go_to_points_v*self.vel_mult, self.go_to_points_w*self.vel_mult)
+                self.publish_current_action("turn right ahead")
+                #self.publish_g2p_mode("turn right ahead")
+                self.publish_vel(self.go_to_points_v*self.vel_mult, self.go_to_points_w)
 
             #print("action_stack is:" + str(self.action_stack))
             self.rate.sleep()
