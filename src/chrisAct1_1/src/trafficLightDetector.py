@@ -124,36 +124,25 @@ class trafficLightDetector():
         self.processedImage2_red = np.where(condition, self.processedImage2_red, 255)        
 
         self.processedImage2_red = cv.morphologyEx(self.processedImage2_red, cv.MORPH_CLOSE, self.smaller_kernel)
-        self.processedImage2_red = cv.dilate(self.processedImage2_red,self.smaller_kernel,iterations = 1)    
+        self.processedImage2_red = cv.dilate(self.processedImage2_red,self.smaller_kernel,iterations = 2)    
         
         if not self.simulation:
-            self.processedImage2_red = cv.bitwise_not(self.processedImage2_red)
-            self.processedImage2_red = cv.blur(self.processedImage2_red, (8,8))
-            self.processedImage2_red = cv.blur(self.processedImage2_red, (8,8))
-
-            (cols, rows) = self.processedImage2_red.shape
-
-            blobDetectorParams = cv.SimpleBlobDetector_Params()
-            blobDetectorParams.filterByCircularity = True    
-            blobDetectorParams.minCircularity = 0.71
-            blobDetectorParams.maxCircularity = 1.0
-            blobDetectorParams.filterByArea = True
-            blobDetectorParams.minArea = float((rows*cols)*0.02)
-            blobDetectorParams.maxArea = float((rows*cols)*0.75)
-            blobDetectorParams.filterByColor = False
-            blobDetectorParams.filterByConvexity = False
-            blobDetectorParams.filterByInertia = False
-                    
-            ver = (cv.__version__).split('.')
-            if int(ver[0]) < 3 :
-                detector = cv.SimpleBlobDetector(blobDetectorParams)
-            else : 
-                detector = cv.SimpleBlobDetector_create(blobDetectorParams)
-                    
-            keypoints = detector.detect(self.processedImage2_red)
-
-                    
-            self.outImage_red = cv.drawKeypoints(self.processedImage2_red, keypoints, 0, (0,0,255), cv.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+            keypoints = []
+            self.outImage_red = cv.merge((self.processedImage2_red, self.processedImage2_red, self.processedImage2_red))
+            contours, _ = cv.findContours(self.processedImage2_red, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
+            for c in contours:
+                (min_circle_x,min_circle_y),min_circle_radius = cv.minEnclosingCircle(c)
+                bounding_box = cv.minAreaRect(c)
+                bounding_box_x = bounding_box[1][0]
+                bounding_box_y = bounding_box[1][1]
+                if abs((min_circle_radius*2)-bounding_box_x) <= min_circle_radius*0.35 and abs((min_circle_radius*2)-bounding_box_y) <= min_circle_radius*0.35:
+                    square_area = bounding_box_x*bounding_box_y
+                    circle_area = np.pi*(min_circle_radius**2)
+                    if circle_area <= square_area:
+                        x,y,w,h = cv.boundingRect(c)
+                        cv.rectangle(self.outImage_red, (x,y), (x+w, y+h), (0, 0, 255), 2)
+                        cv.putText(self.outImage_red,'red_light',(x,y-10),2,0.7,(0,0,255),2,cv.LINE_AA)
+                        keypoints.append((x,y,w,h))
         else:
             keypoints = []
             self.outImage_red = cv.merge((self.processedImage2_red, self.processedImage2_red, self.processedImage2_red))
@@ -181,38 +170,28 @@ class trafficLightDetector():
         self.cv_image = cv.rotate(self.cv_image,cv.ROTATE_180)
         self.processedImage_yellow = cv.cvtColor(self.cv_image, cv.COLOR_BGR2HSV)
 
-        self.processedImage2_yellow = cv.inRange(self.processedImage_yellow,(20,70,50),(37,255,255))   
+        self.processedImage2_yellow = cv.inRange(self.processedImage_yellow,(20,50,50),(37,255,255))   
 
         self.processedImage2_yellow = cv.morphologyEx(self.processedImage2_yellow, cv.MORPH_CLOSE, self.smaller_kernel)
-        self.processedImage2_yellow = cv.dilate(self.processedImage2_yellow,self.smaller_kernel,iterations = 1)    
+        self.processedImage2_yellow = cv.dilate(self.processedImage2_yellow,self.smaller_kernel,iterations = 2)  
+
         if not self.simulation:
-            self.processedImage2_yellow = cv.bitwise_not(self.processedImage2_yellow)
-            self.processedImage2_yellow = cv.blur(self.processedImage2_yellow, (8,8))
-            self.processedImage2_yellow = cv.blur(self.processedImage2_yellow, (8,8))
-
-            (cols, rows) = self.processedImage2_yellow.shape
-
-            blobDetectorParams = cv.SimpleBlobDetector_Params()
-            blobDetectorParams.filterByCircularity = True    
-            blobDetectorParams.minCircularity = 0.71
-            blobDetectorParams.maxCircularity = 1.0
-            blobDetectorParams.filterByArea = True
-            blobDetectorParams.minArea = float((rows*cols)*0.02)
-            blobDetectorParams.maxArea = float((rows*cols)*0.75)
-            blobDetectorParams.filterByColor = False
-            blobDetectorParams.filterByConvexity = False
-            blobDetectorParams.filterByInertia = False
-                    
-            ver = (cv.__version__).split('.')
-            if int(ver[0]) < 3 :
-                detector = cv.SimpleBlobDetector(blobDetectorParams)
-            else : 
-                detector = cv.SimpleBlobDetector_create(blobDetectorParams)
-                    
-            keypoints = detector.detect(self.processedImage2_yellow)
-
-                    
-            self.outImage_yellow = cv.drawKeypoints(self.processedImage2_yellow, keypoints, 0, (0,0,255), cv.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+            keypoints = []
+            self.outImage_yellow = cv.merge((self.processedImage2_yellow, self.processedImage2_yellow, self.processedImage2_yellow))
+            contours, _ = cv.findContours(self.processedImage2_yellow, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
+            for c in contours:
+                (min_circle_x,min_circle_y),min_circle_radius = cv.minEnclosingCircle(c)
+                bounding_box = cv.minAreaRect(c)
+                bounding_box_x = bounding_box[1][0]
+                bounding_box_y = bounding_box[1][1]
+                if abs((min_circle_radius*2)-bounding_box_x) <= min_circle_radius*0.35 and abs((min_circle_radius*2)-bounding_box_y) <= min_circle_radius*0.35:
+                    square_area = bounding_box_x*bounding_box_y
+                    circle_area = np.pi*(min_circle_radius**2)
+                    if circle_area <= square_area:
+                        x,y,w,h = cv.boundingRect(c)
+                        cv.rectangle(self.outImage_yellow, (x,y), (x+w, y+h), (0, 255, 255), 2)
+                        cv.putText(self.outImage_yellow,'yellow_light',(x,y-10),2,0.7,(0,255,255),2,cv.LINE_AA)
+                        keypoints.append((x,y,w,h))
         else:
             keypoints = []
             self.outImage_yellow = cv.merge((self.processedImage2_yellow, self.processedImage2_yellow, self.processedImage2_yellow))
@@ -239,39 +218,28 @@ class trafficLightDetector():
         self.cv_image = cv.rotate(self.cv_image,cv.ROTATE_180)
         self.processedImage_green = cv.cvtColor(self.cv_image, cv.COLOR_BGR2HSV)
 
-        self.processedImage2_green = cv.inRange(self.processedImage_green,(38,50,40),(85,255,255))   
+        self.processedImage2_green = cv.inRange(self.processedImage_green,(38,40,40),(85,255,255))   
 
         self.processedImage2_green = cv.morphologyEx(self.processedImage2_green, cv.MORPH_CLOSE, self.smaller_kernel)
-        self.processedImage2_green = cv.dilate(self.processedImage2_green,self.smaller_kernel,iterations = 1)    
+        self.processedImage2_green = cv.dilate(self.processedImage2_green,self.smaller_kernel,iterations = 2)    
         
         if not self.simulation:
-            self.processedImage2_green = cv.bitwise_not(self.processedImage2_green)
-            self.processedImage2_green = cv.blur(self.processedImage2_green, (8,8))
-            self.processedImage2_green = cv.blur(self.processedImage2_green, (8,8))
-
-            (cols, rows) = self.processedImage2_green.shape
-
-            blobDetectorParams = cv.SimpleBlobDetector_Params()
-            blobDetectorParams.filterByCircularity = True    
-            blobDetectorParams.minCircularity = 0.71
-            blobDetectorParams.maxCircularity = 1.0
-            blobDetectorParams.filterByArea = True
-            blobDetectorParams.minArea = float((rows*cols)*0.02)
-            blobDetectorParams.maxArea = float((rows*cols)*0.75)
-            blobDetectorParams.filterByColor = False
-            blobDetectorParams.filterByConvexity = False
-            blobDetectorParams.filterByInertia = False
-                    
-            ver = (cv.__version__).split('.')
-            if int(ver[0]) < 3 :
-                detector = cv.SimpleBlobDetector(blobDetectorParams)
-            else : 
-                detector = cv.SimpleBlobDetector_create(blobDetectorParams)
-                    
-            keypoints = detector.detect(self.processedImage2_green)
-
-                    
-            self.outImage_green = cv.drawKeypoints(self.processedImage2_green, keypoints, 0, (0,0,255), cv.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+            keypoints = []
+            self.outImage_green = cv.merge((self.processedImage2_green, self.processedImage2_green, self.processedImage2_green))
+            contours, _ = cv.findContours(self.processedImage2_green, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
+            for c in contours:
+                (min_circle_x,min_circle_y),min_circle_radius = cv.minEnclosingCircle(c)
+                bounding_box = cv.minAreaRect(c)
+                bounding_box_x = bounding_box[1][0]
+                bounding_box_y = bounding_box[1][1]
+                if abs((min_circle_radius*2)-bounding_box_x) <= min_circle_radius*0.35 and abs((min_circle_radius*2)-bounding_box_y) <= min_circle_radius*0.35:
+                    square_area = bounding_box_x*bounding_box_y
+                    circle_area = np.pi*(min_circle_radius**2)
+                    if circle_area <= square_area:
+                        x,y,w,h = cv.boundingRect(c)
+                        cv.rectangle(self.outImage_green, (x,y), (x+w, y+h), (0, 255, 0), 2)
+                        cv.putText(self.outImage_green,'green_light',(x,y-10),2,0.7,(0,255,0),2,cv.LINE_AA)
+                        keypoints.append((x,y,w,h))
         else:
             keypoints = []
             self.outImage_green = cv.merge((self.processedImage2_green, self.processedImage2_green, self.processedImage2_green))
@@ -325,3 +293,4 @@ if __name__ == "__main__":
             msg.data = tlDetector.array2string(msgList)
             tlDetector.pub.publish(msg)
         tlDetector.rate.sleep()
+

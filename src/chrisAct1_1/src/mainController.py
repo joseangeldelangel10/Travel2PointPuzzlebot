@@ -78,6 +78,7 @@ class mainController():
         self.odometry_is_reseted = False                
         self.pop_from_action_stack()
         self.last_iois = [i for i in self.last_iois if i not in self.instructors]
+        self.crosswalk_in_scene = False
         return EmptyResponse() 
 
     def on_curr_ioi_callback(self, data):
@@ -85,7 +86,8 @@ class mainController():
         self.curr_ioi_data = data.data
 
     def on_crosswalk_in_scene_callback(self, data):
-        self.crosswalk_in_scene = data.data
+        if not self.crosswalk_in_scene:
+            self.crosswalk_in_scene = data.data
 
     def on_line_follower_vel_callback(self, data):
         self.line_follower_v = data.linear.x
@@ -172,7 +174,8 @@ class mainController():
             if self.action_stack[-1] == "line follower":                
                 self.publish_current_action("line follower")
                 self.publish_vel(self.line_follower_v*self.vel_mult, self.line_follower_w)
-            elif self.action_stack[-1] == "go straight":
+
+            elif self.action_stack[-1] == "go straight" and self.crosswalk_in_scene:
                 # this state ends when g2ps node calls the end_g2ps service                
                 if not self.odometry_is_reseted:
                     self.reset_odometry()
@@ -180,7 +183,7 @@ class mainController():
                 self.publish_current_action("go straight")
                 #self.publish_g2p_mode("go straight")
                 self.publish_vel(self.go_to_points_v*self.vel_mult, self.go_to_points_w)
-            elif self.action_stack[-1] == "turn right ahead":                
+            elif self.action_stack[-1] == "turn right ahead" and self.crosswalk_in_scene:                
                 # this state ends when g2ps node calls the end_g2ps service
                 if not self.odometry_is_reseted:
                     self.reset_odometry()
@@ -188,6 +191,10 @@ class mainController():
                 self.publish_current_action("turn right ahead")
                 #self.publish_g2p_mode("turn right ahead")
                 self.publish_vel(self.go_to_points_v*self.vel_mult, self.go_to_points_w)
+            else:
+                self.publish_current_action("line follower")
+                self.publish_vel(self.line_follower_v*self.vel_mult, self.line_follower_w)
+
 
             #print("action_stack is:" + str(self.action_stack))
             self.rate.sleep()

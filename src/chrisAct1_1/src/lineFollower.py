@@ -11,7 +11,7 @@ import cv_bridge
 
 #Creamos la clase
 class LineFollowerController():
-    def __init__(self, i_width = 720, i_height = 480, camera_topic = "/video_source/raw", simulation = False):
+    def __init__(self, i_width = 640, i_height = 360, camera_topic = "/video_source/raw", simulation = False):
         #Inicializamos el nodo
         rospy.init_node("LineFollowerController")
         #Creamos el publisher
@@ -39,12 +39,13 @@ class LineFollowerController():
         self.binary_image = np.uint8(self.binary_image)
         self.outImage = np.uint8(self.outImage)
 
-        self.image_height = i_width
-        self.image_width = i_height
+        self.image_height = i_height
+        self.image_width = i_width
 
         self.mask1 = None
         self.mask2 = None
         self.kernel = np.ones((20,20),np.uint8)
+        self.smaller_kernel = np.ones((5,5),np.uint8)
         
         #Declaramos que vamos a mandar 20 mensajes por segundo.
         self.rate = rospy.Rate(20)
@@ -97,10 +98,19 @@ class LineFollowerController():
         image_height = self.gray_image.shape[0]
         image_width = self.gray_image.shape[1]
 
-        self.mask1 = np.ones(self.gray_image.shape)*127 # this mask removes upper half image noise
-        self.gray_image[ 0: int(image_height/2), :] = self.mask1[ 0: int(image_height/2), :]
+        self.gray_image = cv.blur(self.gray_image,(10,10))
+        self.gray_image = cv.blur(self.gray_image,(10,10))
+        self.gray_image = cv.blur(self.gray_image,(10,10))
 
-        thres, self.binary_image = cv.threshold(self.gray_image, 80, 255, cv.THRESH_BINARY)
+        #self.mask1 = np.ones(self.gray_image.shape)*127 # this mask removes upper half image noise
+        #self.gray_image[ 0: int(image_height/2), :] = self.mask1[ 0: int(image_height/2), :]
+
+        if self.simulation:
+            thresh_value = 80
+        else:
+            thresh_value = 110
+
+        thres, self.binary_image = cv.threshold(self.gray_image, thresh_value, 255, cv.THRESH_BINARY)
 
         self.mask2 = np.ones(self.binary_image.shape)*255
         self.binary_image[0: image_height - 80, :] = self.mask2[0: image_height - 80, :]
@@ -108,12 +118,11 @@ class LineFollowerController():
         #mask3 = np.ones(binary_image.shape)*255
         self.binary_image[image_height-8:, :] = self.mask2[image_height-8:, :]
 
-        self.binary_image[:, 0:5] = self.mask2[:, 0:5]
-        self.binary_image[:, image_width-5:] = self.mask2[:, image_width-5:]
+        self.binary_image[:, 0:40] = self.mask2[:, 0:40]
+        self.binary_image[:, image_width-40:] = self.mask2[:, image_width-40:]
     
-        self.binary_image = cv.morphologyEx(self.binary_image, cv.MORPH_CLOSE, self.kernel)
-        self.binary_image = cv.morphologyEx(self.binary_image, cv.MORPH_CLOSE, self.kernel)
         self.binary_image = cv.bitwise_not(self.binary_image)
+        self.binary_image = cv.erode(self.binary_image,self.smaller_kernel,iterations = 1)
         
 
         blobs = []
@@ -131,7 +140,8 @@ class LineFollowerController():
             cv.rectangle(self.outImage, (x,y), (x+w, y+h), (255, 0, 0), 2)
             center_x = x + w/2 
             center_y = y + h/2 
-            blobs.append((center_x,center_y,w,h))
+            if w*h > (self.image_width*self.image_height*(1/10)):
+                blobs.append((center_x,center_y,w,h))
 
         #self.outImage = cv.drawKeypoints(self.binary_image, keypoints, 0, (0, 0,255), cv.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 
@@ -152,6 +162,7 @@ class LineFollowerController():
                         res_x = cord_x
                         res_y = cord_y
             self.last_point = [res_x, res_y]            
+            
             cv.rectangle(self.outImage, (res_x-5,res_y-5), (res_x+5, res_y+5), (0, 0, 255), 2)
             self.processed_image_msg = self.bridge.cv2_to_imgmsg(self.outImage, encoding = "bgr8")
             self.pub_processed_img.publish(self.processed_image_msg)
@@ -173,13 +184,13 @@ if __name__ == "__main__":
         else:
             simulation = False
             camera_topic = "/video_source/raw"
-            image_height = 480
-            image_width = 720
+            image_height = 360
+            image_width = 640
     else:
         simulation = False
         camera_topic = "/video_source/raw"
-        image_height = 480
-        image_width = 720
+        image_height = 360
+        image_width = 640
     print("initial arguments are:")
     print("image size = " + str( (image_height, image_width) ))
     print("camera topic = " + camera_topic)
@@ -189,8 +200,11 @@ if __name__ == "__main__":
     #iniciamos la clase
     follower = LineFollowerController(image_width, image_height, camera_topic, simulation)    
     #mientras este corriendo el nodo movemos el carro el circulo
-    #kpw = 0.0005
-    kpw = 0.001
+    if simulation:
+        kpw = 0.001
+    else:
+        kpw = 0.0005
+
     #rospy.sleep(5)
     while not rospy.is_shutdown():
         try:    
@@ -200,10 +214,10 @@ if __name__ == "__main__":
                 if blob_cord != "Error":
                     e1 = blob_cord[0]
                     e2 = follower.image_width - e1
-                    if e1 < follower.image_width*(1/8):
-                        follower.state = "turningLeft"                    
-                    elif e2 < follower.image_width*(1/8):
-                        follower.state = "turningRight"
+                    if e1 < follower.image_width*(1/6):
+                        follower.state = "stopped"                    
+                    elif e2 < follower.image_width*(1/6):
+                        follower.state = "stopped"
                     else:
                         follower.state = "common"                    
                 else:

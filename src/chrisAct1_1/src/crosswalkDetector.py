@@ -11,7 +11,7 @@ import cv_bridge
 
 #Creamos la clase
 class crosswalkDetector():
-    def __init__(self, i_width = 720, i_height = 480, camera_topic = "/video_source/raw", simulation = False):
+    def __init__(self, i_width = 640, i_height = 360, camera_topic = "/video_source/raw", simulation = False):
         #Inicializamos el nodo
         rospy.init_node("crosswalkDtector")
         #Creamos el publisher
@@ -66,7 +66,7 @@ class crosswalkDetector():
         thres, self.binary_image = cv.threshold(self.gray_image, 80, 255, cv.THRESH_BINARY)
 
         self.mask2 = np.ones(self.binary_image.shape)*255
-        self.binary_image[0: image_height - int(image_height/3), :] = self.mask2[0: image_height - int(image_height/3), :]
+        self.binary_image[0: image_height - int(image_height/2), :] = self.mask2[0: image_height - int(image_height/2), :]
 
         #mask3 = np.ones(binary_image.shape)*255
         self.binary_image[image_height-8:, :] = self.mask2[image_height-8:, :]
@@ -156,13 +156,13 @@ if __name__ == "__main__":
         else:
             simulation = False
             camera_topic = "/video_source/raw"
-            image_height = 480
-            image_width = 720
+            image_height = 360
+            image_width = 640
     else:
         simulation = False
         camera_topic = "/video_source/raw"
-        image_height = 480
-        image_width = 720
+        image_height = 360
+        image_width = 640
     print("initial arguments are:")
     print("image size = " + str( (image_height, image_width) ))
     print("camera topic = " + camera_topic)
