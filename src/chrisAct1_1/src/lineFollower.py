@@ -122,8 +122,10 @@ class LineFollowerController():
         self.binary_image[:, image_width-40:] = self.mask2[:, image_width-40:]
     
         self.binary_image = cv.bitwise_not(self.binary_image)
-        self.binary_image = cv.erode(self.binary_image,self.smaller_kernel,iterations = 1)
-        
+        self.binary_image = cv.erode(self.binary_image,self.smaller_kernel,iterations = 5)
+        #self.binary_image = cv.morphologyEx(self.binary_image, cv.MORPH_OPEN, self.smaller_kernel)
+        #self.binary_image = cv.morphologyEx(self.binary_image, cv.MORPH_OPEN, self.smaller_kernel)
+        #self.binary_image = cv.morphologyEx(self.binary_image, cv.MORPH_OPEN, self.smaller_kernel)
 
         blobs = []
         if self.simulation:

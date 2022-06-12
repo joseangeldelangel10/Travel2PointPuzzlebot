@@ -188,6 +188,7 @@ class trafficSignalsDetector():
                 #print("image is " + str(self.cv_original_image) )
                 self.cv_image = cv.resize(self.cv_original_image,(self.newHeight,self.newWidth), interpolation = cv.INTER_AREA)
                 self.final_detection = self.cv_image.copy()
+                minImageArea = self.cv_image.shape[0]*self.cv_image.shape[1]*(1/80)
 
                 HSV = cv.cvtColor(self.cv_image, cv.COLOR_BGR2HSV)     
         
@@ -208,30 +209,36 @@ class trafficSignalsDetector():
                 for c in redHexagonsCotours:
                     (min_circle_x,min_circle_y),min_circle_radius = cv.minEnclosingCircle(c)
                     bounding_box = cv.minAreaRect(c)
-                    bounding_box_x = bounding_box[1][0]
-                    bounding_box_y = bounding_box[1][1]
-                    if abs((min_circle_radius*2)-bounding_box_x) <= min_circle_radius*0.4 and abs((min_circle_radius*2)-bounding_box_y) <= min_circle_radius*0.4:
-                        square_area = bounding_box_x*bounding_box_y
+                    bounding_box_width = bounding_box[1][0]
+                    bounding_box_height = bounding_box[1][1]
+                    if abs((min_circle_radius*2)-bounding_box_width) <= min_circle_radius*0.4 and abs((min_circle_radius*2)-bounding_box_height) <= min_circle_radius*0.4:
+                        square_area = bounding_box_width*bounding_box_height
                         circle_area = np.pi*(min_circle_radius**2)
                         if circle_area <= square_area:
                             cords = cv.boundingRect(c)
-                            red_hexagons.append( cords )
+                            if cords[2]*cords[3] >= minImageArea:
+                                red_hexagons.append( cords )
 
                 blueCircles = []
                 for c in blueCirclesCotours:
                     (min_circle_x,min_circle_y),min_circle_radius = cv.minEnclosingCircle(c)
                     bounding_box = cv.minAreaRect(c)
-                    bounding_box_x = bounding_box[1][0]
-                    bounding_box_y = bounding_box[1][1]
-                    if abs((min_circle_radius*2)-bounding_box_x) <= min_circle_radius*0.35 and abs((min_circle_radius*2)-bounding_box_y) <= min_circle_radius*0.35:
-                        square_area = bounding_box_x*bounding_box_y
+                    bounding_box_width = bounding_box[1][0]
+                    bounding_box_height = bounding_box[1][1]
+                    if abs((min_circle_radius*2)-bounding_box_width) <= min_circle_radius*0.35 and abs((min_circle_radius*2)-bounding_box_height) <= min_circle_radius*0.35:
+                        square_area = bounding_box_width*bounding_box_height
                         circle_area = np.pi*(min_circle_radius**2)
                         if circle_area <= square_area:
                             cords = cv.boundingRect(c)
-                            blueCircles.append( cords )                    
+                            if cords[2]*cords[3] >= minImageArea:
+                                blueCircles.append( cords )                    
 
-                for (x,y,w,h) in red_hexagons:                                    
-                    red_hexagon_roi = self.cv_image[y:y+h,x:x+w]
+                for (x,y,w,h) in red_hexagons:            
+                    y1_roi = int(y+h*0.075)
+                    y2_roi = int(y+h-h*0.075)
+                    x1_roi = int(x+w*0.075)
+                    x2_roi = int(x+w-w*0.075)
+                    red_hexagon_roi = self.cv_image[y1_roi:y2_roi, x1_roi:x2_roi]                        
                     red_hexagon_roi = cv.resize(red_hexagon_roi,self.class_square_size, interpolation = cv.INTER_AREA)   
                     red_hexagon_roi = self.cnn_preprocessing(red_hexagon_roi)                    
                     predictions = self.classify(red_hexagon_roi)        
@@ -247,7 +254,11 @@ class trafficSignalsDetector():
                         
 
                 for (x,y,w,h) in blueCircles:
-                    blue_circle_roi = self.cv_image[y:y+h,x:x+w]
+                    y1_roi = int(y+h*0.075)
+                    y2_roi = int(y+h-h*0.075)
+                    x1_roi = int(x+w*0.075)
+                    x2_roi = int(x+w-w*0.075)
+                    blue_circle_roi = self.cv_image[y1_roi:y2_roi, x1_roi:x2_roi]
                     blue_circle_roi = cv.resize(blue_circle_roi,self.class_square_size, interpolation = cv.INTER_AREA)   
                     blue_circle_roi = self.cnn_preprocessing(blue_circle_roi)                    
                     predictions = self.classify(blue_circle_roi)        

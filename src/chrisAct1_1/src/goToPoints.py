@@ -29,7 +29,7 @@ class MovePuzzlebot():
         self.curr_action = None
         self.initializing = True        
 
-        self.go_straigt_targets = [[0.5,0.0]]
+        self.go_straigt_targets = [[0.7,0.0]]
         self.turn_right_targets = [[0.3,0.0],[0.3,-0.3]]
 
         self.current_target = None
@@ -165,9 +165,8 @@ if __name__ == "__main__":
                 if mov.state == "goalReached":
                     mov.reset()                    
                     mov.end_g2ps()                                                
+            mov.rate.sleep()
 
         except rospy.ROSTimeMovedBackwardsException:
                 rospy.logerr("ROS Time Backwards! reseting g2ps!")
                 mov.reset() 
-
-        mov.rate.sleep()

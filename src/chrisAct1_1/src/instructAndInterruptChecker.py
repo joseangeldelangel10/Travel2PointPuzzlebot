@@ -70,12 +70,12 @@ class iois_checker():
             self.prorize_result.append("straight sign")
         if "turn right ahead sign" in iois:
             self.prorize_result.append("turn right ahead sign")
-        if  "red traffic light" in iois or "yellow traffic light" in iois or "green traffic light" in iois:
-            if "red traffic light" in iois and self.crosswalk_in_scene:                 
+        if  ("red traffic light" in iois or "yellow traffic light" in iois or "green traffic light" in iois) and (self.crosswalk_in_scene):
+            if "red traffic light" in iois:                 
                 self.prorize_result.append("red traffic light")
-            elif "yellow traffic light" in iois and self.crosswalk_in_scene:
+            elif "yellow traffic light" in iois:
                 self.prorize_result.append("yellow traffic light")
-            elif "green traffic light" in iois and self.crosswalk_in_scene:
+            elif "green traffic light" in iois:
                 self.prorize_result.append("green traffic light")
         if "stop sign" in iois:
             self.prorize_result.append("stop sign")

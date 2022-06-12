@@ -12,8 +12,12 @@
     <arg name="input_height" value="480"/>
   </include>
   ======= ===================== ======= -->
+  <node name="crosswalkDetector" pkg="chrisAct1_1" type="crosswalkDetector.py" args="simulation" output="screen"/>
+  <node name="trafficSignsDetector" pkg="chrisAct1_1" type="signalsDetector2.py" args="simulation" output="screen"/>
+  <node name="trafficLightsDetector" pkg="chrisAct1_1" type="trafficLightDetector.py" args="simulation" output="screen"/>
+  <node name="ioiChecker" pkg="chrisAct1_1" type="instructAndInterruptChecker.py" output="screen"/>
   <node name="odometry" pkg="chrisAct1_1" type="odom.py" output="screen"/>
-  <node name="lineFollower" pkg="chrisAct1_1" type="lineFollower.py" args="simulation" output="screen"/>
   <node name="goToPoints" pkg="chrisAct1_1" type="goToPoints.py" output="screen"/>
+  <node name="lineFollower" pkg="chrisAct1_1" type="lineFollower.py" args="simulation" output="screen"/>
 
 </launch>

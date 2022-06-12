@@ -115,7 +115,8 @@ class crosswalkDetector():
                             if max(temp_list) > new_x_minmax[1]:
                                 new_x_minmax[1] = max(temp_list)
                             if min(temp_list) < new_x_minmax[0]:
-                                new_x_minmax[0] = min(temp_list)                            
+                                new_x_minmax[0] = min(temp_list)
+                            new_x_minmax[2] = blobs[j][1]                              
                             y_cordinates_x_minmax[dist] = new_x_minmax
                         else:                            
                             y_distances[dist_y] = 1
@@ -172,8 +173,11 @@ if __name__ == "__main__":
     #iniciamos la clase
     detector = crosswalkDetector(image_width, image_height, camera_topic, simulation)        
     while not rospy.is_shutdown():
-        if detector.image != None:
-            detector.crosswalk_detected_msg.data = detector.detectCrosswalk()
-            detector.pub.publish(detector.crosswalk_detected_msg)    
-        detector.rate.sleep()
+        try:
+            if detector.image != None:
+                detector.crosswalk_detected_msg.data = detector.detectCrosswalk()
+                detector.pub.publish(detector.crosswalk_detected_msg)    
+            detector.rate.sleep()
+        except rospy.ROSTimeMovedBackwardsException:
+                rospy.logerr("ROS Time Backwards! - crossWalkDetector")
         
