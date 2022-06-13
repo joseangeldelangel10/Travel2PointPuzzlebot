@@ -25,7 +25,7 @@ class OdometryCal():
         #Iniciamos el voctor de posición en cero
         self.pos = np.array([[0.0],[0.0],[0.0]])
         #Declaramos que vamos a mandar 20 mensajes por segundo
-        self.rate = rospy.Rate(100)
+        self.rate = rospy.Rate(30)
     #Las funciones callback para extraer los datos de los susbcribers
     def wr_callback(self,w):
         self.wr = w.data

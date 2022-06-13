@@ -192,11 +192,11 @@ class trafficSignalsDetector():
 
                 HSV = cv.cvtColor(self.cv_image, cv.COLOR_BGR2HSV)     
         
-                red1 = cv.inRange(HSV,(145,50,50),(180,255,255))
-                red2 = cv.inRange(HSV,(0,50,50),(10,255,255))
+                red1 = cv.inRange(HSV,(145,70,70),(180,255,255))
+                red2 = cv.inRange(HSV,(0,70,70),(10,255,255))
                 red = cv.bitwise_or(red1,red2)  
                 
-                blue = cv.inRange(HSV,(85,50,50),(140,255,255))                
+                blue = cv.inRange(HSV,(85,70,70),(140,255,255))                
                 
                 redHexagonsCotours, _ = cv.findContours(red, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
                 blueCirclesCotours, _ = cv.findContours(blue, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)

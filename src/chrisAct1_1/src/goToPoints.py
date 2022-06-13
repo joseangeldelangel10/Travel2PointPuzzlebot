@@ -30,7 +30,7 @@ class MovePuzzlebot():
         self.initializing = True        
 
         self.go_straigt_targets = [[0.7,0.0]]
-        self.turn_right_targets = [[0.3,0.0],[0.3,-0.3]]
+        self.turn_right_targets = [[0.35,0.0],[0.35,-0.3]]
 
         self.current_target = None
         
