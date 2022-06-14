@@ -5,11 +5,12 @@ from matplotlib import pyplot as plt
 import copy
 
 #The set of images that can be used for camera calibration. Use a glob pattern to create a list images of all the image (i.e., a list of strings).
-images = sorted(glob.glob('*.png'))
+images = sorted(glob.glob('*.jpg'))
+#images = ["/home/jose/Documents/6toSemestre/chrisAct1/CameraCalibration/photos/2.jpg"]
 print(images)
 
 #Load an image from the previously constructed list of images.
-img = cv.imread(images[1]) # Extract the first image as img
+img = cv.imread(images[6]) # Extract the first image as img
 print("image shape: ")
 print(img.shape)
 gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY) # Convert to a gray scale image
@@ -21,7 +22,7 @@ plt.imshow(gray)
 plt.title('Original Image')
 
 # Extract the corners and the return value
-retval, corners = cv.findChessboardCorners(gray, (7,7), None)
+retval, corners = cv.findChessboardCorners(gray, (7,4), None)
 	# 'gray' is the input image
 	# (8,6) is the patern size, corresponding to the interior corners to locate in the chessboard.
 	#		In other words, it is the number of inner corners per a chessboard row and column
@@ -61,6 +62,7 @@ plt.title('Original Image with Corners')
 criteria = (cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 30, 0.001) # Set termination criteria as a tuple.
 corners_orig = corners.copy()  # Preserve the original corners for comparison after
 corners = cv.cornerSubPix(gray, corners, (11,11), (-1,-1), criteria=criteria) # Extract refined corner coordinates.
+corners_as_ints = np.uint8(corners)
 
 # Examine how much the corners have shifted (in pixels)
 shift = corners - corners_orig
@@ -69,7 +71,7 @@ print(np.linalg.norm(shift.reshape(-1,1), np.inf))
 
 img3 = np.copy(img)
 
-for corner in corners:
+for corner in corners_as_ints:
     coord = (corner[0], corner[1])
     cv.circle(img=img3, center=coord, radius=5, color=(0, 255, 0), thickness=2)
 
@@ -79,21 +81,21 @@ plt.title('Close-Up No. 1 (Original Corners)')
 plt.subplot(235)
 plt.imshow(img3[200:400,200:500,:])
 plt.title('Close-Up No. 2 (Refined Corners)')
-""" """
+
 
 #The function drawChessboardCorners generates a new image with circles at the corners detected. The corners are 
 # displayed either as red circles if the board was not found, or as colored corners connected with lines if the board 
 # was found (as determined by the output argument retval from findChessboardCorners).
-img4 = cv.drawChessboardCorners(img, (7, 7), corners, retval)
+img4 = cv.drawChessboardCorners(img, (7, 4), corners, retval)
 plt.subplot(236)
 plt.imshow(img4)
 plt.title('Chessboard with colored corners connected with lines\n (the chessboard was found)')
-
+"""
 
 #Finally, we are going to repeat this process with all the chessboard images to remove distortion effects. First, 
 # assume a 3D world coordinate system aligned with the chessboard.
-obj_grid = np.zeros((7*7,3), np.float32)
-obj_grid[:,:2] = np.mgrid[0:7,0:7].T.reshape(-1,2)
+obj_grid = np.zeros((7*4,3), np.float32)
+obj_grid[:,:2] = np.mgrid[0:7,0:4].T.reshape(-1,2)
 print(obj_grid)
 
 # Initialize empty list to accumulate coordinates
@@ -109,7 +111,7 @@ for fname in images:
     img = cv.imread(fname)
     gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
     
-    retval, corners = cv.findChessboardCorners(gray, (7,7))
+    retval, corners = cv.findChessboardCorners(gray, (7,4))
 
     if retval:
         obj_points.append(obj_grid)        
@@ -138,7 +140,7 @@ print(dist)   # Distortion coefficients
 # effects with undistort.
 
 #Optimization of a distorted image (radial distortion example No.1)
-img_d1 = cv.imread('./calibration_4.png')
+img_d1 = cv.imread('./1.jpg')
 h,w = img_d1.shape[:2]
 newcameramtx, roi = cv.getOptimalNewCameraMatrix(mtx, dist*(1/8), (w,h), 1, (w,h))
 
@@ -175,5 +177,5 @@ plt.title('Original Distorted Image (Example No. 2)')
 plt.subplot(224)
 plt.imshow(dst_2)
 plt.title('Corrected Image (Example No. 2)');
-
+"""
 plt.show()
