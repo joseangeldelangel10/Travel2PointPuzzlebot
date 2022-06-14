@@ -7,6 +7,7 @@ from sensor_msgs.msg import Image
 from std_msgs.msg import Float32, Float64, String
 import cv2 as cv
 import cv_bridge
+import json
 
 
 
@@ -24,7 +25,7 @@ class trafficLightDetector():
         self.pub_green_img = rospy.Publisher("/processedImage/detectedObjects/greenCircleImage", Image, queue_size=10)
         self.pub = rospy.Publisher("/curr_traffic_lights", String,queue_size = 1)             
         
-        self.rate = rospy.Rate(30)
+        self.rate = rospy.Rate(15)
 
         self.simulation = simulation
         self.image = None
@@ -93,7 +94,7 @@ class trafficLightDetector():
         else:
             return "[]"
 
-    def red_light_detected(self, cv_image, minImageArea):
+    def red_light_detected(self, cv_image, minImageArea, maxImageArea):
 
         self.red1 = cv.inRange(cv_image,(170,70,50),(180,255,255))                
         self.red2 = cv.inRange(cv_image,(0,70,50),(10,255,255))
@@ -103,9 +104,9 @@ class trafficLightDetector():
         condition = np.logical_not( np.logical_or(self.red1==255, self.red2==255) )
         self.processedImage_red = np.where(condition, self.processedImage_red, 255)        
 
-        self.processedImage_red = cv.morphologyEx(self.processedImage_red, cv.MORPH_CLOSE, self.smaller_kernel)
-        self.processedImage_red = cv.erode(self.processedImage_red,self.smaller_kernel,iterations = 2)
-        self.processedImage_red = cv.dilate(self.processedImage_red,self.smaller_kernel,iterations = 5)      
+        #self.processedImage_red = cv.morphologyEx(self.processedImage_red, cv.MORPH_CLOSE, self.smaller_kernel)
+        #self.processedImage_red = cv.erode(self.processedImage_red,self.smaller_kernel,iterations = 2)
+        #self.processedImage_red = cv.dilate(self.processedImage_red,self.smaller_kernel,iterations = 5)      
 
         if not self.simulation:
             keypoints = []
@@ -117,14 +118,13 @@ class trafficLightDetector():
                 bounding_box_x = bounding_box[1][0]
                 bounding_box_y = bounding_box[1][1]
                 x,y,w,h = cv.boundingRect(c)
-                #if abs((min_circle_radius*2)-bounding_box_x) <= min_circle_radius*0.45 and abs((min_circle_radius*2)-bounding_box_y) <= min_circle_radius*0.45:
-                #square_area = bounding_box_x*bounding_box_y
-                square_area = w*h
-                circle_area = np.pi*(min_circle_radius**2)
-                if square_area >= minImageArea:
-                    cv.rectangle(self.outImage_red, (x,y), (x+w, y+h), (0, 0, 255), 2)
-                    cv.putText(self.outImage_red,'red_light',(x,y-10),2,0.7,(0,0,255),2,cv.LINE_AA)
-                    keypoints.append((x,y,w,h))
+                if abs(w-h) <= w*0.25:
+                    square_area = w*h
+                    circle_area = np.pi*(min_circle_radius**2)
+                    if (square_area >= minImageArea) and (square_area <= maxImageArea):
+                        cv.rectangle(self.outImage_red, (x,y), (x+w, y+h), (0, 0, 255), 2)
+                        cv.putText(self.outImage_red,'red_light',(x,y-10),2,0.7,(0,0,255),2,cv.LINE_AA)
+                        keypoints.append((x,y,w,h))
         else:
             keypoints = []
             self.outImage_red = cv.merge((self.processedImage_red, self.processedImage_red, self.processedImage_red))
@@ -145,15 +145,15 @@ class trafficLightDetector():
         else:
             return False
 
-    def yellow_light_detected(self, cv_image, minImageArea):
+    def yellow_light_detected(self, cv_image, minImageArea, maxImageArea):
 
         #self.rate.sleep()
 
         self.processedImage_yellow = cv.inRange(cv_image,(20,50,50),(37,255,255))   
 
-        self.processedImage_yellow = cv.morphologyEx(self.processedImage_yellow, cv.MORPH_CLOSE, self.smaller_kernel)
-        self.processedImage_yellow = cv.erode(self.processedImage_yellow,self.smaller_kernel,iterations = 2) 
-        self.processedImage_yellow = cv.dilate(self.processedImage_yellow,self.smaller_kernel,iterations = 5) 
+        #self.processedImage_yellow = cv.morphologyEx(self.processedImage_yellow, cv.MORPH_CLOSE, self.smaller_kernel)
+        #self.processedImage_yellow = cv.erode(self.processedImage_yellow,self.smaller_kernel,iterations = 2) 
+        #self.processedImage_yellow = cv.dilate(self.processedImage_yellow,self.smaller_kernel,iterations = 5) 
         
         if not self.simulation:
             keypoints = []
@@ -165,14 +165,14 @@ class trafficLightDetector():
                 bounding_box_x = bounding_box[1][0]
                 bounding_box_y = bounding_box[1][1]
                 x,y,w,h = cv.boundingRect(c)
-                #if abs((min_circle_radius*2)-bounding_box_x) <= min_circle_radius*0.35 and abs((min_circle_radius*2)-bounding_box_y) <= min_circle_radius*0.35:
-                #square_area = bounding_box_x*bounding_box_y
-                square_area = w*h
-                circle_area = np.pi*(min_circle_radius**2)
-                if square_area >= minImageArea:
-                    cv.rectangle(self.outImage_yellow, (x,y), (x+w, y+h), (0, 255, 255), 2)
-                    cv.putText(self.outImage_yellow,'yellow_light',(x,y-10),2,0.7,(0,255,255),2,cv.LINE_AA)
-                    keypoints.append((x,y,w,h))
+                if abs(w-h) <= w*0.25:
+                    #square_area = bounding_box_x*bounding_box_y
+                    square_area = w*h
+                    circle_area = np.pi*(min_circle_radius**2)
+                    if (square_area >= minImageArea) and (square_area <= maxImageArea):
+                        cv.rectangle(self.outImage_yellow, (x,y), (x+w, y+h), (0, 255, 255), 2)
+                        cv.putText(self.outImage_yellow,'yellow_light',(x,y-10),2,0.7,(0,255,255),2,cv.LINE_AA)
+                        keypoints.append((x,y,w,h))
         else:
             keypoints = []
             self.outImage_yellow = cv.merge((self.processedImage_yellow, self.processedImage_yellow, self.processedImage_yellow))
@@ -192,12 +192,12 @@ class trafficLightDetector():
         else:
             return False
 
-    def green_light_detected(self, cv_image, minImageArea):
+    def green_light_detected(self, cv_image, minImageArea, maxImageArea):
 
-        self.processedImage_green = cv.inRange(cv_image,(38,40,40),(85,255,255))   
+        self.processedImage_green = cv.inRange(cv_image,(34,30,40),(85,255,255))   
 
-        self.processedImage_green = cv.morphologyEx(self.processedImage_green, cv.MORPH_CLOSE, self.smaller_kernel)
-        self.processedImage_green = cv.erode(self.processedImage_green,self.smaller_kernel,iterations = 2)
+        #self.processedImage_green = cv.morphologyEx(self.processedImage_green, cv.MORPH_CLOSE, self.smaller_kernel)
+        self.processedImage_green = cv.erode(self.processedImage_green,self.smaller_kernel,iterations = 1)
         self.processedImage_green = cv.dilate(self.processedImage_green,self.smaller_kernel,iterations = 5)    
         
         if not self.simulation:
@@ -210,14 +210,14 @@ class trafficLightDetector():
                 bounding_box_x = bounding_box[1][0]
                 bounding_box_y = bounding_box[1][1]
                 x,y,w,h = cv.boundingRect(c)
-                #if abs((min_circle_radius*2)-bounding_box_x) <= min_circle_radius*0.35 and abs((min_circle_radius*2)-bounding_box_y) <= min_circle_radius*0.35:
-                #square_area = bounding_box_x*bounding_box_y
-                square_area = w*h
-                circle_area = np.pi*(min_circle_radius**2)
-                if square_area >= minImageArea:
-                    cv.rectangle(self.outImage_green, (x,y), (x+w, y+h), (0, 255, 0), 2)
-                    cv.putText(self.outImage_green,'green_light',(x,y-10),2,0.7,(0,255,0),2,cv.LINE_AA)
-                    keypoints.append((x,y,w,h))
+                if abs(w-h) <= w*0.25:
+                    #square_area = bounding_box_x*bounding_box_y
+                    square_area = w*h
+                    circle_area = np.pi*(min_circle_radius**2)
+                    if (square_area >= minImageArea) and (square_area <= maxImageArea):
+                        cv.rectangle(self.outImage_green, (x,y), (x+w, y+h), (0, 255, 0), 2)
+                        cv.putText(self.outImage_green,'green_light',(x,y-10),2,0.7,(0,255,0),2,cv.LINE_AA)
+                        keypoints.append((x,y,w,h))
         else:
             keypoints = []
             self.outImage_green = cv.merge((self.processedImage_green, self.processedImage_green, self.processedImage_green))
@@ -229,8 +229,8 @@ class trafficLightDetector():
                     cv.putText(self.outImage_green,'green_light',(x,y-10),2,0.7,(255,0,0),2,cv.LINE_AA)
                     keypoints.append((x,y,w,h))
 
-        #self.processed_image_msg_green = self.bridge.cv2_to_imgmsg(self.outImage_green, encoding = "bgr8")
-        #self.pub_green_img.publish(self.processed_image_msg_green)
+        self.processed_image_msg_green = self.bridge.cv2_to_imgmsg(self.outImage_green, encoding = "bgr8")
+        self.pub_green_img.publish(self.processed_image_msg_green)
                
         if(len(keypoints) != 0):                    
             return True
@@ -266,12 +266,13 @@ if __name__ == "__main__":
             tlDetector.cv_image = cv.cvtColor(tlDetector.cv_image, cv.COLOR_BGR2HSV)
             tlDetector.cv_image = cv.resize(tlDetector.cv_image,(int(tlDetector.cv_image.shape[1]/2),int(tlDetector.cv_image.shape[0]/2)), interpolation = cv.INTER_AREA)
             minImageArea = float(tlDetector.cv_image.shape[0])*float(tlDetector.cv_image.shape[1])*float(1.0/1000.0)
+            maxImageArea = float(tlDetector.cv_image.shape[0])*float(tlDetector.cv_image.shape[1])*float(1.0/250.0)
 
-            if tlDetector.red_light_detected(tlDetector.cv_image, minImageArea):    
+            if tlDetector.red_light_detected(tlDetector.cv_image, minImageArea, maxImageArea):    
                 msgList.append('red traffic light')
-            elif tlDetector.yellow_light_detected(tlDetector.cv_image, minImageArea):    
-                msgList.append('yellow traffic light')
-            elif tlDetector.green_light_detected(tlDetector.cv_image, minImageArea):    
+            #elif tlDetector.yellow_light_detected(tlDetector.cv_image, minImageArea, maxImageArea):    
+            #msgList.append('yellow traffic light')
+            elif tlDetector.green_light_detected(tlDetector.cv_image, minImageArea, maxImageArea):    
                 msgList.append('green traffic light')            
 
             msg.data = tlDetector.array2string(msgList)

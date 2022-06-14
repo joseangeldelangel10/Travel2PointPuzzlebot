@@ -41,6 +41,8 @@ class mainController():
         self.odometry_is_reseted = False        
         self.vel_mult = 1.0
         self.last_iois = []
+        self.reversing = False
+        self.executing_instruction = False
         
         self.cmd_vel_msg = Twist()
         self.curr_action_msg = String()
@@ -52,7 +54,7 @@ class mainController():
         self.speedInterruptionsCoefficients = {"red traffic light":0.0, "yellow traffic light":0.5, "green traffic light":1.0, "stop sign":0.0, "end of prohibition sign":1.25}
         self.action_stack = ["line follower"]
 
-        self.state = "running"        
+        self.state = "line follower"        
 
         #Declaramos que vamos a mandar 20 mensajes por segundo.
         self.rate = rospy.Rate(30)
@@ -77,10 +79,10 @@ class mainController():
             return "[]"
 
     def end_g2ps_callback(self, req):
-        self.odometry_is_reseted = False                
+        self.odometry_is_reseted = False
+        self.executing_instruction = False                
         self.pop_from_action_stack()
         self.last_iois = [i for i in self.last_iois if i not in self.instructors]
-        self.crosswalk_in_scene = False
         return EmptyResponse() 
 
     def on_curr_ioi_callback(self, data):
@@ -88,8 +90,7 @@ class mainController():
         self.curr_ioi_data = data.data
 
     def on_crosswalk_in_scene_callback(self, data):
-        if not self.crosswalk_in_scene:
-            self.crosswalk_in_scene = data.data
+        self.crosswalk_in_scene = data.data
 
     def on_line_follower_vel_callback(self, data):
         self.line_follower_v = data.linear.x
@@ -157,20 +158,29 @@ class mainController():
                 if self.curr_ioi_data != None:
                     if self.last_ioi_time != None:
                         if self.last_ioi_time < self.curr_ioi_time:                        
-                            if self.curr_ioi_data in self.instructors:
+                            if self.curr_ioi_data in self.instructors and not self.reversing:
                                 self.addInstruction(self.curr_ioi_data)
                                 print("instructor detected: " + self.curr_ioi_data)                                                
-                            elif self.curr_ioi_data in self.speedInterruptions:
+                            elif (self.curr_ioi_data == "red traffic light" or "red traffic light" in self.last_iois) and not self.crosswalk_in_scene:                                
+                                print("speedInterruption detected: " + "red traffic light")
+                                self.reversing = True
+                                print("revrsing to find crosswalk ...")
+                            elif (self.curr_ioi_data == "red traffic light" or "red traffic light" in self.last_iois) and self.crosswalk_in_scene:
+                                self.reversing = False
+                                self.vel_mult = 0.0
+                                self.delete_speed_interruptors_from_last_iois()
+                            elif self.curr_ioi_data in self.speedInterruptions and not self.reversing:
                                 print("speedInterruption detected: " + self.curr_ioi_data)
                                 self.delete_speed_interruptors_from_last_iois()
                                 self.vel_mult = self.speedInterruptionsCoefficients[self.curr_ioi_data]
 
-                            if (self.curr_ioi_data in self.instructors) or (self.curr_ioi_data in self.speedInterruptions):
+                            if (self.curr_ioi_data in self.instructors) or (self.curr_ioi_data in self.speedInterruptions) and not self.reversing:
                                 self.last_iois.append(self.curr_ioi_data) 
                                 self.last_ioi_time = self.curr_ioi_time
                     else:
                         #is the fist iteration
                         # we wont enter this ever
+                        print("entered the if i never thought we would")
                         if self.curr_ioi_data in self.instructors:
                             self.addInstruction(self.curr_ioi_data)
                             print("instructor detected: " + self.curr_ioi_data) 
@@ -188,29 +198,38 @@ class mainController():
                 # WE EXECUTE NEXT ACTION IN ACTION STACK
 
                 if self.action_stack[-1] == "line follower":                
-                    self.publish_current_action("line follower")
-                    self.publish_vel(self.line_follower_v*self.vel_mult, self.line_follower_w)
-
-                elif self.action_stack[-1] == "go straight" and self.crosswalk_in_scene:
+                    self.state = "line follower"
+                elif self.action_stack[-1] == "go straight" and self.crosswalk_in_scene and not self.executing_instruction:
+                    self.state = "go straight"
+                    self.executing_instruction = True
                     # this state ends when g2ps node calls the end_g2ps service                
                     if not self.odometry_is_reseted:
                         self.reset_odometry()
-                        self.odometry_is_reseted = True
-                    self.publish_current_action("go straight")
-                    #self.publish_g2p_mode("go straight")
-                    self.publish_vel(self.go_to_points_v*self.vel_mult, self.go_to_points_w)
-                elif self.action_stack[-1] == "turn right ahead" and self.crosswalk_in_scene:                
-                    # this state ends when g2ps node calls the end_g2ps service
+                        self.odometry_is_reseted = True                    
+                elif self.action_stack[-1] == "turn right ahead" and self.crosswalk_in_scene and not self.executing_instruction:                
+                    self.state = "turn right ahead"
+                    self.executing_instruction = True
+                    # this state ends when g2ps node calls the end_g2ps service                
                     if not self.odometry_is_reseted:
                         self.reset_odometry()
-                        self.odometry_is_reseted = True
-                    self.publish_current_action("turn right ahead")
-                    #self.publish_g2p_mode("turn right ahead")
-                    self.publish_vel(self.go_to_points_v*self.vel_mult, self.go_to_points_w)
+                        self.odometry_is_reseted = True                                         
                 else:
-                    self.publish_current_action("line follower")
-                    self.publish_vel(self.line_follower_v*self.vel_mult, self.line_follower_w)
+                    self.state == "line follower"                    
 
+                if self.reversing:
+                    self.publish_vel(-0.025, 0.0)
+                else:
+                    if self.state == "go straight":
+                        self.publish_current_action("go straight")
+                        #self.publish_g2p_mode("go straight")
+                        self.publish_vel(self.go_to_points_v*self.vel_mult, self.go_to_points_w)
+                    elif self.state == "turn right ahead":
+                        self.publish_current_action("turn right ahead")
+                        #self.publish_g2p_mode("turn right ahead")
+                        self.publish_vel(self.go_to_points_v*self.vel_mult, self.go_to_points_w)
+                    elif self.state == "line follower":
+                        self.publish_current_action("line follower")
+                        self.publish_vel(self.line_follower_v*self.vel_mult, self.line_follower_w)                 
 
             #print("action_stack is:" + str(self.action_stack))
             self.rate.sleep()

@@ -14,10 +14,10 @@ class Photographer():
         #Inicializamos el nodo
         rospy.init_node("Photographer")       
         #Creamos los susbcribers
-        self.imageSubscriber = rospy.Subscriber("/camera/image_raw",Image,self.on_image_callback)        
+        self.imageSubscriber = rospy.Subscriber("/video_source/raw",Image,self.on_image_callback)        
         self.bridge = cv_bridge.CvBridge()        
         
-        self.new_images_dir = "~/Documents/6toSemestre/chrisAct1/src/chrisAct1_1/takenPhotos/"        
+        self.new_images_dir = "/home/puzzlebot/LeoNJosews/taken_photos/"        
         self.image_id = str(time.time())
         self.image = None
         self.rate = rospy.Rate(1)
@@ -39,6 +39,7 @@ class Photographer():
                     cv.imwrite(self.new_images_dir + self.image_id + ".jpg", self.cv_image)
                     print("image saved succesfully")
                     self.iteration = 0
+                    self.image_id = str(time.time())
                 self.iteration += 1
             self.rate.sleep()
 

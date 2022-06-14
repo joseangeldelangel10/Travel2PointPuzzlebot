@@ -108,7 +108,7 @@ class LineFollowerController():
         if self.simulation:
             thresh_value = 80
         else:
-            thresh_value = 110
+            thresh_value = 120
 
         thres, self.binary_image = cv.threshold(self.gray_image, thresh_value, 255, cv.THRESH_BINARY)
 

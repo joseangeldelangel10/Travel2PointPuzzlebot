@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
 
-  <!-- ======= SIMULATED CONTENT ========= -->
-  <include file="$(find puzzlebot_world)/launch/puzzlebot_tec_challenge_update.launch">    
-  </include>
-  <!-- ======= ================= ========= -->
-
-  <!-- ======= NON-SIMULATED CONTENT =======
+  <!-- ======= NON-SIMULATED CONTENT ======= -->
   <include file="$(find ros_deep_learning)/launch/video_source.ros1.launch">
-    <arg name="input_width" value="720"/>
-    <arg name="input_height" value="480"/>
+    <arg name="input_width" value="640"/>
+    <arg name="input_height" value="360"/>
   </include>
-  ======= ===================== ======= -->
-  <node name="crosswalkDetector" pkg="chrisAct1_1" type="crosswalkDetector.py" args="simulation" output="screen"/>
-  <node name="trafficSignsDetector" pkg="chrisAct1_1" type="signalsDetector2.py" args="simulation" output="screen"/>
-  <node name="trafficLightsDetector" pkg="chrisAct1_1" type="trafficLightDetector.py" args="simulation" output="screen"/>
-  <node name="ioiChecker" pkg="chrisAct1_1" type="instructAndInterruptChecker.py" output="screen"/>
+  <!-- ======= ===================== ======= -->
   <node name="odometry" pkg="chrisAct1_1" type="odom.py" output="screen"/>
+  
+  <node name="crosswalkDetector" pkg="chrisAct1_1" type="crosswalkDetector.py" output="screen"/>
+
+  <node name="trafficLightDetector" pkg="chrisAct1_1" type="trafficLightDetector.py" output="screen"/>
+
+  <node name="signalsDetector3" pkg="chrisAct1_1" type="signalsDetector3.py" output="screen"/>
+
+  <node name="instructAndInterruptChecker" pkg="chrisAct1_1" type="instructAndInterruptChecker.py" output="screen"/>
+
+  <node name="lineFollower" pkg="chrisAct1_1" type="lineFollower.py" output="screen"/>
+  
   <node name="goToPoints" pkg="chrisAct1_1" type="goToPoints.py" output="screen"/>
-  <node name="lineFollower" pkg="chrisAct1_1" type="lineFollower.py" args="simulation" output="screen"/>
 
 </launch>

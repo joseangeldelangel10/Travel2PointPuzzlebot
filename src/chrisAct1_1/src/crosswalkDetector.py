@@ -63,13 +63,14 @@ class crosswalkDetector():
         image_height = self.gray_image.shape[0]
         image_width = self.gray_image.shape[1]
 
+        
+        self.gray_image = cv.blur(self.gray_image,(3,3))
+        self.gray_image = cv.blur(self.gray_image,(3,3))
         '''
-        self.gray_image = cv.blur(self.gray_image,(10,10))
-        self.gray_image = cv.blur(self.gray_image,(10,10))
         self.gray_image = cv.blur(self.gray_image,(10,10))
         '''
 
-        thres, self.binary_image = cv.threshold(self.gray_image, 110, 255, cv.THRESH_BINARY)
+        thres, self.binary_image = cv.threshold(self.gray_image, 118, 255, cv.THRESH_BINARY)
 
         self.mask2 = np.ones(self.binary_image.shape)*255
         self.binary_image[0: image_height - int(image_height/2), :] = self.mask2[0: image_height - int(image_height/2), :]
