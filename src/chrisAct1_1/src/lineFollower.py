@@ -48,8 +48,8 @@ class LineFollowerController():
         self.smaller_kernel = np.ones((5,5),np.uint8)
         
         #Declaramos que vamos a mandar 20 mensajes por segundo.
-        self.rate = rospy.Rate(20)
-        self.rateInt = 20
+        self.rate = rospy.Rate(15)
+        self.rateInt = 15
         self.msg = Twist()
         self.processed_image_msg = Image()
 

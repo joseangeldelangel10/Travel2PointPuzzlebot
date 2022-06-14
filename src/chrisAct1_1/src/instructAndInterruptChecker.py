@@ -38,8 +38,8 @@ class iois_checker():
         self.compare_result = []
 
         #Declaramos que vamos a mandar 20 mensajes por segundo.
-        self.rate = rospy.Rate(20)
-        self.rateInt = 20                          
+        self.rate = rospy.Rate(30)
+        self.rateInt = 30                          
                     
         rospy.on_shutdown(self.end_callback)
 

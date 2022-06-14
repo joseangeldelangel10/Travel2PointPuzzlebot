@@ -45,8 +45,8 @@ class crosswalkDetector():
         self.kernel = np.ones((20,20),np.uint8)
         
         #Declaramos que vamos a mandar 20 mensajes por segundo.
-        self.rate = rospy.Rate(10)
-        self.rateInt = 10
+        self.rate = rospy.Rate(15)
+        self.rateInt = 15
 
         self.crosswalk_detected_msg = Bool()
         self.processed_image_msg = Image()        
@@ -61,9 +61,15 @@ class crosswalkDetector():
         self.gray_image = cv.cvtColor(self.cv_image, cv.COLOR_BGR2GRAY)        
 
         image_height = self.gray_image.shape[0]
-        image_width = self.gray_image.shape[1]        
+        image_width = self.gray_image.shape[1]
 
-        thres, self.binary_image = cv.threshold(self.gray_image, 80, 255, cv.THRESH_BINARY)
+        '''
+        self.gray_image = cv.blur(self.gray_image,(10,10))
+        self.gray_image = cv.blur(self.gray_image,(10,10))
+        self.gray_image = cv.blur(self.gray_image,(10,10))
+        '''
+
+        thres, self.binary_image = cv.threshold(self.gray_image, 110, 255, cv.THRESH_BINARY)
 
         self.mask2 = np.ones(self.binary_image.shape)*255
         self.binary_image[0: image_height - int(image_height/2), :] = self.mask2[0: image_height - int(image_height/2), :]

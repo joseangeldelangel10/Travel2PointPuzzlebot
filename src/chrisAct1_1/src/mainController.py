@@ -136,7 +136,7 @@ class mainController():
 
     def main(self):
         while not rospy.is_shutdown():
-            if self.state == "stopped by traffic light":
+            """if self.state == "stopped by traffic light":
                 if not self.crosswalk_in_scene:
                     self.publish_vel(-0.07, 0)
                 else:
@@ -145,8 +145,14 @@ class mainController():
                     print("state is back in running")
                 self.last_iois_msg.data = self.array2string(self.last_iois)
                 self.pub_last_iois.publish(self.last_iois_msg)
-
-            elif self.state == "running":
+            
+                            elif self.curr_ioi_data == "red traffic light":
+                                print("speedInterruption detected: " + self.curr_ioi_data)
+                                self.state = "stopped by traffic light"
+                                self.delete_speed_interruptors_from_last_iois()
+                                #self.vel_mult = self.speedInterruptionsCoefficients[self.curr_ioi_data]"""
+            #elif self.state == "running":
+            if True:
                 # WE CHECK FOR INTERRUPTS AND INSTRUCTORS (iois)
                 if self.curr_ioi_data != None:
                     if self.last_ioi_time != None:
@@ -154,11 +160,6 @@ class mainController():
                             if self.curr_ioi_data in self.instructors:
                                 self.addInstruction(self.curr_ioi_data)
                                 print("instructor detected: " + self.curr_ioi_data)                                                
-                            elif self.curr_ioi_data == "red traffic light":
-                                print("speedInterruption detected: " + self.curr_ioi_data)
-                                self.state = "stopped by traffic light"
-                                self.delete_speed_interruptors_from_last_iois()
-                                #self.vel_mult = self.speedInterruptionsCoefficients[self.curr_ioi_data]
                             elif self.curr_ioi_data in self.speedInterruptions:
                                 print("speedInterruption detected: " + self.curr_ioi_data)
                                 self.delete_speed_interruptors_from_last_iois()
