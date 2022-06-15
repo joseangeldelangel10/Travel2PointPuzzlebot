@@ -194,11 +194,11 @@ class trafficLightDetector():
 
     def green_light_detected(self, cv_image, minImageArea, maxImageArea):
 
-        self.processedImage_green = cv.inRange(cv_image,(34,30,40),(85,255,255))   
+        self.processedImage_green = cv.inRange(cv_image,(38,30,40),(82,255,255))   
 
         #self.processedImage_green = cv.morphologyEx(self.processedImage_green, cv.MORPH_CLOSE, self.smaller_kernel)
         self.processedImage_green = cv.erode(self.processedImage_green,self.smaller_kernel,iterations = 1)
-        self.processedImage_green = cv.dilate(self.processedImage_green,self.smaller_kernel,iterations = 5)    
+        self.processedImage_green = cv.dilate(self.processedImage_green,self.smaller_kernel,iterations = 6)    
         
         if not self.simulation:
             keypoints = []

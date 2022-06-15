@@ -89,7 +89,7 @@ class crosswalkDetector():
         blobs = []
         y_distances = {}
         y_cordinates_x_minmax = {}
-        y_distance_tresh = 8
+        y_distance_tresh = 10
         if self.simulation:
             _, contours, _ = cv.findContours(self.binary_image, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
         else: 

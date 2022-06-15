@@ -158,14 +158,14 @@ class mainController():
                 if self.curr_ioi_data != None:
                     if self.last_ioi_time != None:
                         if self.last_ioi_time < self.curr_ioi_time:                        
-                            if self.curr_ioi_data in self.instructors and not self.reversing:
+                            if self.curr_ioi_data in self.instructors and not self.reversing and not self.executing_instruction:
                                 self.addInstruction(self.curr_ioi_data)
                                 print("instructor detected: " + self.curr_ioi_data)                                                
-                            elif (self.curr_ioi_data == "red traffic light" or "red traffic light" in self.last_iois) and not self.crosswalk_in_scene:                                
+                            elif (self.curr_ioi_data == "red traffic light" or "red traffic light" in self.last_iois) and not self.crosswalk_in_scene and not self.executing_instruction:                                
                                 print("speedInterruption detected: " + "red traffic light")
                                 self.reversing = True
                                 print("revrsing to find crosswalk ...")
-                            elif (self.curr_ioi_data == "red traffic light" or "red traffic light" in self.last_iois) and self.crosswalk_in_scene:
+                            elif (self.curr_ioi_data == "red traffic light" or "red traffic light" in self.last_iois):
                                 self.reversing = False
                                 self.vel_mult = 0.0
                                 self.delete_speed_interruptors_from_last_iois()
